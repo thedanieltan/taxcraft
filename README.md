@@ -28,4 +28,14 @@ Open `http://localhost:3000` to use the reference calculator. The same process s
 npm run check
 ```
 
+## Current-source maintenance
+
+A scheduled workflow checks the allowlisted official IRAS rate page. Two separate extractors must agree before a candidate is generated. The workflow then runs the complete repository check, opens a bot pull request and merges the checked candidate. Ambiguous or incomplete changes fail without modifying the calculator.
+
+```bash
+npm run watch:sources
+```
+
+See `docs/autonomous-maintenance.md` for the admission and lifecycle rules.
+
 The official calculator loads only country packages maintained in this repository. External packages may implement the public SDK in their own repositories; TaxCraft does not review, list or endorse them.
