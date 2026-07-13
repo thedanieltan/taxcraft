@@ -86,21 +86,16 @@ function extractRebatesBySentence(text) {
 
 function extractRebatesByYearWindow(text) {
   const rebates = {};
-  const years = new Set([...text.matchAll(/YA\s*(\d{4})/gi)].map((match) => match[1]));
-  for (const year of years) {
-    const occurrences = [...text.matchAll(new RegExp(`YA\\s*${year}`, "gi"))];
-    for (const occurrence of occurrences) {
-      const start = Math.max(0, occurrence.index - 40);
-      const window = text.slice(start, occurrence.index + 600);
-      const percentage = window.match(/(\d+(?:\.\d+)?)%\s+(?:Personal\s+Income\s+Tax\s+)?Rebate/i)?.[1]
-        ?? window.match(/rebate\s+of\s+(\d+(?:\.\d+)?)%/i)?.[1];
-      const cap = window.match(/(?:cap(?:ped)?\s+at|maximum\s+of)\s+\$([\d,]+)/i)?.[1];
-      if (percentage && cap) {
-        rebates[`YA${year}`] = rebate(percentage, cap);
-        break;
-      }
-    }
-  }
+  const occurrences = [...text.matchAll(/YA\s*(\d{4})/gi)];
+  occurrences.forEach((occurrence, index) => {
+    const year = occurrence[1];
+    const end = occurrences[index + 1]?.index ?? text.length;
+    const window = text.slice(occurrence.index, end);
+    const percentage = window.match(/(\d+(?:\.\d+)?)%\s+(?:Personal\s+Income\s+Tax\s+)?Rebate/i)?.[1]
+      ?? window.match(/rebate\s+of\s+(\d+(?:\.\d+)?)%/i)?.[1];
+    const cap = window.match(/(?:cap(?:ped)?\s+at|maximum\s+of)\s+\$([\d,]+)/i)?.[1];
+    if (percentage && cap) rebates[`YA${year}`] = rebate(percentage, cap);
+  });
   return rebates;
 }
 
