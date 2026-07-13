@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taxcraft.dev/schemas/retirement-record.v1.json",
+  "title": "TaxCraft tax year retirement record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["jurisdiction", "taxYear", "retiredAt", "reason"],
+  "properties": {
+    "jurisdiction": { "type": "string", "pattern": "^[A-Z]{2}$" },
+    "taxYear": { "type": "string" },
+    "retiredAt": { "type": "string", "format": "date" },
+    "reason": { "const": "support-window-exceeded" },
+    "lastSupportedRelease": { "type": "string" }
+  }
+}

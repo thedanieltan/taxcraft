@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taxcraft.dev/schemas/country-package-manifest.v1.json",
+  "title": "TaxCraft country package manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["jurisdiction", "name", "storesUserPII", "advisory", "taxYears"],
+  "properties": {
+    "jurisdiction": { "type": "string", "pattern": "^[A-Z]{2}$" },
+    "name": { "type": "string", "minLength": 1 },
+    "storesUserPII": { "const": false },
+    "advisory": { "const": false },
+    "taxYears": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["taxYear", "modelVersion", "status", "order"],
+        "properties": {
+          "taxYear": { "type": "string", "minLength": 1 },
+          "modelVersion": { "type": "string", "minLength": 1 },
+          "status": { "enum": ["candidate", "current", "historical-supported"] },
+          "order": { "type": "integer" }
+        }
+      }
+    }
+  }
+}

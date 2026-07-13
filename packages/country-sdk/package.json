@@ -1,0 +1,19 @@
+{
+  "name": "@taxcraft/country-sdk",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "Country package authoring and conformance tools for TaxCraft.",
+  "exports": "./dist/index.js",
+  "files": [
+    "dist",
+    "schemas"
+  ],
+  "dependencies": {
+    "@taxcraft/contracts": "0.1.0",
+    "@taxcraft/core": "0.1.0"
+  },
+  "scripts": {
+    "build": "node ../../scripts/build-country-sdk.mjs"
+  }
+}
