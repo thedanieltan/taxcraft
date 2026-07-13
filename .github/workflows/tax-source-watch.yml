@@ -38,7 +38,12 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Observe official sources and write verified candidate
-        run: node scripts/watch-tax-sources.mjs --write
+        shell: bash
+        run: |
+          set +e
+          node scripts/watch-tax-sources.mjs --write 2>&1 | tee /tmp/tax-source-watch.log
+          status=${PIPESTATUS[0]}
+          exit "$status"
       - name: Detect candidate changes
         id: changes
         shell: bash
@@ -81,11 +86,22 @@ jobs:
           title="Tax source watch blocked"
           run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
           issue_number=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search 'Tax source watch blocked in:title' --json number,title --jq '.[] | select(.title == "Tax source watch blocked") | .number' | head -n 1)
-          message="The autonomous tax source watch was blocked. The current calculator was not modified. Review run: ${run_url}"
+          {
+            echo "The autonomous tax source watch was blocked. The current calculator was not modified."
+            echo
+            echo "Review run: ${run_url}"
+            if [ -s /tmp/tax-source-watch.log ]; then
+              echo
+              echo "Diagnostic tail:"
+              echo '```text'
+              tail -n 30 /tmp/tax-source-watch.log
+              echo '```'
+            fi
+          } > /tmp/tax-source-watch-report.md
           if [ -n "$issue_number" ]; then
-            gh issue comment "$issue_number" --repo "$GITHUB_REPOSITORY" --body "$message"
+            gh issue comment "$issue_number" --repo "$GITHUB_REPOSITORY" --body-file /tmp/tax-source-watch-report.md
           else
-            gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body "$message"
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body-file /tmp/tax-source-watch-report.md
           fi
       - name: Close recovered source watch issue
         if: success()
