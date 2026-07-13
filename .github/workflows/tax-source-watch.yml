@@ -1,6 +1,15 @@
 name: Tax source watch
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/tax-source-watch.yml"
+      - "automation/**"
+      - "packages/country-sg/src/**"
+      - "packages/maintenance/**"
+      - "scripts/watch-tax-sources.mjs"
   schedule:
     - cron: "17 3 * * 1"
   workflow_dispatch:
