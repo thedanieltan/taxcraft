@@ -17,6 +17,7 @@
     "check:policies": "node scripts/validate-policies.mjs",
     "lint": "node scripts/lint.mjs",
     "start": "npm run start -w @taxcraft/api",
-    "test": "node --test"
+    "test": "node --test",
+    "watch:sources": "node scripts/watch-tax-sources.mjs"
   }
 }

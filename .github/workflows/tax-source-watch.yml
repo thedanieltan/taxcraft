@@ -1,0 +1,73 @@
+name: Tax source watch
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/tax-source-watch.yml"
+      - "automation/**"
+      - "packages/country-sg/src/**"
+      - "packages/maintenance/**"
+      - "scripts/watch-tax-sources.mjs"
+  schedule:
+    - cron: "17 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: tax-source-watch
+  cancel-in-progress: false
+
+jobs:
+  maintain:
+    if: github.repository == 'thedanieltan/taxcraft'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Observe official sources and write verified candidate
+        run: node scripts/watch-tax-sources.mjs --write
+      - name: Detect candidate changes
+        id: changes
+        shell: bash
+        run: |
+          if git diff --quiet && [ -z "$(git ls-files --others --exclude-standard)" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Validate candidate
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git diff --check
+          npm run check
+      - name: Open and merge checked candidate PR
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          branch="bot/tax-source-${GITHUB_RUN_ID}"
+          git config user.name "taxcraft-maintenance[bot]"
+          git config user.email "taxcraft-maintenance[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add automation packages/country-sg/src
+          git commit -m "Update verified Singapore tax source model"
+          git push --set-upstream origin "$branch"
+          pr_url=$(gh pr create \
+            --base main \
+            --head "$branch" \
+            --title "Update verified Singapore tax source model" \
+            --body "Automated official-source update from run ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}. Both independent extractors agreed, lifecycle validation passed, and the full repository check completed before this pull request was opened.")
+          gh pr merge "$pr_url" --squash --delete-branch

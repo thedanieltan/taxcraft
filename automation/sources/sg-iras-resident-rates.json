@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": "SG",
+  "sourceId": "sg-iras-resident-rates",
+  "publisher": "Inland Revenue Authority of Singapore",
+  "publisherType": "tax-authority",
+  "url": "https://www.iras.gov.sg/taxes/individual-income-tax/basics-of-individual-income-tax/tax-residency-and-tax-rates/individual-income-tax-rates",
+  "allowedHost": "www.iras.gov.sg",
+  "admissionRule": "published-tax-authority-rate-table",
+  "assessmentYearPrefix": "YA",
+  "supportWindow": 3,
+  "schedule": "weekly",
+  "failClosed": true
+}
