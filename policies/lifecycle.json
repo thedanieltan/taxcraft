@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "supportedVersionsPerJurisdiction": 3,
+  "states": [
+    "candidate",
+    "current",
+    "historical-supported",
+    "retired",
+    "withdrawn"
+  ],
+  "reviewHistoricalVersionsOnSchedule": false,
+  "reopenHistoricalVersionFor": [
+    "calculation-defect",
+    "retroactive-official-amendment",
+    "incorrect-source-record",
+    "failed-established-fixtures"
+  ],
+  "retirement": {
+    "removeFromRuntime": true,
+    "removeFromApiDiscovery": true,
+    "removeFromActiveMonitoring": true,
+    "neverSubstituteAnotherTaxYear": true
+  }
+}

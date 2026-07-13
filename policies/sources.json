@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "officialOnly": true,
+  "parameterSourceLinkRequired": true,
+  "acceptedPublisherTypes": [
+    "tax-authority",
+    "legislation",
+    "official-gazette",
+    "finance-ministry",
+    "official-budget",
+    "mandatory-contribution-authority",
+    "government-archive"
+  ],
+  "secondarySourcesMayBeSoleAuthority": false,
+  "monitorSupportedVersionsOnly": true,
+  "deadLinkInvalidatesAcceptedHistoricalModel": false,
+  "repositoryEvidence": {
+    "storeBinaryCopies": false,
+    "storeUrl": true,
+    "storeRetrievalDate": true,
+    "storeContentHash": true
+  }
+}

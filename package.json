@@ -1,0 +1,20 @@
+{
+  "name": "taxcraft",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Deterministic personal income tax calculation engine and API.",
+  "engines": {
+    "node": ">=22"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "check": "npm run check:policies && npm run lint && npm test && npm run build",
+    "check:policies": "node scripts/validate-policies.mjs",
+    "lint": "node scripts/lint.mjs",
+    "test": "node --test"
+  }
+}

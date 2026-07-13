@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "service": "personal-income-tax-calculation",
+  "taxTypes": [
+    "personal-income-tax"
+  ],
+  "initialOfficialJurisdictions": [
+    "SG"
+  ],
+  "storesUserPII": false,
+  "advisory": false,
+  "officialPackages": "first-party-only",
+  "externalPackages": {
+    "supportedByInterface": true,
+    "reviewedByTaxCraft": false,
+    "listedByTaxCraft": false,
+    "loadedByHostedService": false
+  },
+  "excluded": [
+    "corporate-tax",
+    "tax-filing",
+    "tax-optimisation",
+    "document-ingestion",
+    "user-accounts",
+    "saved-calculations"
+  ]
+}
