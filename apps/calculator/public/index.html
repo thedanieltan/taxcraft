@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="TaxCraft personal income tax calculator">
+  <title>TaxCraft</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <p class="eyebrow">TaxCraft</p>
+      <h1>Singapore personal income tax estimate</h1>
+      <p>Calculate resident income tax from chargeable income using a supported IRAS Year of Assessment.</p>
+    </header>
+
+    <section class="panel" aria-labelledby="calculator-title">
+      <h2 id="calculator-title">Calculate</h2>
+      <form id="tax-form" autocomplete="off">
+        <label for="tax-year">Year of Assessment</label>
+        <select id="tax-year" required></select>
+
+        <label for="chargeable-income">Chargeable income (SGD, whole dollars)</label>
+        <input id="chargeable-income" type="number" min="0" step="1" inputmode="numeric" required>
+
+        <label class="confirmation" for="resident-confirmation">
+          <input id="resident-confirmation" type="checkbox" required>
+          <span>I have already confirmed that this is a Singapore tax-resident case and that chargeable income has been determined.</span>
+        </label>
+
+        <button type="submit">Calculate estimate</button>
+      </form>
+      <p class="privacy">Inputs are sent only for this calculation. TaxCraft does not create an account or save calculation history.</p>
+    </section>
+
+    <section id="message" class="message" aria-live="polite" hidden></section>
+
+    <section id="result" class="panel" aria-labelledby="result-title" hidden>
+      <div class="result-heading">
+        <div>
+          <p class="eyebrow" id="result-year"></p>
+          <h2 id="result-title">Estimated tax payable</h2>
+        </div>
+        <p id="result-total" class="total"></p>
+      </div>
+
+      <h3>Calculation</h3>
+      <dl id="totals" class="totals"></dl>
+
+      <h3>Rules applied</h3>
+      <ul id="lines" class="lines"></ul>
+
+      <h3>Official sources</h3>
+      <ul id="sources" class="sources"></ul>
+
+      <details>
+        <summary>Coverage and assumptions</summary>
+        <div id="coverage"></div>
+        <ul id="assumptions"></ul>
+      </details>
+    </section>
+
+    <footer>
+      <p>This is an estimate based on the information entered and the supported rules for the selected tax year. It is not tax, legal, accounting or financial advice.</p>
+    </footer>
+  </main>
+</body>
+</html>
