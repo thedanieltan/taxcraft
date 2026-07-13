@@ -29,7 +29,8 @@ export function evaluateSingaporeUpdate({
     observation: acceptedObservation,
     currentModelData,
     targetOrder,
-    supportWindow
+    supportWindow,
+    retiredAt: retrievedAt
   });
 
   return {
