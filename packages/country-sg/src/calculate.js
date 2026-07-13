@@ -1,15 +1,15 @@
-import { GENERAL_REBATES, RESIDENT_BRACKETS } from "./rates.js";
-
-const RATE_SOURCE_ID = "sg-iras-resident-rates-ya2024-onwards";
-const REBATE_SOURCE_ID = "sg-iras-pit-rebate-ya2024-ya2025";
+import { SINGAPORE_MODEL_DATA } from "./model-data.js";
 
 export function calculateResidentTax({ taxYear, chargeableIncomeMinor }) {
+  const model = SINGAPORE_MODEL_DATA.taxYears.find((entry) => entry.taxYear === taxYear);
+  if (!model) throw new Error(`Singapore model ${taxYear} is unavailable.`);
+
   let remainingMinor = chargeableIncomeMinor;
   let lowerBoundMinor = 0;
   let grossTaxMinor = 0;
   const lines = [];
 
-  for (const bracket of RESIDENT_BRACKETS) {
+  for (const bracket of model.brackets) {
     if (remainingMinor <= 0) break;
     const taxableMinor = bracket.widthMinor === null
       ? remainingMinor
@@ -21,7 +21,7 @@ export function calculateResidentTax({ taxYear, chargeableIncomeMinor }) {
         ruleId: `sg.pit.${taxYear}.resident-bracket-${lowerBoundMinor / 100}`,
         label: `${bracket.rateBasisPoints / 100}% resident rate`,
         amountMinor: taxMinor,
-        sourceIds: [RATE_SOURCE_ID]
+        sourceIds: [model.rateSourceId]
       });
     }
 
@@ -30,17 +30,16 @@ export function calculateResidentTax({ taxYear, chargeableIncomeMinor }) {
     lowerBoundMinor += taxableMinor;
   }
 
-  const rebate = GENERAL_REBATES[taxYear];
-  const personalIncomeTaxRebateMinor = rebate
-    ? Math.min(exactPercentage(grossTaxMinor, rebate.percentage), rebate.capMinor)
+  const personalIncomeTaxRebateMinor = model.rebate
+    ? Math.min(exactPercentage(grossTaxMinor, model.rebate.percentage), model.rebate.capMinor)
     : 0;
 
-  if (rebate && personalIncomeTaxRebateMinor > 0) {
+  if (model.rebate && personalIncomeTaxRebateMinor > 0) {
     lines.push({
       ruleId: `sg.pit.${taxYear}.personal-income-tax-rebate`,
-      label: `${rebate.percentage}% Personal Income Tax Rebate`,
+      label: `${model.rebate.percentage}% Personal Income Tax Rebate`,
       amountMinor: -personalIncomeTaxRebateMinor,
-      sourceIds: [REBATE_SOURCE_ID]
+      sourceIds: [model.rebate.sourceId]
     });
   }
 
@@ -49,7 +48,7 @@ export function calculateResidentTax({ taxYear, chargeableIncomeMinor }) {
       ruleId: `sg.pit.${taxYear}.zero-rate-band`,
       label: "0% resident rate",
       amountMinor: 0,
-      sourceIds: [RATE_SOURCE_ID]
+      sourceIds: [model.rateSourceId]
     });
   }
 
@@ -65,7 +64,7 @@ export function calculateResidentTax({ taxYear, chargeableIncomeMinor }) {
     assumptions: [
       "The user has already determined that the individual is a Singapore tax resident for the selected Year of Assessment.",
       "Chargeable income has already been determined after applicable deductions and personal reliefs.",
-      "No rebate other than the general Personal Income Tax Rebate for YA 2024 or YA 2025 is included.",
+      "Only rebates explicitly represented in the selected assessment-year model are included.",
       "Calculated rate and rebate amounts are rounded to the nearest cent using half-up rounding."
     ],
     coverage: {
@@ -73,7 +72,7 @@ export function calculateResidentTax({ taxYear, chargeableIncomeMinor }) {
         "Singapore tax resident individual",
         "whole-dollar chargeable income",
         "resident progressive income tax rates",
-        "general Personal Income Tax Rebate for YA 2024 and YA 2025"
+        "general Personal Income Tax Rebate when explicitly represented for the selected year"
       ],
       unsupported: [
         "tax residency determination",
