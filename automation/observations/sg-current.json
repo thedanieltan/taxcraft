@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": "SG",
+  "sourceUrl": "https://www.iras.gov.sg/taxes/individual-income-tax/basics-of-individual-income-tax/tax-residency-and-tax-rates/individual-income-tax-rates",
+  "retrievedAt": "2026-07-13",
+  "schedules": [
+    {
+      "fromOrder": 2024,
+      "openEnded": true,
+      "sourceId": "sg-iras-resident-rates-ya2024-onwards",
+      "brackets": [
+        { "widthDollars": 20000, "rateBasisPoints": 0 },
+        { "widthDollars": 10000, "rateBasisPoints": 200 },
+        { "widthDollars": 10000, "rateBasisPoints": 350 },
+        { "widthDollars": 40000, "rateBasisPoints": 700 },
+        { "widthDollars": 40000, "rateBasisPoints": 1150 },
+        { "widthDollars": 40000, "rateBasisPoints": 1500 },
+        { "widthDollars": 40000, "rateBasisPoints": 1800 },
+        { "widthDollars": 40000, "rateBasisPoints": 1900 },
+        { "widthDollars": 40000, "rateBasisPoints": 1950 },
+        { "widthDollars": 40000, "rateBasisPoints": 2000 },
+        { "widthDollars": 180000, "rateBasisPoints": 2200 },
+        { "widthDollars": 500000, "rateBasisPoints": 2300 },
+        { "widthDollars": null, "rateBasisPoints": 2400 }
+      ]
+    }
+  ],
+  "rebates": {
+    "YA2024": { "percentage": 50, "capDollars": 200, "sourceId": "sg-iras-pit-rebate-ya2024-ya2025" },
+    "YA2025": { "percentage": 60, "capDollars": 200, "sourceId": "sg-iras-pit-rebate-ya2024-ya2025" }
+  }
+}
