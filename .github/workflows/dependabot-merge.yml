@@ -1,0 +1,50 @@
+name: Dependabot merge
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+
+permissions:
+  checks: read
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: dependabot-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  merge:
+    if: github.actor == 'dependabot[bot]' && github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for TaxCraft CI and merge
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        shell: bash
+        run: |
+          for attempt in $(seq 1 180); do
+            checks=$(gh pr checks "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json name,bucket 2>/dev/null || echo '[]')
+            code_state=$(jq -r '[.[] | select(.name == "check")][-1].bucket // "missing"' <<<"$checks")
+            container_state=$(jq -r '[.[] | select(.name == "container")][-1].bucket // "missing"' <<<"$checks")
+
+            if [[ "$code_state" =~ ^(fail|cancel)$ ]] || [[ "$container_state" =~ ^(fail|cancel)$ ]]; then
+              echo "A required TaxCraft check failed or was cancelled." >&2
+              exit 1
+            fi
+
+            if [ "$code_state" = "pass" ] && [ "$container_state" = "pass" ]; then
+              gh pr merge "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --squash --delete-branch
+              exit 0
+            fi
+
+            sleep 10
+          done
+
+          echo "Timed out waiting for TaxCraft CI." >&2
+          exit 1

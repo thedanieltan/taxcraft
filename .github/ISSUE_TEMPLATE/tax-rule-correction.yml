@@ -1,0 +1,69 @@
+name: Tax-rule correction
+description: Report a possible error in a maintained TaxCraft country model.
+title: "[Tax correction] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include names, identity numbers, addresses, tax documents or real taxpayer records.
+  - type: dropdown
+    id: jurisdiction
+    attributes:
+      label: Jurisdiction
+      options:
+        - Singapore
+    validations:
+      required: true
+  - type: input
+    id: tax-year
+    attributes:
+      label: Tax year
+      placeholder: YA2026
+    validations:
+      required: true
+  - type: textarea
+    id: rule
+    attributes:
+      label: Rule or parameter
+      description: Identify the rate, threshold, rebate, source or calculation step.
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current behavior
+      description: Provide a small non-identifying input and the current output.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: State the expected output and calculation.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Official source URL
+      placeholder: https://government.example/official-tax-source
+    validations:
+      required: true
+  - type: textarea
+    id: source-detail
+    attributes:
+      label: Source detail
+      description: Quote only the short section needed to locate the rule, or state the relevant table and heading.
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmations
+      options:
+        - label: I have not included personal or taxpayer-identifying information.
+          required: true
+        - label: The cited source is an official government or tax-authority source.
+          required: true
+        - label: This report concerns calculation accuracy, not a request for tax advice.
+          required: true

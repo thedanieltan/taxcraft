@@ -13,10 +13,42 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
       - run: npm run check
+
+  container:
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - name: Build service image
+        run: docker build --tag taxcraft:test .
+      - name: Run stateless service smoke test
+        shell: bash
+        run: |
+          container_id=$(docker run --detach --publish 127.0.0.1:3000:3000 taxcraft:test)
+          trap 'docker logs "$container_id"; docker rm --force "$container_id"' EXIT
+
+          for attempt in $(seq 1 20); do
+            if curl --fail --silent --show-error --dump-header /tmp/headers http://127.0.0.1:3000/v1/jurisdictions --output /tmp/jurisdictions.json; then
+              break
+            fi
+            sleep 1
+          done
+
+          grep --quiet '"jurisdiction":"SG"' /tmp/jurisdictions.json
+          if grep --ignore-case --quiet '^set-cookie:' /tmp/headers; then
+            echo "TaxCraft must not set cookies." >&2
+            exit 1
+          fi
+
+          curl --fail --silent --show-error \
+            --header 'content-type: application/json' \
+            --data '{"jurisdiction":"SG","taxYear":"YA2026","facts":{"taxResident":true,"chargeableIncomeMinor":10000000}}' \
+            http://127.0.0.1:3000/v1/calculate \
+            | grep --quiet '"netTaxPayableMinor":565000'

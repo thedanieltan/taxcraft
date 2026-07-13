@@ -22,11 +22,21 @@ npm start
 
 Open `http://localhost:3000` to use the reference calculator. The same process serves the stateless API and `GET /openapi.json`.
 
+## Run with Docker
+
+```bash
+docker compose up --build taxcraft
+```
+
+The container runs as a non-root user. The Compose service uses a read-only filesystem, drops Linux capabilities and does not persist calculation requests or results.
+
 ## Check the repository
 
 ```bash
 npm run check
 ```
+
+CI also builds the service image, exercises jurisdiction discovery and a Singapore calculation, and verifies that the service does not set cookies.
 
 ## Current-source maintenance
 
@@ -36,6 +46,16 @@ A scheduled workflow checks the allowlisted official IRAS rate page. Two separat
 npm run watch:sources
 ```
 
-See `docs/autonomous-maintenance.md` for the admission and lifecycle rules.
+A blocked source watch opens or updates one public operational issue. A later successful run closes it automatically.
+
+## Project documents
+
+- `docs/product.md` — product scope
+- `docs/api.md` — API contract and example
+- `docs/autonomous-maintenance.md` — source admission and lifecycle
+- `docs/operations.md` — operational and rollback procedures
+- `docs/release-policy.md` — model and contract versioning
+- `CONTRIBUTING.md` — contribution and tax-correction requirements
+- `SECURITY.md` — private vulnerability reporting
 
 The official calculator loads only country packages maintained in this repository. External packages may implement the public SDK in their own repositories; TaxCraft does not review, list or endorse them.

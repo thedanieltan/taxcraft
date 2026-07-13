@@ -17,6 +17,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  issues: write
 
 concurrency:
   group: tax-source-watch
@@ -27,11 +28,11 @@ jobs:
     if: github.repository == 'thedanieltan/taxcraft'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: main
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
           cache: npm
@@ -71,3 +72,28 @@ jobs:
             --title "Update verified Singapore tax source model" \
             --body "Automated official-source update from run ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}. Both independent extractors agreed, lifecycle validation passed, and the full repository check completed before this pull request was opened.")
           gh pr merge "$pr_url" --squash --delete-branch
+      - name: Report blocked source watch
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          title="Tax source watch blocked"
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          issue_number=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search 'Tax source watch blocked in:title' --json number,title --jq '.[] | select(.title == "Tax source watch blocked") | .number' | head -n 1)
+          message="The autonomous tax source watch was blocked. The current calculator was not modified. Review run: ${run_url}"
+          if [ -n "$issue_number" ]; then
+            gh issue comment "$issue_number" --repo "$GITHUB_REPOSITORY" --body "$message"
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body "$message"
+          fi
+      - name: Close recovered source watch issue
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          issue_number=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search 'Tax source watch blocked in:title' --json number,title --jq '.[] | select(.title == "Tax source watch blocked") | .number' | head -n 1)
+          if [ -n "$issue_number" ]; then
+            gh issue close "$issue_number" --repo "$GITHUB_REPOSITORY" --comment "The official-source watch completed successfully and has recovered."
+          fi
