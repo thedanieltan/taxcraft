@@ -1,25 +1,25 @@
 const BLOCK_TAGS = /<\/?(?:article|aside|div|h[1-6]|li|p|section|table|tbody|td|th|thead|tr|ul|ol|br)[^>]*>/gi;
 
 export function extractSingaporePrimary(html, sourceUrl) {
-  const schedules = extractTableSchedules(html);
+  const normalizedHtml = decodeEntities(html);
+  const text = toText(normalizedHtml);
   return {
     schemaVersion: 1,
     jurisdiction: "SG",
     sourceUrl,
-    schedules,
-    rebates: extractRebatesBySentence(toText(html)),
-    ambiguities: findAmbiguities(toText(html))
+    schedules: extractTableSchedules(normalizedHtml),
+    rebates: extractRebatesBySentence(text),
+    ambiguities: findAmbiguities(text)
   };
 }
 
 export function extractSingaporeIndependent(html, sourceUrl) {
   const text = toText(html);
-  const schedules = extractSequenceSchedules(text);
   return {
     schemaVersion: 1,
     jurisdiction: "SG",
     sourceUrl,
-    schedules,
+    schedules: extractSequenceSchedules(text),
     rebates: extractRebatesByYearWindow(text),
     ambiguities: findAmbiguities(text)
   };
@@ -37,7 +37,7 @@ function extractTableSchedules(html) {
       .map((match) => [...match[1].matchAll(/<t[dh]\b[^>]*>([\s\S]*?)<\/t[dh]>/gi)].map((cell) => cleanCell(cell[1])))
       .map(parseCells)
       .filter(Boolean);
-    return schedule(fromOrder, brackets);
+    return schedule(fromOrder, deduplicateRows(brackets));
   });
 }
 
@@ -78,7 +78,7 @@ function parseCells(cells) {
 
 function extractRebatesBySentence(text) {
   const rebates = {};
-  for (const match of text.matchAll(/(?:For\s+)?YA\s*(\d{4})[\s\S]{0,220}?rebate\s+of\s+(\d+(?:\.\d+)?)%[\s\S]{0,160}?(?:cap(?:ped)?\s+at|maximum\s+of)\s+\$([\d,]+)/gi)) {
+  for (const match of text.matchAll(/(?:For\s+)?YA\s*(\d{4})[\s\S]{0,260}?rebate\s+of\s+(\d+(?:\.\d+)?)%[\s\S]{0,180}?(?:cap(?:ped)?\s+at|maximum\s+of)\s+\$([\d,]+)/gi)) {
     rebates[`YA${match[1]}`] = rebate(match[2], match[3]);
   }
   return rebates;
@@ -86,13 +86,20 @@ function extractRebatesBySentence(text) {
 
 function extractRebatesByYearWindow(text) {
   const rebates = {};
-  for (const year of new Set([...text.matchAll(/YA\s*(\d{4})/gi)].map((match) => match[1]))) {
-    const start = text.search(new RegExp(`YA\\s*${year}`, "i"));
-    const window = text.slice(start, start + 500);
-    const percentage = window.match(/(\d+(?:\.\d+)?)%\s+(?:Personal\s+Income\s+Tax\s+)?Rebate/i)?.[1]
-      ?? window.match(/rebate\s+of\s+(\d+(?:\.\d+)?)%/i)?.[1];
-    const cap = window.match(/(?:cap(?:ped)?\s+at|maximum\s+of)\s+\$([\d,]+)/i)?.[1];
-    if (percentage && cap) rebates[`YA${year}`] = rebate(percentage, cap);
+  const years = new Set([...text.matchAll(/YA\s*(\d{4})/gi)].map((match) => match[1]));
+  for (const year of years) {
+    const occurrences = [...text.matchAll(new RegExp(`YA\\s*${year}`, "gi"))];
+    for (const occurrence of occurrences) {
+      const start = Math.max(0, occurrence.index - 40);
+      const window = text.slice(start, occurrence.index + 600);
+      const percentage = window.match(/(\d+(?:\.\d+)?)%\s+(?:Personal\s+Income\s+Tax\s+)?Rebate/i)?.[1]
+        ?? window.match(/rebate\s+of\s+(\d+(?:\.\d+)?)%/i)?.[1];
+      const cap = window.match(/(?:cap(?:ped)?\s+at|maximum\s+of)\s+\$([\d,]+)/i)?.[1];
+      if (percentage && cap) {
+        rebates[`YA${year}`] = rebate(percentage, cap);
+        break;
+      }
+    }
   }
   return rebates;
 }
@@ -127,12 +134,13 @@ function findAmbiguities(text) {
 }
 
 function deduplicateRows(rows) {
-  const result = [];
-  for (const row of rows) {
-    const previous = result.at(-1);
-    if (!previous || previous.widthDollars !== row.widthDollars || previous.rateBasisPoints !== row.rateBasisPoints) result.push(row);
-  }
-  return result;
+  const seen = new Set();
+  return rows.filter((row) => {
+    const key = `${row.widthDollars}:${row.rateBasisPoints}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 function cleanCell(value) {
