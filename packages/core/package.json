@@ -1,0 +1,17 @@
+{
+  "name": "@taxcraft/core",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "Deterministic TaxCraft calculation engine and package registry.",
+  "exports": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@taxcraft/contracts": "0.1.0"
+  },
+  "scripts": {
+    "build": "node ../../scripts/build-core.mjs"
+  }
+}
