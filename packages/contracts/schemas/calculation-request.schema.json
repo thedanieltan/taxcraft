@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taxcraft.dev/schemas/calculation-request.v1.json",
+  "title": "TaxCraft calculation request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["jurisdiction", "taxYear", "facts"],
+  "properties": {
+    "jurisdiction": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "taxYear": {
+      "type": "string",
+      "minLength": 1
+    },
+    "facts": {
+      "type": "object"
+    }
+  }
+}
