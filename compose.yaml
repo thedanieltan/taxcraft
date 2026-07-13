@@ -1,4 +1,25 @@
 services:
+  taxcraft:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: "3000"
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://127.0.0.1:3000/v1/jurisdictions"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
   checks:
     build: .
     command: npm run check
+    profiles:
+      - checks
