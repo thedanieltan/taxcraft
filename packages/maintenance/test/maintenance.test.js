@@ -23,16 +23,25 @@ function extracts(html = fixture) {
   };
 }
 
-test("independent extractors agree on the accepted Singapore rate table", () => {
+test("independent extractors agree on the accepted Singapore resident rate table", () => {
   const { primary, independent } = extracts();
   assert.equal(observationsAgree(primary, independent), true);
   assert.deepEqual(validateSingaporeObservation(primary), []);
+  assert.equal(primary.schedules.length, 1);
+  assert.equal(independent.schedules.length, 1);
   assert.equal(primary.schedules[0].brackets.length, 13);
   assert.deepEqual(primary.rebates.YA2025, {
     percentage: 60,
     capDollars: 200,
     sourceId: "sg-iras-pit-rebate-ya2024-ya2025"
   });
+});
+
+test("unrelated non-resident YA headings are excluded from both extractors", () => {
+  const { primary, independent } = extracts();
+  assert.deepEqual(primary.schedules.map(({ fromOrder }) => fromOrder), [2024]);
+  assert.deepEqual(independent.schedules.map(({ fromOrder }) => fromOrder), [2024]);
+  assert.equal(primary.schedules[0].brackets.at(-1).rateBasisPoints, 2400);
 });
 
 test("unchanged current source produces no candidate patch", () => {
@@ -83,8 +92,12 @@ test("extractor disagreement blocks the update", () => {
   }), /independent extractors disagree/);
 });
 
-test("proposal or draft language fails closed", () => {
-  const { primary, independent } = extracts(`${fixture}<p>These are proposed rates subject to enactment.</p>`);
+test("proposal or draft language inside the resident section fails closed", () => {
+  const ambiguousFixture = fixture.replace(
+    '<h2 id="non-resident">',
+    '<p>These are proposed rates subject to enactment.</p><h2 id="non-resident">'
+  );
+  const { primary, independent } = extracts(ambiguousFixture);
   assert.throws(() => evaluateSingaporeUpdate({
     primary,
     independent,
