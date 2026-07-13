@@ -1,0 +1,10 @@
+{
+  "name": "@taxcraft/calculator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Stateless reference calculator for TaxCraft.",
+  "scripts": {
+    "build": "node ../../scripts/build-calculator.mjs"
+  }
+}
