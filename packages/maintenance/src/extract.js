@@ -1,20 +1,21 @@
 const BLOCK_TAGS = /<\/?(?:article|aside|div|h[1-6]|li|p|section|table|tbody|td|th|thead|tr|ul|ol|br)[^>]*>/gi;
 
 export function extractSingaporePrimary(html, sourceUrl) {
-  const normalizedHtml = decodeEntities(html);
-  const text = toText(normalizedHtml);
+  const normalizedHtml = stripNonContent(decodeEntities(html));
+  const residentHtml = residentRateSection(normalizedHtml);
+  const text = toText(residentHtml);
   return {
     schemaVersion: 1,
     jurisdiction: "SG",
     sourceUrl,
-    schedules: extractTableSchedules(normalizedHtml),
+    schedules: extractTableSchedules(residentHtml),
     rebates: extractRebatesBySentence(text),
     ambiguities: findAmbiguities(text)
   };
 }
 
 export function extractSingaporeIndependent(html, sourceUrl) {
-  const text = toText(html);
+  const text = residentRateSection(toText(html));
   return {
     schemaVersion: 1,
     jurisdiction: "SG",
@@ -23,6 +24,24 @@ export function extractSingaporeIndependent(html, sourceUrl) {
     rebates: extractRebatesByYearWindow(text),
     ambiguities: findAmbiguities(text)
   };
+}
+
+function residentRateSection(value) {
+  const currentHeading = /From\s+YA\s*2024\s+onwards/i.exec(value);
+  if (!currentHeading) return value;
+
+  const beforeCurrent = value.slice(0, currentHeading.index);
+  const residentHeadings = [...beforeCurrent.matchAll(/Resident\s+tax\s+rates/gi)];
+  const start = residentHeadings.at(-1)?.index ?? currentHeading.index;
+
+  const afterCurrentOffset = currentHeading.index + currentHeading[0].length;
+  const afterCurrent = value.slice(afterCurrentOffset);
+  const nonResidentHeading = /Non-resident\s+tax\s+rates/i.exec(afterCurrent);
+  const end = nonResidentHeading
+    ? afterCurrentOffset + nonResidentHeading.index
+    : value.length;
+
+  return value.slice(start, end);
 }
 
 function extractTableSchedules(html) {
@@ -179,8 +198,14 @@ function cleanCell(value) {
   return decodeEntities(value.replace(BLOCK_TAGS, " ").replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
 }
 
+function stripNonContent(html) {
+  return html
+    .replace(/<script\b[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style\b[\s\S]*?<\/style>/gi, " ");
+}
+
 export function toText(html) {
-  return decodeEntities(html.replace(/<script\b[\s\S]*?<\/script>/gi, " ").replace(/<style\b[\s\S]*?<\/style>/gi, " ").replace(BLOCK_TAGS, " ").replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
+  return decodeEntities(stripNonContent(html).replace(BLOCK_TAGS, " ").replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
 }
 
 function decodeEntities(value) {
