@@ -1,9 +1,10 @@
 import { assertSingaporeObservation } from "./validate.js";
 
-export function planSingaporeModels({ observation, currentModelData, targetOrder, supportWindow = 3 }) {
+export function planSingaporeModels({ observation, currentModelData, targetOrder, supportWindow = 3, retiredAt = `${targetOrder}-01-01` }) {
   assertSingaporeObservation(observation);
   if (!Number.isSafeInteger(targetOrder) || targetOrder < 2000) throw new Error("Target assessment year is invalid.");
   if (!Number.isSafeInteger(supportWindow) || supportWindow < 1) throw new Error("Support window is invalid.");
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(retiredAt)) throw new Error("Retirement date is invalid.");
 
   const currentByYear = new Map((currentModelData?.taxYears ?? []).map((model) => [model.taxYear, model]));
   const desiredOrders = Array.from({ length: supportWindow }, (_, index) => targetOrder - supportWindow + index + 1);
@@ -45,7 +46,7 @@ export function planSingaporeModels({ observation, currentModelData, targetOrder
     .map((model) => ({
       jurisdiction: "SG",
       taxYear: model.taxYear,
-      retiredAt: `${targetOrder}-01-01`,
+      retiredAt,
       reason: "support-window-exceeded",
       lastModelVersion: model.modelVersion
     }));
