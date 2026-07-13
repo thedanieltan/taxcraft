@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "persistCalculationInputs": false,
+  "persistCalculationResults": false,
+  "accountsRequired": false,
+  "acceptTaxDocuments": false,
+  "logRequestBodies": false,
+  "logCalculatedValues": false,
+  "prohibitedIdentityFields": [
+    "name",
+    "national-identity-number",
+    "address",
+    "email",
+    "phone",
+    "bank-account"
+  ],
+  "permittedOperationalEvents": [
+    "calculation-completed",
+    "unsupported-tax-year",
+    "invalid-request",
+    "package-unavailable"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "@taxcraft/contracts",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "Public contracts for TaxCraft consumers and country packages.",
+  "exports": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node ../../scripts/build-contracts.mjs"
+  }
+}

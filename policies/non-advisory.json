@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "recommendActions": false,
+  "mayExplain": [
+    "rule-applied",
+    "calculation-method",
+    "official-source",
+    "assumptions",
+    "coverage-limit",
+    "unsupported-condition"
+  ],
+  "mustNotProvide": [
+    "tax-strategy",
+    "income-structuring-recommendation",
+    "filing-recommendation",
+    "residency-judgment",
+    "professional-conclusion"
+  ],
+  "resultNotice": "This is an estimate based on the information entered and the supported rules for the selected tax year. It is not tax, legal, accounting or financial advice."
+}

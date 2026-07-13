@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "operatingMode": "autonomous",
+  "updateThroughPullRequest": true,
+  "failClosedOnAmbiguity": true,
+  "independentVerificationRequired": true,
+  "authorMayApproveOwnChange": false,
+  "allRequiredChecksMustPass": true,
+  "confidenceScoreMayOverrideGate": false,
+  "requiredGates": [
+    "official-source",
+    "source-parameter-link",
+    "effective-date",
+    "schema",
+    "boundary-tests",
+    "determinism",
+    "privacy",
+    "non-advisory",
+    "lifecycle"
+  ]
+}
