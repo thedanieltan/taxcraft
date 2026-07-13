@@ -1,0 +1,14 @@
+{
+  "name": "@taxcraft/maintenance",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "Fail-closed source observation and lifecycle tools for TaxCraft.",
+  "exports": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node ../../scripts/build-maintenance.mjs"
+  }
+}
