@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taxcraft.dev/schemas/calculation-result.v1.json",
+  "title": "TaxCraft calculation result",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": ["status", "contractVersion", "jurisdiction", "taxYear", "modelVersion", "currency", "totals", "lines", "sources", "notice"],
+      "properties": {
+        "status": { "const": "ok" }
+      }
+    },
+    {
+      "type": "object",
+      "required": ["status", "contractVersion", "reasonCode", "notice"],
+      "properties": {
+        "status": { "const": "unsupported" }
+      }
+    },
+    {
+      "type": "object",
+      "required": ["status", "contractVersion", "issues", "notice"],
+      "properties": {
+        "status": { "const": "invalid" }
+      }
+    }
+  ]
+}
