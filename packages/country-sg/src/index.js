@@ -1,8 +1,7 @@
 import { defineCountryPackage } from "@taxcraft/country-sdk";
 import { calculateResidentTax } from "./calculate.js";
+import { SINGAPORE_MODEL_DATA } from "./model-data.js";
 import { SINGAPORE_SOURCES } from "./sources.js";
-
-const TAX_YEARS = ["YA2024", "YA2025", "YA2026"];
 
 function model(taxYear) {
   return {
@@ -29,7 +28,7 @@ function model(taxYear) {
         issues.push({
           code: "facts.chargeable-income-whole-dollar",
           path: "$.facts.chargeableIncomeMinor",
-          message: "The first Singapore package accepts chargeable income in whole Singapore dollars."
+          message: "The Singapore package accepts chargeable income in whole Singapore dollars."
         });
       }
       return issues.length ? { ok: false, issues } : { ok: true, facts };
@@ -46,14 +45,15 @@ export const singaporePackage = defineCountryPackage({
     name: "Singapore resident personal income tax",
     storesUserPII: false,
     advisory: false,
-    taxYears: [
-      { taxYear: "YA2024", modelVersion: "1.0.0", status: "historical-supported", order: 2024 },
-      { taxYear: "YA2025", modelVersion: "1.0.0", status: "historical-supported", order: 2025 },
-      { taxYear: "YA2026", modelVersion: "1.0.0", status: "current", order: 2026 }
-    ]
+    taxYears: SINGAPORE_MODEL_DATA.taxYears.map(({ taxYear, modelVersion, status, order }) => ({
+      taxYear,
+      modelVersion,
+      status,
+      order
+    }))
   },
   sources: SINGAPORE_SOURCES,
-  models: Object.fromEntries(TAX_YEARS.map((taxYear) => [taxYear, model(taxYear)]))
+  models: Object.fromEntries(SINGAPORE_MODEL_DATA.taxYears.map(({ taxYear }) => [taxYear, model(taxYear)]))
 });
 
-export { calculateResidentTax, SINGAPORE_SOURCES };
+export { calculateResidentTax, SINGAPORE_MODEL_DATA, SINGAPORE_SOURCES };
