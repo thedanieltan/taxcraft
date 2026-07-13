@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taxcraft.dev/schemas/coverage.v1.json",
+  "title": "TaxCraft country model coverage",
+  "type": "object",
+  "required": ["supported", "unsupported"],
+  "properties": {
+    "supported": { "type": "array", "items": { "type": "string" } },
+    "unsupported": { "type": "array", "items": { "type": "string" } }
+  }
+}
