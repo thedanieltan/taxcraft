@@ -2,6 +2,7 @@ import { defineCountryPackage } from "@taxcraft/country-sdk";
 import { calculateResidentTax } from "./calculate.js";
 import { SINGAPORE_MODEL_DATA } from "./model-data.js";
 import { SINGAPORE_SOURCES } from "./sources.js";
+import { calculateChargeableIncomeWorksheet, validateWorksheetFacts } from "./worksheet.js";
 
 function model(taxYear) {
   return {
@@ -56,4 +57,10 @@ export const singaporePackage = defineCountryPackage({
   models: Object.fromEntries(SINGAPORE_MODEL_DATA.taxYears.map(({ taxYear }) => [taxYear, model(taxYear)]))
 });
 
-export { calculateResidentTax, SINGAPORE_MODEL_DATA, SINGAPORE_SOURCES };
+export {
+  calculateResidentTax,
+  calculateChargeableIncomeWorksheet,
+  validateWorksheetFacts,
+  SINGAPORE_MODEL_DATA,
+  SINGAPORE_SOURCES
+};
