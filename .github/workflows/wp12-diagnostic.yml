@@ -1,0 +1,38 @@
+name: WP12 diagnostic
+
+on:
+  pull_request:
+    paths:
+      - "packages/country-gb/**"
+      - "packages/maintenance/**"
+      - "apps/api/**"
+      - "scripts/**"
+      - "tests/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/wp12-diagnostic.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check:policies
+      - run: npm run lint
+      - run: npm run build
+      - name: UK country tests
+        run: node --test packages/country-gb/test/gb.test.js
+      - name: UK maintenance tests
+        run: node --test packages/maintenance/test/uk-maintenance.test.js
+      - name: API tests
+        run: node --test apps/api/test/api.test.js apps/api/test/worksheet.test.js
+      - name: Repository tests
+        run: node --test
