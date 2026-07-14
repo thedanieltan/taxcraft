@@ -1,0 +1,63 @@
+name: Deploy Cloudflare Worker
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "apps/api/**"
+      - "apps/calculator/**"
+      - "apps/worker/**"
+      - "packages/**"
+      - "wrangler.jsonc"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/deploy-cloudflare.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: taxcraft-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: vars.CLOUDFLARE_DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - name: Deploy Worker and static calculator
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
+      - name: Live acceptance
+        if: vars.TAXCRAFT_LIVE_URL != ''
+        env:
+          LIVE_URL: ${{ vars.TAXCRAFT_LIVE_URL }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="${LIVE_URL%/}"
+          curl --fail --silent --show-error --dump-header /tmp/health-headers "$base/healthz" --output /tmp/health.json
+          grep --quiet '"status":"ok"' /tmp/health.json
+          if grep --ignore-case --quiet '^set-cookie:' /tmp/health-headers; then
+            echo "TaxCraft must not set cookies." >&2
+            exit 1
+          fi
+          curl --fail --silent --show-error "$base/v1/jurisdictions" | grep --quiet '"jurisdiction":"SG"'
+          curl --fail --silent --show-error \
+            --header 'content-type: application/json' \
+            --data '{"jurisdiction":"SG","taxYear":"YA2026","facts":{"taxResident":true,"chargeableIncomeMinor":10000000}}' \
+            "$base/v1/calculate" \
+            | grep --quiet '"netTaxPayableMinor":565000'
