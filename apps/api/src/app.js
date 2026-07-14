@@ -27,6 +27,10 @@ export function createApi({ logger = () => {} } = {}) {
     async handle({ method = "GET", path = "/", body = null }) {
       const pathname = new URL(path, "http://taxcraft.local").pathname;
 
+      if (method === "OPTIONS" && isPublicApiPath(pathname)) {
+        return json(200, { status: "ok" });
+      }
+
       if (method === "GET" && pathname === "/openapi.json") {
         return json(200, OPENAPI_DOCUMENT);
       }
@@ -104,6 +108,10 @@ export function createApi({ logger = () => {} } = {}) {
   });
 }
 
+function isPublicApiPath(pathname) {
+  return pathname === "/openapi.json" || pathname.startsWith("/v1/");
+}
+
 function parseBody(body) {
   try {
     return {
@@ -159,7 +167,11 @@ function json(status, body) {
       "cache-control": "no-store",
       "content-security-policy": "default-src 'none'; frame-ancestors 'none'",
       "referrer-policy": "no-referrer",
-      "x-content-type-options": "nosniff"
+      "x-content-type-options": "nosniff",
+      "access-control-allow-origin": "*",
+      "access-control-allow-methods": "GET, POST, OPTIONS",
+      "access-control-allow-headers": "content-type",
+      "access-control-max-age": "86400"
     },
     body
   };

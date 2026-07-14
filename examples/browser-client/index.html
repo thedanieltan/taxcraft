@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TaxCraft external browser client</title>
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <main>
+    <h1>TaxCraft external browser client</h1>
+    <form id="example-form" autocomplete="off">
+      <label>TaxCraft API URL <input id="api-url" type="url" value="http://localhost:3000" required></label>
+      <label>Employment income (SGD) <input id="employment" type="number" min="0" step="1" value="100000" required></label>
+      <label>Other taxable income (SGD) <input id="other-income" type="number" min="0" step="1" value="10000" required></label>
+      <label>Deductions (SGD) <input id="deductions" type="number" min="0" step="1" value="5000" required></label>
+      <label>Personal reliefs (SGD) <input id="reliefs" type="number" min="0" step="1" value="20000" required></label>
+      <button type="submit">Calculate YA2026</button>
+    </form>
+    <pre id="output" aria-live="polite"></pre>
+  </main>
+</body>
+</html>
