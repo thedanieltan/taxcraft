@@ -1,8 +1,10 @@
 import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
 const forwarded = process.argv.slice(2);
 for (const script of ["watch-tax-sources.mjs", "watch-uk-source.mjs"]) {
-  const result = spawnSync(process.execPath, [new URL(script, import.meta.url), ...forwarded], {
+  const scriptPath = fileURLToPath(new URL(script, import.meta.url));
+  const result = spawnSync(process.execPath, [scriptPath, ...forwarded], {
     stdio: "inherit"
   });
   if (result.error) throw result.error;
