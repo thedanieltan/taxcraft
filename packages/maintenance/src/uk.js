@@ -33,10 +33,8 @@ export function extractUkPrimary(html, sourceUrl) {
 export function extractUkIndependent(html, sourceUrl) {
   const decoded = decode(html);
   const tables = [...decoded.matchAll(/<table\b[^>]*>([\s\S]*?)<\/table>/gi)].map((match) => parseTable(match[1]));
-  const allowanceTable = tables.find((table) => table.some((row) => /Personal Allowance/i.test(row[0] ?? "")));
-  const englandSection = section(decoded, /England,\s*Northern Ireland and Wales/i, /Scotland/i);
-  const rateTableMatch = englandSection.match(/<table\b[^>]*>([\s\S]*?)<\/table>/i);
-  const rateTable = rateTableMatch ? parseTable(rateTableMatch[1]) : [];
+  const allowanceTable = tables.find((table) => table.some((row) => /^Personal Allowance$/i.test(row[0] ?? "")));
+  const rateTable = tables.find(isEnglandWalesNorthernIrelandRateTable) ?? [];
 
   const allowanceDataIndex = allowanceTable?.findIndex((row) => /^Personal Allowance$/i.test(row[0] ?? "")) ?? -1;
   const rateDataIndex = rateTable.findIndex((row) => /^Starting rate for savings$/i.test(row[0] ?? ""));
@@ -241,6 +239,12 @@ function parseTable(value) {
   return [...value.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi)].map((row) =>
     [...row[1].matchAll(/<t[dh]\b[^>]*>([\s\S]*?)<\/t[dh]>/gi)].map((cell) => clean(cell[1]))
   );
+}
+
+function isEnglandWalesNorthernIrelandRateTable(table) {
+  const labels = new Set(table.map((row) => row[0] ?? ""));
+  return ["Starting rate for savings", "Basic rate", "Higher rate", "Additional rate"]
+    .every((label) => labels.has(label));
 }
 
 function parseRange(value) {
