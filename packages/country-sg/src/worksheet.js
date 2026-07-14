@@ -6,6 +6,7 @@ const MONEY_FIELDS = [
   "allowableDeductionsMinor",
   "personalReliefsMinor"
 ];
+const ALLOWED_FIELDS = new Set([...MONEY_FIELDS, "eligibilityConfirmed"]);
 
 export function calculateChargeableIncomeWorksheet(facts) {
   const issues = validateWorksheetFacts(facts);
@@ -83,6 +84,16 @@ export function validateWorksheetFacts(facts) {
   const issues = [];
   if (!facts || typeof facts !== "object" || Array.isArray(facts)) {
     return [{ code: "worksheet.facts", path: "$.facts", message: "Worksheet facts must be an object." }];
+  }
+
+  for (const field of Object.keys(facts)) {
+    if (!ALLOWED_FIELDS.has(field)) {
+      issues.push({
+        code: "worksheet.field-not-allowed",
+        path: `$.facts.${field}`,
+        message: `Worksheet field ${field} is not accepted. TaxCraft does not collect identity or contact fields.`
+      });
+    }
   }
 
   if (facts.eligibilityConfirmed !== true) {
