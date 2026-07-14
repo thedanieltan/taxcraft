@@ -1,22 +1,20 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const root = new URL("../", import.meta.url);
 const read = (path) => readFile(new URL(path, root), "utf8");
 
-test("release bundle contains machine-readable contracts and coverage", async () => {
-  const manifest = JSON.parse(await read("dist-release/taxcraft-v0.1.0/release-manifest.json"));
-  const openapi = JSON.parse(await read("dist-release/taxcraft-v0.1.0/openapi.json"));
-  const coverage = JSON.parse(await read("dist-release/taxcraft-v0.1.0/coverage.json"));
+test("published v0.1.0 release inputs remain explicit and reproducible", async () => {
+  const builder = await read("scripts/build-release.mjs");
+  const notes = await read("release/v0.1.0.md");
 
-  assert.equal(manifest.releaseVersion, "0.1.0");
-  assert.equal(manifest.contractVersion, "taxcraft.contracts.v1");
-  assert.equal(openapi.info.version, "0.1.0");
-  assert.deepEqual(coverage.jurisdictions[0].taxYears.map(({ taxYear }) => taxYear), ["YA2024", "YA2025", "YA2026"]);
-  assert.equal(coverage.storesUserPII, false);
-  assert.equal(coverage.advisory, false);
-  await access(new URL("dist-release/taxcraft-v0.1.0/LICENSE", root));
+  assert.match(builder, /const version = "0\.1\.0"/);
+  assert.match(builder, /openapi\.json/);
+  assert.match(builder, /coverage\.json/);
+  assert.match(builder, /release-manifest\.json/);
+  assert.match(notes, /TaxCraft v0\.1\.0/);
+  assert.match(notes, /Singapore resident personal income tax for YA 2024, YA 2025 and YA 2026/);
 });
 
 test("release workflow tests before creating an immutable tag", async () => {

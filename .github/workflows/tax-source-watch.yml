@@ -8,8 +8,11 @@ on:
       - ".github/workflows/tax-source-watch.yml"
       - "automation/**"
       - "packages/country-sg/src/**"
+      - "packages/country-gb/src/**"
       - "packages/maintenance/**"
       - "scripts/watch-tax-sources.mjs"
+      - "scripts/watch-uk-source.mjs"
+      - "scripts/watch-all-sources.mjs"
   schedule:
     - cron: "17 3 * * 1"
   workflow_dispatch:
@@ -37,11 +40,11 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Observe official sources and write verified candidate
+      - name: Observe official sources and write verified candidates
         shell: bash
         run: |
           set +e
-          node scripts/watch-tax-sources.mjs --write 2>&1 | tee /tmp/tax-source-watch.log
+          npm run watch:sources -- --write 2>&1 | tee /tmp/tax-source-watch.log
           status=${PIPESTATUS[0]}
           exit "$status"
       - name: Detect candidate changes
@@ -53,7 +56,7 @@ jobs:
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
-      - name: Validate candidate
+      - name: Validate candidates
         if: steps.changes.outputs.changed == 'true'
         run: |
           git diff --check
@@ -68,14 +71,14 @@ jobs:
           git config user.name "taxcraft-maintenance[bot]"
           git config user.email "taxcraft-maintenance[bot]@users.noreply.github.com"
           git checkout -b "$branch"
-          git add automation packages/country-sg/src
-          git commit -m "Update verified Singapore tax source model"
+          git add automation packages/country-sg/src packages/country-gb/src
+          git commit -m "Update verified tax source models"
           git push --set-upstream origin "$branch"
           pr_url=$(gh pr create \
             --base main \
             --head "$branch" \
-            --title "Update verified Singapore tax source model" \
-            --body "Automated official-source update from run ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}. Both independent extractors agreed, lifecycle validation passed, and the full repository check completed before this pull request was opened.")
+            --title "Update verified tax source models" \
+            --body "Automated official-source update from run ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}. Each source-specific pair of independent extractors agreed, lifecycle validation passed, and the full repository check completed before this pull request was opened.")
           gh pr merge "$pr_url" --squash --delete-branch
       - name: Report blocked source watch
         if: failure()

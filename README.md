@@ -6,11 +6,16 @@ It takes structured tax facts, applies a supported country model and returns a d
 
 TaxCraft does not store user calculation data. It does not provide tax, legal, accounting or financial advice.
 
-## Supported package
+## Supported packages
 
-The official service currently supports Singapore resident personal income tax for YA 2024, YA 2025 and YA 2026. Its optional worksheet derives chargeable income from user-confirmed income, deduction and relief totals. TaxCraft performs the arithmetic but does not determine residency, income classification or eligibility for deductions and reliefs.
+The official API maintains:
 
-Each jurisdiction supports no more than three tax years at a time. Older versions are retired from the calculator and API.
+- Singapore resident personal income tax for YA 2024, YA 2025 and YA 2026. Its optional worksheet derives chargeable income from user-confirmed income, deduction and relief totals.
+- UK non-savings Income Tax for England, Wales and Northern Ireland for 2024–25, 2025–26 and 2026–27. The caller supplies user-confirmed adjusted net income. Scotland, savings, dividends and National Insurance are excluded.
+
+TaxCraft performs arithmetic but does not determine residency, territorial status, income classification or eligibility for deductions and reliefs.
+
+Each jurisdiction supports no more than three tax years at a time. Older versions are retired from the API and active maintenance.
 
 ## Run locally
 
@@ -20,7 +25,7 @@ npm run build
 npm start
 ```
 
-Open `http://localhost:3000` to use the reference calculator. The same process serves the stateless API and `GET /openapi.json`.
+Open `http://localhost:3000` to use the Singapore reference calculator. The same process serves all maintained packages through the stateless API and `GET /openapi.json`.
 
 ## Client examples
 
@@ -49,11 +54,11 @@ See `docs/deployment.md` for the required secrets, live acceptance and rollback 
 npm run check
 ```
 
-CI also builds the service image, exercises jurisdiction discovery and a Singapore calculation, and verifies that the service does not set cookies.
+CI builds and tests all packages, then builds the service image and verifies the stateless API behavior.
 
 ## Current-source maintenance
 
-A scheduled workflow checks the allowlisted official IRAS rate page. Two separate extractors must agree before a candidate is generated. The workflow then runs the complete repository check, opens a bot pull request and merges the checked candidate. Ambiguous or incomplete changes fail without modifying the calculator.
+A scheduled workflow checks allowlisted IRAS and HMRC publications. Each jurisdiction uses two separate extractors that must produce the same structured observation before a candidate is generated. The workflow runs the complete repository check, opens a bot pull request and merges only the checked candidate. Ambiguous or incomplete changes leave the current models untouched.
 
 ```bash
 npm run watch:sources
@@ -72,4 +77,4 @@ A blocked source watch opens or updates one public operational issue. A later su
 - `CONTRIBUTING.md` — contribution and tax-correction requirements
 - `SECURITY.md` — private vulnerability reporting
 
-The official calculator loads only country packages maintained in this repository. External packages may implement the public SDK in their own repositories; TaxCraft does not review, list or endorse them.
+The official API loads only country packages maintained in this repository. External packages may implement the public SDK in their own repositories; TaxCraft does not review, list or endorse them.

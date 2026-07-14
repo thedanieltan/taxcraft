@@ -1,0 +1,17 @@
+{
+  "name": "@taxcraft/country-gb",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "Official UK employment income tax package for England, Wales and Northern Ireland.",
+  "exports": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@taxcraft/country-sdk": "0.1.0"
+  },
+  "scripts": {
+    "build": "node ../../scripts/build-country-gb.mjs"
+  }
+}

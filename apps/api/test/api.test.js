@@ -5,20 +5,29 @@ import { createApi, OPENAPI_DOCUMENT } from "../src/app.js";
 
 const api = createApi();
 
-test("lists Singapore and exposes supported-year coverage with official sources", async () => {
+test("lists maintained jurisdictions and exposes source-linked coverage", async () => {
   const list = await api.handle({ method: "GET", path: "/v1/jurisdictions" });
   assert.equal(list.status, 200);
-  assert.equal(list.body.jurisdictions[0].jurisdiction, "SG");
+  assert.deepEqual(list.body.jurisdictions.map((entry) => entry.jurisdiction), ["SG", "GB"]);
   assert.deepEqual(
     list.body.jurisdictions[0].taxYears.map((entry) => entry.taxYear),
     ["YA2024", "YA2025", "YA2026"]
   );
+  assert.deepEqual(
+    list.body.jurisdictions[1].taxYears.map((entry) => entry.taxYear),
+    ["2024-25", "2025-26", "2026-27"]
+  );
 
-  const coverage = await api.handle({ method: "GET", path: "/v1/jurisdictions/SG/YA2026/coverage" });
-  assert.equal(coverage.status, 200);
-  assert.equal(coverage.body.status, "current");
-  assert.ok(coverage.body.coverage.supported.length > 0);
-  assert.ok(coverage.body.sources.every((source) => source.url.startsWith("https://www.iras.gov.sg/")));
+  const singaporeCoverage = await api.handle({ method: "GET", path: "/v1/jurisdictions/SG/YA2026/coverage" });
+  assert.equal(singaporeCoverage.status, 200);
+  assert.equal(singaporeCoverage.body.status, "current");
+  assert.ok(singaporeCoverage.body.sources.every((source) => source.url.startsWith("https://www.iras.gov.sg/")));
+
+  const ukCoverage = await api.handle({ method: "GET", path: "/v1/jurisdictions/GB/2026-27/coverage" });
+  assert.equal(ukCoverage.status, 200);
+  assert.equal(ukCoverage.body.status, "current");
+  assert.ok(ukCoverage.body.coverage.unsupported.includes("Scotland"));
+  assert.ok(ukCoverage.body.sources.every((source) => source.url.startsWith("https://www.gov.uk/")));
 });
 
 test("calculates through the official Singapore package and returns cited sources", async () => {
@@ -39,6 +48,27 @@ test("calculates through the official Singapore package and returns cited source
   assert.ok(response.body.sources.some((source) => source.sourceId === "sg-iras-resident-rates-ya2024-onwards"));
   assert.equal(response.headers["cache-control"], "no-store");
   assert.equal(response.headers["set-cookie"], undefined);
+});
+
+test("calculates UK non-savings Income Tax and returns HMRC sources", async () => {
+  const response = await api.handle({
+    method: "POST",
+    path: "/v1/calculate",
+    body: {
+      jurisdiction: "GB",
+      taxYear: "2026-27",
+      facts: {
+        territory: "England",
+        nonSavingsIncomeMinor: 3_500_000,
+        adjustedNetIncomeMinor: 3_500_000
+      }
+    }
+  });
+
+  assert.equal(response.status, 200);
+  assert.equal(response.body.status, "ok");
+  assert.equal(response.body.totals.incomeTaxMinor, 448_600);
+  assert.deepEqual(response.body.sources.map((source) => source.sourceId), ["gb-hmrc-income-tax-rates-current-and-past"]);
 });
 
 test("rejects identity-bearing facts and never logs the submitted values", async () => {

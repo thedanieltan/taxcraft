@@ -1,9 +1,10 @@
 import { createTaxCraft } from "@taxcraft/core";
+import { ukPackage } from "@taxcraft/country-gb";
 import { calculateChargeableIncomeWorksheet, singaporePackage } from "@taxcraft/country-sg";
 
-const engine = createTaxCraft({ countryPackages: [singaporePackage] });
-const manifest = singaporePackage.manifest;
-const sources = singaporePackage.sources;
+const countryPackages = Object.freeze([singaporePackage, ukPackage]);
+const packagesByJurisdiction = new Map(countryPackages.map((countryPackage) => [countryPackage.manifest.jurisdiction, countryPackage]));
+const engine = createTaxCraft({ countryPackages });
 
 export const OPENAPI_DOCUMENT = Object.freeze({
   openapi: "3.1.0",
@@ -37,27 +38,30 @@ export function createApi({ logger = () => {} } = {}) {
 
       if (method === "GET" && pathname === "/v1/jurisdictions") {
         return json(200, {
-          jurisdictions: [jurisdictionSummary()]
+          jurisdictions: countryPackages.map(jurisdictionSummary)
         });
       }
 
-      if (method === "GET" && pathname === "/v1/jurisdictions/SG") {
-        return json(200, jurisdictionDetail());
+      const jurisdictionMatch = pathname.match(/^\/v1\/jurisdictions\/([A-Z]{2})$/);
+      if (method === "GET" && jurisdictionMatch) {
+        const countryPackage = packagesByJurisdiction.get(jurisdictionMatch[1]);
+        return countryPackage ? json(200, jurisdictionDetail(countryPackage)) : notFound();
       }
 
       const coverageMatch = pathname.match(/^\/v1\/jurisdictions\/([A-Z]{2})\/([^/]+)\/coverage$/);
       if (method === "GET" && coverageMatch) {
         const [, jurisdiction, taxYear] = coverageMatch;
-        if (jurisdiction !== manifest.jurisdiction) return notFound();
-        const version = manifest.taxYears.find((entry) => entry.taxYear === taxYear);
+        const countryPackage = packagesByJurisdiction.get(jurisdiction);
+        if (!countryPackage) return notFound();
+        const version = countryPackage.manifest.taxYears.find((entry) => entry.taxYear === taxYear);
         if (!version) return notFound();
         return json(200, {
           jurisdiction,
           taxYear,
           modelVersion: version.modelVersion,
           status: version.status,
-          coverage: singaporePackage.coverage(taxYear),
-          sources: structuredClone(sources)
+          coverage: countryPackage.coverage(taxYear),
+          sources: structuredClone(countryPackage.sources)
         });
       }
 
@@ -69,7 +73,7 @@ export function createApi({ logger = () => {} } = {}) {
         }
 
         const result = calculateChargeableIncomeWorksheet(parsed.value?.facts);
-        const resultSources = sourcesForLines(result.lines);
+        const resultSources = sourcesForLines(result.lines, singaporePackage.sources);
         logger({ event: "worksheet_completed", status: result.status, jurisdiction: "SG" });
         return json(result.status === "ok" ? 200 : 400, {
           ...result,
@@ -88,7 +92,8 @@ export function createApi({ logger = () => {} } = {}) {
         const request = parsed.value;
         const result = await engine.calculate(request);
         const httpStatus = result.status === "ok" ? 200 : result.status === "invalid" ? 400 : 422;
-        const resultSources = sourcesForLines(result.lines);
+        const countryPackage = packagesByJurisdiction.get(request?.jurisdiction);
+        const resultSources = sourcesForLines(result.lines, countryPackage?.sources ?? []);
 
         logger({
           event: "calculation_completed",
@@ -123,25 +128,25 @@ function parseBody(body) {
   }
 }
 
-function sourcesForLines(lines = []) {
+function sourcesForLines(lines = [], sources = []) {
   const referencedSourceIds = new Set(lines.flatMap((line) => line.sourceIds ?? []));
   return sources.filter((source) => referencedSourceIds.has(source.sourceId));
 }
 
-function jurisdictionSummary() {
+function jurisdictionSummary(countryPackage) {
   return {
-    jurisdiction: manifest.jurisdiction,
-    name: manifest.name,
-    taxYears: structuredClone(manifest.taxYears)
+    jurisdiction: countryPackage.manifest.jurisdiction,
+    name: countryPackage.manifest.name,
+    taxYears: structuredClone(countryPackage.manifest.taxYears)
   };
 }
 
-function jurisdictionDetail() {
+function jurisdictionDetail(countryPackage) {
   return {
-    ...jurisdictionSummary(),
-    storesUserPII: manifest.storesUserPII,
-    advisory: manifest.advisory,
-    sources: structuredClone(sources)
+    ...jurisdictionSummary(countryPackage),
+    storesUserPII: countryPackage.manifest.storesUserPII,
+    advisory: countryPackage.manifest.advisory,
+    sources: structuredClone(countryPackage.sources)
   };
 }
 

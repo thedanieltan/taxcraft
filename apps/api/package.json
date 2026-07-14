@@ -7,6 +7,7 @@
   "exports": "./src/app.js",
   "dependencies": {
     "@taxcraft/core": "0.1.0",
+    "@taxcraft/country-gb": "0.1.0",
     "@taxcraft/country-sg": "0.1.0"
   },
   "scripts": {
