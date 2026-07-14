@@ -13,7 +13,7 @@
     <header class="hero">
       <p class="eyebrow">TaxCraft</p>
       <h1>Singapore personal income tax estimate</h1>
-      <p>Calculate resident income tax from chargeable income using a supported IRAS Year of Assessment.</p>
+      <p>Enter supported income and user-confirmed deduction or relief totals. TaxCraft derives chargeable income and applies the selected IRAS Year of Assessment.</p>
     </header>
 
     <section class="panel" aria-labelledby="calculator-title">
@@ -22,12 +22,28 @@
         <label for="tax-year">Year of Assessment</label>
         <select id="tax-year" required></select>
 
-        <label for="chargeable-income">Chargeable income (SGD, whole dollars)</label>
-        <input id="chargeable-income" type="number" min="0" step="1" inputmode="numeric" required>
+        <fieldset>
+          <legend>Income</legend>
+          <label for="employment-income">Employment income (SGD, whole dollars)</label>
+          <input id="employment-income" type="number" min="0" step="1" inputmode="numeric" required>
+
+          <label for="other-taxable-income">Other taxable income (SGD, whole dollars)</label>
+          <input id="other-taxable-income" type="number" min="0" step="1" inputmode="numeric" value="0" required>
+        </fieldset>
+
+        <fieldset>
+          <legend>User-confirmed deductions and reliefs</legend>
+          <label for="allowable-deductions">Allowable deductions total (SGD, whole dollars)</label>
+          <input id="allowable-deductions" type="number" min="0" step="1" inputmode="numeric" value="0" required>
+
+          <label for="personal-reliefs">Personal reliefs total (SGD, whole dollars)</label>
+          <input id="personal-reliefs" type="number" min="0" step="1" inputmode="numeric" value="0" required>
+          <p class="help">Use amounts you have already confirmed from official IRAS guidance. TaxCraft does not determine whether you qualify.</p>
+        </fieldset>
 
         <label class="confirmation" for="resident-confirmation">
           <input id="resident-confirmation" type="checkbox" required>
-          <span>I have already confirmed that this is a Singapore tax-resident case and that chargeable income has been determined.</span>
+          <span>I have confirmed Singapore tax residency, which income is taxable, and my eligibility and amounts for deductions and personal reliefs.</span>
         </label>
 
         <button type="submit">Calculate estimate</button>
@@ -46,7 +62,7 @@
         <p id="result-total" class="total"></p>
       </div>
 
-      <h3>Calculation</h3>
+      <h3>Worksheet and calculation</h3>
       <dl id="totals" class="totals"></dl>
 
       <h3>Rules applied</h3>
