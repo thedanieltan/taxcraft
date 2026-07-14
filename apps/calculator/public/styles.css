@@ -38,6 +38,15 @@ h2 { margin-top: 0; }
 h3 { margin: 1.75rem 0 .75rem; font-size: 1rem; }
 
 form { display: grid; gap: .75rem; }
+fieldset {
+  display: grid;
+  gap: .75rem;
+  margin: .5rem 0;
+  padding: 1rem;
+  border: 1px solid #d7dee4;
+  border-radius: 12px;
+}
+legend { padding: 0 .4rem; font-weight: 760; }
 label { font-weight: 680; }
 input, select, button {
   width: 100%;
@@ -56,7 +65,8 @@ input:focus, select:focus, button:focus { outline: 3px solid rgba(49, 95, 120, .
 button { border: 0; padding: .9rem 1rem; background: #173f54; color: #fff; font-weight: 750; cursor: pointer; }
 button:hover { background: #0e3245; }
 
-.privacy, footer { color: #64717d; font-size: .88rem; line-height: 1.55; }
+.help, .privacy, footer { color: #64717d; font-size: .88rem; line-height: 1.55; }
+.help { margin: -.15rem 0 .25rem; }
 .message { border-radius: 12px; padding: 1rem; margin-bottom: 1.25rem; background: #fff3d6; border: 1px solid #e9ca7c; }
 .result-heading { display: flex; gap: 1rem; align-items: flex-start; justify-content: space-between; }
 .total { margin: 0; font-size: clamp(1.75rem, 6vw, 2.6rem); font-weight: 800; letter-spacing: -.04em; }
