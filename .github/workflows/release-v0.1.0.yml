@@ -1,0 +1,48 @@
+name: Release v0.1.0
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "release/v0.1.0.md"
+      - "scripts/build-release.mjs"
+      - ".github/workflows/release-v0.1.0.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: taxcraft-release-v0.1.0
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - name: Build release archive
+        shell: bash
+        run: tar -C dist-release -czf taxcraft-v0.1.0-contracts.tar.gz taxcraft-v0.1.0
+      - name: Create immutable GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view v0.1.0 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release v0.1.0 already exists; leaving it unchanged."
+            exit 0
+          fi
+          gh release create v0.1.0 \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "TaxCraft v0.1.0" \
+            --notes-file release/v0.1.0.md \
+            taxcraft-v0.1.0-contracts.tar.gz
