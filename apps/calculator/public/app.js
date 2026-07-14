@@ -1,6 +1,9 @@
 const form = document.querySelector("#tax-form");
 const taxYear = document.querySelector("#tax-year");
-const income = document.querySelector("#chargeable-income");
+const employmentIncome = document.querySelector("#employment-income");
+const otherTaxableIncome = document.querySelector("#other-taxable-income");
+const allowableDeductions = document.querySelector("#allowable-deductions");
+const personalReliefs = document.querySelector("#personal-reliefs");
 const resident = document.querySelector("#resident-confirmation");
 const message = document.querySelector("#message");
 const result = document.querySelector("#result");
@@ -12,18 +15,43 @@ form.addEventListener("submit", async (event) => {
   clearMessage();
   result.hidden = true;
 
-  const dollars = Number(income.value);
-  if (!Number.isSafeInteger(dollars) || dollars < 0) {
-    showMessage("Chargeable income must be a non-negative whole-dollar amount.");
+  const values = {
+    employmentIncome: readWholeDollars(employmentIncome),
+    otherTaxableIncome: readWholeDollars(otherTaxableIncome),
+    allowableDeductions: readWholeDollars(allowableDeductions),
+    personalReliefs: readWholeDollars(personalReliefs)
+  };
+
+  if (Object.values(values).some((value) => value === null)) {
+    showMessage("All amounts must be non-negative whole Singapore-dollar values.");
     return;
   }
   if (!resident.checked) {
-    showMessage("Confirm the supported resident-tax and chargeable-income boundary before calculating.");
+    showMessage("Confirm the supported residency, income classification and deduction or relief boundary before calculating.");
     return;
   }
 
   try {
-    const response = await fetch("/v1/calculate", {
+    const worksheetResponse = await fetch("/v1/worksheets/SG/chargeable-income", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        facts: {
+          employmentIncomeMinor: values.employmentIncome * 100,
+          otherTaxableIncomeMinor: values.otherTaxableIncome * 100,
+          allowableDeductionsMinor: values.allowableDeductions * 100,
+          personalReliefsMinor: values.personalReliefs * 100,
+          eligibilityConfirmed: true
+        }
+      })
+    });
+    const worksheet = await worksheetResponse.json();
+    if (!worksheetResponse.ok || worksheet.status !== "ok") {
+      showMessage(issueMessage(worksheet, "The chargeable-income worksheet is not supported."));
+      return;
+    }
+
+    const taxResponse = await fetch("/v1/calculate", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
@@ -31,16 +59,17 @@ form.addEventListener("submit", async (event) => {
         taxYear: taxYear.value,
         facts: {
           taxResident: true,
-          chargeableIncomeMinor: dollars * 100
+          chargeableIncomeMinor: worksheet.totals.chargeableIncomeMinor
         }
       })
     });
-    const payload = await response.json();
-    if (!response.ok || payload.status !== "ok") {
-      showMessage(payload.issues?.map((issue) => issue.message).join(" ") || payload.message || "The calculation is not supported.");
+    const tax = await taxResponse.json();
+    if (!taxResponse.ok || tax.status !== "ok") {
+      showMessage(issueMessage(tax, "The tax calculation is not supported."));
       return;
     }
-    renderResult(payload);
+
+    renderResult(combineResults(worksheet, tax));
   } catch {
     showMessage("The calculator could not reach the TaxCraft API.");
   }
@@ -62,12 +91,32 @@ async function loadJurisdictions() {
   }
 }
 
+function combineResults(worksheet, tax) {
+  return {
+    ...tax,
+    worksheetTotals: worksheet.totals,
+    lines: [...worksheet.lines, ...tax.lines],
+    sources: uniqueBy([...worksheet.sources, ...tax.sources], (source) => source.sourceId),
+    assumptions: [...new Set([...worksheet.assumptions, ...tax.assumptions])],
+    coverage: {
+      supported: [...new Set([...worksheet.coverage.supported, ...tax.coverage.supported])],
+      unsupported: [...new Set([...worksheet.coverage.unsupported, ...tax.coverage.unsupported])]
+    }
+  };
+}
+
 function renderResult(payload) {
   document.querySelector("#result-year").textContent = payload.taxYear;
   document.querySelector("#result-total").textContent = formatMoney(payload.totals.netTaxPayableMinor, payload.currency);
 
   const totals = document.querySelector("#totals");
   totals.replaceChildren();
+  addTotal(totals, "Employment income", payload.worksheetTotals.employmentIncomeMinor, payload.currency);
+  addTotal(totals, "Other taxable income", payload.worksheetTotals.otherTaxableIncomeMinor, payload.currency);
+  addTotal(totals, "Total taxable income entered", payload.worksheetTotals.totalIncomeMinor, payload.currency);
+  addTotal(totals, "Allowable deductions", -payload.worksheetTotals.allowableDeductionsMinor, payload.currency);
+  addTotal(totals, "Assessable income", payload.worksheetTotals.assessableIncomeMinor, payload.currency);
+  addTotal(totals, "Personal reliefs", -Math.min(payload.worksheetTotals.personalReliefsMinor, payload.worksheetTotals.assessableIncomeMinor), payload.currency);
   addTotal(totals, "Chargeable income", payload.totals.chargeableIncomeMinor, payload.currency);
   addTotal(totals, "Gross tax", payload.totals.grossTaxMinor, payload.currency);
   addTotal(totals, "Personal Income Tax Rebate", -payload.totals.personalIncomeTaxRebateMinor, payload.currency);
@@ -104,6 +153,25 @@ function renderResult(payload) {
 
   result.hidden = false;
   result.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function readWholeDollars(input) {
+  const value = Number(input.value);
+  return Number.isSafeInteger(value) && value >= 0 ? value : null;
+}
+
+function issueMessage(payload, fallback) {
+  return payload.issues?.map((issue) => issue.message).join(" ") || payload.message || fallback;
+}
+
+function uniqueBy(values, key) {
+  const seen = new Set();
+  return values.filter((value) => {
+    const identifier = key(value);
+    if (seen.has(identifier)) return false;
+    seen.add(identifier);
+    return true;
+  });
 }
 
 function addTotal(container, label, valueMinor, currency) {
