@@ -24,11 +24,29 @@ jobs:
           cache: npm
       - run: npm ci --silent
       - run: npm run build --silent >/dev/null
-      - name: API tests
-        shell: bash
-        run: |
-          set +e
-          node --test apps/api/test/api.test.js apps/api/test/worksheet.test.js > /tmp/api-test.log 2>&1
-          status=$?
-          cat /tmp/api-test.log
-          exit "$status"
+      - name: Jurisdiction discovery
+        run: node --test --test-name-pattern="lists maintained jurisdictions" apps/api/test/api.test.js
+      - name: Singapore calculation
+        if: always()
+        run: node --test --test-name-pattern="calculates through the official Singapore" apps/api/test/api.test.js
+      - name: UK calculation
+        if: always()
+        run: node --test --test-name-pattern="calculates UK non-savings" apps/api/test/api.test.js
+      - name: Privacy logging
+        if: always()
+        run: node --test --test-name-pattern="rejects identity-bearing" apps/api/test/api.test.js
+      - name: OpenAPI document
+        if: always()
+        run: node --test --test-name-pattern="serves a small OpenAPI" apps/api/test/api.test.js
+      - name: Not-found response
+        if: always()
+        run: node --test --test-name-pattern="returns explicit not-found" apps/api/test/api.test.js
+      - name: Worksheet OpenAPI
+        if: always()
+        run: node --test --test-name-pattern="OpenAPI exposes" apps/api/test/worksheet.test.js
+      - name: Worksheet calculation
+        if: always()
+        run: node --test --test-name-pattern="worksheet endpoint returns" apps/api/test/worksheet.test.js
+      - name: Worksheet identity rejection
+        if: always()
+        run: node --test --test-name-pattern="worksheet endpoint rejects" apps/api/test/worksheet.test.js
