@@ -1,6 +1,6 @@
 export const UK_SOURCES = Object.freeze([
   {
-    sourceId: "gb-hmrc-income-tax-rates-2024-2027",
+    sourceId: "gb-hmrc-income-tax-rates-current-and-past",
     publisher: "HM Revenue & Customs",
     publisherType: "tax-authority",
     title: "Income Tax rates and allowances for current and previous tax years",
