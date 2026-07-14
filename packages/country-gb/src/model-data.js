@@ -13,31 +13,23 @@ const COMMON = Object.freeze({
   sourceIds: [SOURCE_ID]
 });
 
+function model(taxYear, order, status) {
+  return {
+    taxYear,
+    order,
+    ...COMMON,
+    modelVersion: "1.0.0",
+    status
+  };
+}
+
 export const UK_MODEL_DATA = Object.freeze({
   schemaVersion: 1,
   jurisdiction: "GB",
   taxYears: [
-    {
-      taxYear: "2024-25",
-      modelVersion: "1.0.0",
-      status: "historical-supported",
-      order: 2024,
-      ...COMMON
-    },
-    {
-      taxYear: "2025-26",
-      modelVersion: "1.0.0",
-      status: "historical-supported",
-      order: 2025,
-      ...COMMON
-    },
-    {
-      taxYear: "2026-27",
-      modelVersion: "1.0.0",
-      status: "current",
-      order: 2026,
-      ...COMMON
-    }
+    model("2024-25", 2024, "historical-supported"),
+    model("2025-26", 2025, "historical-supported"),
+    model("2026-27", 2026, "current")
   ]
 });
 
