@@ -11,6 +11,18 @@ The reference service is stateless. It does not create accounts, set cookies or 
 - `POST /v1/calculate`
 - `GET /openapi.json`
 
+## Browser access
+
+API responses include a credential-free public CORS policy:
+
+```text
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET, POST, OPTIONS
+Access-Control-Allow-Headers: content-type
+```
+
+TaxCraft does not support cookies or credentialed browser requests. External clients remain responsible for explaining what they transmit and must not add identity fields to TaxCraft payloads.
+
 ## Singapore chargeable-income worksheet
 
 The worksheet performs arithmetic on totals whose classification and eligibility the caller has already confirmed.
@@ -45,3 +57,8 @@ The successful response includes `chargeableIncomeMinor`, calculation lines, ass
 All money values use Singapore cents and must represent whole-dollar amounts. The resident status and chargeable income must already have been determined by the caller or by the TaxCraft worksheet using user-confirmed totals.
 
 Every successful calculation includes the calculation lines, assumptions, coverage limits and official sources used by those lines.
+
+## Examples
+
+- `examples/node-client` demonstrates server-side consumption and structured error handling.
+- `examples/browser-client` demonstrates the credential-free CORS contract.
