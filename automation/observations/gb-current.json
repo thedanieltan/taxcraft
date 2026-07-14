@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "jurisdiction": "GB",
+  "sourceUrl": "https://www.gov.uk/government/publications/rates-and-allowances-income-tax/income-tax-rates-and-allowances-current-and-past",
+  "years": [
+    {
+      "taxYear": "2026-27",
+      "order": 2026,
+      "personalAllowancePounds": 12570,
+      "taperStartPounds": 100000,
+      "basicRateBandPounds": 37700,
+      "higherRateUpperPounds": 125140,
+      "additionalRateStartsAbovePounds": 125141
+    },
+    {
+      "taxYear": "2025-26",
+      "order": 2025,
+      "personalAllowancePounds": 12570,
+      "taperStartPounds": 100000,
+      "basicRateBandPounds": 37700,
+      "higherRateUpperPounds": 125140,
+      "additionalRateStartsAbovePounds": 125141
+    },
+    {
+      "taxYear": "2024-25",
+      "order": 2024,
+      "personalAllowancePounds": 12570,
+      "taperStartPounds": 100000,
+      "basicRateBandPounds": 37700,
+      "higherRateUpperPounds": 125140,
+      "additionalRateStartsAbovePounds": 125141
+    },
+    {
+      "taxYear": "2023-24",
+      "order": 2023,
+      "personalAllowancePounds": 12570,
+      "taperStartPounds": 100000,
+      "basicRateBandPounds": 37700,
+      "higherRateUpperPounds": 125140,
+      "additionalRateStartsAbovePounds": 125141
+    }
+  ],
+  "ambiguities": [],
+  "retrievedAt": "2026-07-14"
+}
