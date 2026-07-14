@@ -8,7 +8,7 @@ TaxCraft does not store user calculation data. It does not provide tax, legal, a
 
 ## Supported package
 
-The official service currently supports Singapore resident personal income tax for YA 2024, YA 2025 and YA 2026. The caller supplies confirmed resident status and whole-dollar chargeable income. TaxCraft does not determine residency, derive chargeable income or decide relief eligibility.
+The official service currently supports Singapore resident personal income tax for YA 2024, YA 2025 and YA 2026. Its optional worksheet derives chargeable income from user-confirmed income, deduction and relief totals. TaxCraft performs the arithmetic but does not determine residency, income classification or eligibility for deductions and reliefs.
 
 Each jurisdiction supports no more than three tax years at a time. Older versions are retired from the calculator and API.
 
@@ -28,7 +28,7 @@ Open `http://localhost:3000` to use the reference calculator. The same process s
 docker compose up --build taxcraft
 ```
 
-The container runs as a non-root user. The Compose service uses a read-only filesystem, drops Linux capabilities and does not persist calculation requests or results.
+The container runs as a non-root user. The Compose service uses a read-only filesystem, drops Linux capabilities and does not persist worksheet requests, calculation requests or results.
 
 ## Deploy to Cloudflare
 
@@ -57,7 +57,7 @@ A blocked source watch opens or updates one public operational issue. A later su
 ## Project documents
 
 - `docs/product.md` — product scope
-- `docs/api.md` — API contract and example
+- `docs/api.md` — API contract and examples
 - `docs/deployment.md` — Cloudflare deployment and live acceptance
 - `docs/autonomous-maintenance.md` — source admission and lifecycle
 - `docs/operations.md` — operational and rollback procedures
