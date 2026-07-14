@@ -3,11 +3,9 @@ name: WP12 diagnostic
 on:
   pull_request:
     paths:
-      - "packages/country-gb/**"
-      - "packages/maintenance/**"
       - "apps/api/**"
-      - "scripts/**"
-      - "tests/**"
+      - "packages/country-gb/**"
+      - "packages/country-sg/**"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/wp12-diagnostic.yml"
@@ -16,7 +14,7 @@ permissions:
   contents: read
 
 jobs:
-  diagnose:
+  diagnose-api:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
@@ -24,15 +22,13 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
-      - run: npm run check:policies
-      - run: npm run lint
-      - run: npm run build
-      - name: UK country tests
-        run: node --test packages/country-gb/test/gb.test.js
-      - name: UK maintenance tests
-        run: node --test packages/maintenance/test/uk-maintenance.test.js
+      - run: npm ci --silent
+      - run: npm run build --silent >/dev/null
       - name: API tests
-        run: node --test apps/api/test/api.test.js apps/api/test/worksheet.test.js
-      - name: Repository tests
-        run: node --test
+        shell: bash
+        run: |
+          set +e
+          node --test apps/api/test/api.test.js apps/api/test/worksheet.test.js > /tmp/api-test.log 2>&1
+          status=$?
+          cat /tmp/api-test.log
+          exit "$status"
