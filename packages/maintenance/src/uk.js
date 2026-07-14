@@ -38,10 +38,10 @@ export function extractUkIndependent(html, sourceUrl) {
   const rateTableMatch = englandSection.match(/<table\b[^>]*>([\s\S]*?)<\/table>/i);
   const rateTable = rateTableMatch ? parseTable(rateTableMatch[1]) : [];
 
-  const allowanceHeader = allowanceTable?.[0] ?? [];
-  const rateHeader = rateTable[0] ?? [];
-  const years = allowanceHeader.slice(1).map(normalizeTaxYear).filter(Boolean);
-  const rateYears = rateHeader.slice(2).map(normalizeTaxYear).filter(Boolean);
+  const allowanceDataIndex = allowanceTable?.findIndex((row) => /^Personal Allowance$/i.test(row[0] ?? "")) ?? -1;
+  const rateDataIndex = rateTable.findIndex((row) => /^Starting rate for savings$/i.test(row[0] ?? ""));
+  const years = taxYearsFromRows(allowanceDataIndex > 0 ? allowanceTable.slice(0, allowanceDataIndex) : []);
+  const rateYears = taxYearsFromRows(rateDataIndex > 0 ? rateTable.slice(0, rateDataIndex) : []);
   if (!allowanceTable || !rateTable.length || years.join("|") !== rateYears.join("|")) {
     return observation(sourceUrl, [], ["official tables could not be aligned"]);
   }
@@ -217,6 +217,10 @@ function section(value, startPattern, endPattern) {
 
 function extractTaxYears(value) {
   return [...value.matchAll(/(20\d{2})\s+to\s+(20\d{2})/g)].map((match) => `${match[1]}-${match[2].slice(2)}`);
+}
+
+function taxYearsFromRows(rows) {
+  return [...new Set(rows.flat().map(normalizeTaxYear).filter(Boolean))];
 }
 
 function normalizeTaxYear(value) {
