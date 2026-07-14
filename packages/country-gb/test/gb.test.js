@@ -7,6 +7,7 @@ import { calculatePersonalAllowance, UK_MODEL_DATA, ukPackage } from "../src/ind
 
 const engine = createTaxCraft({ countryPackages: [ukPackage] });
 const currentModel = UK_MODEL_DATA.taxYears.at(-1);
+const SOURCE_ID = "gb-hmrc-income-tax-rates-current-and-past";
 
 async function calculate(incomePounds, adjustedNetIncomePounds = incomePounds, taxYear = "2026-27", territory = "England") {
   return engine.calculate({
@@ -80,8 +81,8 @@ test("fails closed for Scotland and unsupported fields", async () => {
 
 test("every UK tax line cites the declared HMRC source", async () => {
   const result = await calculate(150_000);
-  assert.deepEqual(new Set(result.lines.flatMap((line) => line.sourceIds)), new Set(["gb-hmrc-income-tax-rates-2024-2027"]));
-  assert.deepEqual(result.sources.map((source) => source.sourceId), ["gb-hmrc-income-tax-rates-2024-2027"]);
+  assert.deepEqual(new Set(result.lines.flatMap((line) => line.sourceIds)), new Set([SOURCE_ID]));
+  assert.deepEqual(result.sources.map((source) => source.sourceId), [SOURCE_ID]);
 });
 
 test("passes country package conformance", async () => {
