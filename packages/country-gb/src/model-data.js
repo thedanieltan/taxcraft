@@ -1,5 +1,5 @@
 const POUND = 100;
-const SOURCE_ID = "gb-hmrc-income-tax-rates-2024-2027";
+const SOURCE_ID = "gb-hmrc-income-tax-rates-current-and-past";
 
 const COMMON = Object.freeze({
   personalAllowanceMinor: 12_570 * POUND,
