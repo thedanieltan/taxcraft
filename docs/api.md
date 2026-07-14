@@ -54,9 +54,25 @@ The successful response includes `chargeableIncomeMinor`, calculation lines, ass
 }
 ```
 
-All money values use Singapore cents and must represent whole-dollar amounts. The resident status and chargeable income must already have been determined by the caller or by the TaxCraft worksheet using user-confirmed totals.
+Singapore money values use cents and must represent whole-dollar amounts. Resident status and chargeable income must already have been determined by the caller or by the TaxCraft worksheet using user-confirmed totals.
 
-Every successful calculation includes the calculation lines, assumptions, coverage limits and official sources used by those lines.
+## United Kingdom calculation request
+
+```json
+{
+  "jurisdiction": "GB",
+  "taxYear": "2026-27",
+  "facts": {
+    "territory": "England",
+    "nonSavingsIncomeMinor": 3500000,
+    "adjustedNetIncomeMinor": 3500000
+  }
+}
+```
+
+UK money values use pence and must represent whole-pound amounts. `territory` is limited to `England`, `Wales` or `Northern Ireland`. The caller must determine adjusted net income and territorial status. Scotland, savings, dividends, National Insurance and special allowances are not supported.
+
+Every successful calculation includes calculation lines, assumptions, coverage limits and the official sources used by those lines.
 
 ## Examples
 
