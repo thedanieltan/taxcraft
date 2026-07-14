@@ -1,5 +1,5 @@
 import { createTaxCraft } from "@taxcraft/core";
-import { singaporePackage } from "@taxcraft/country-sg";
+import { calculateChargeableIncomeWorksheet, singaporePackage } from "@taxcraft/country-sg";
 
 const engine = createTaxCraft({ countryPackages: [singaporePackage] });
 const manifest = singaporePackage.manifest;
@@ -16,6 +16,7 @@ export const OPENAPI_DOCUMENT = Object.freeze({
     "/v1/jurisdictions": { get: { summary: "List supported jurisdictions" } },
     "/v1/jurisdictions/{code}": { get: { summary: "Read jurisdiction metadata" } },
     "/v1/jurisdictions/{code}/{taxYear}/coverage": { get: { summary: "Read model coverage and official sources" } },
+    "/v1/worksheets/SG/chargeable-income": { post: { summary: "Derive Singapore chargeable income from user-confirmed totals" } },
     "/v1/calculate": { post: { summary: "Calculate a deterministic tax estimate" } },
     "/openapi.json": { get: { summary: "Read this OpenAPI document" } }
   }
@@ -56,22 +57,34 @@ export function createApi({ logger = () => {} } = {}) {
         });
       }
 
-      if (method === "POST" && pathname === "/v1/calculate") {
-        let request;
-        try {
-          request = typeof body === "string" ? JSON.parse(body) : structuredClone(body);
-        } catch {
+      if (method === "POST" && pathname === "/v1/worksheets/SG/chargeable-income") {
+        const parsed = parseBody(body);
+        if (!parsed.ok) {
           logger({ event: "invalid_request", reason: "invalid_json" });
-          return json(400, {
-            status: "invalid",
-            issues: [{ code: "request.json", path: "$", message: "Request body must be valid JSON." }]
-          });
+          return invalidJson();
         }
 
+        const result = calculateChargeableIncomeWorksheet(parsed.value?.facts);
+        const resultSources = sourcesForLines(result.lines);
+        logger({ event: "worksheet_completed", status: result.status, jurisdiction: "SG" });
+        return json(result.status === "ok" ? 200 : 400, {
+          ...result,
+          jurisdiction: "SG",
+          sources: structuredClone(resultSources)
+        });
+      }
+
+      if (method === "POST" && pathname === "/v1/calculate") {
+        const parsed = parseBody(body);
+        if (!parsed.ok) {
+          logger({ event: "invalid_request", reason: "invalid_json" });
+          return invalidJson();
+        }
+
+        const request = parsed.value;
         const result = await engine.calculate(request);
         const httpStatus = result.status === "ok" ? 200 : result.status === "invalid" ? 400 : 422;
-        const referencedSourceIds = new Set((result.lines ?? []).flatMap((line) => line.sourceIds ?? []));
-        const resultSources = sources.filter((source) => referencedSourceIds.has(source.sourceId));
+        const resultSources = sourcesForLines(result.lines);
 
         logger({
           event: "calculation_completed",
@@ -91,6 +104,22 @@ export function createApi({ logger = () => {} } = {}) {
   });
 }
 
+function parseBody(body) {
+  try {
+    return {
+      ok: true,
+      value: typeof body === "string" ? JSON.parse(body) : structuredClone(body)
+    };
+  } catch {
+    return { ok: false };
+  }
+}
+
+function sourcesForLines(lines = []) {
+  const referencedSourceIds = new Set(lines.flatMap((line) => line.sourceIds ?? []));
+  return sources.filter((source) => referencedSourceIds.has(source.sourceId));
+}
+
 function jurisdictionSummary() {
   return {
     jurisdiction: manifest.jurisdiction,
@@ -106,6 +135,13 @@ function jurisdictionDetail() {
     advisory: manifest.advisory,
     sources: structuredClone(sources)
   };
+}
+
+function invalidJson() {
+  return json(400, {
+    status: "invalid",
+    issues: [{ code: "request.json", path: "$", message: "Request body must be valid JSON." }]
+  });
 }
 
 function notFound() {
