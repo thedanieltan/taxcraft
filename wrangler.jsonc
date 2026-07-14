@@ -1,0 +1,22 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "taxcraft",
+  "main": "apps/worker/src/index.js",
+  "compatibility_date": "2026-07-14",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "assets": {
+    "directory": "./apps/calculator/public",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/v1/*",
+      "/openapi.json",
+      "/healthz",
+      "/readyz"
+    ]
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 0.1
+  }
+}

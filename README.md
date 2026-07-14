@@ -30,6 +30,12 @@ docker compose up --build taxcraft
 
 The container runs as a non-root user. The Compose service uses a read-only filesystem, drops Linux capabilities and does not persist calculation requests or results.
 
+## Deploy to Cloudflare
+
+`wrangler.jsonc` packages the stateless API Worker and the calculator assets as one deployment. Deployment is gated until the repository has scoped Cloudflare credentials and `CLOUDFLARE_DEPLOY_ENABLED=true`.
+
+See `docs/deployment.md` for the required secrets, live acceptance and rollback procedure.
+
 ## Check the repository
 
 ```bash
@@ -52,6 +58,7 @@ A blocked source watch opens or updates one public operational issue. A later su
 
 - `docs/product.md` — product scope
 - `docs/api.md` — API contract and example
+- `docs/deployment.md` — Cloudflare deployment and live acceptance
 - `docs/autonomous-maintenance.md` — source admission and lifecycle
 - `docs/operations.md` — operational and rollback procedures
 - `docs/release-policy.md` — model and contract versioning

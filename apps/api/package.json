@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "description": "Stateless HTTP API and reference web server for TaxCraft.",
+  "exports": "./src/app.js",
   "dependencies": {
     "@taxcraft/core": "0.1.0",
     "@taxcraft/country-sg": "0.1.0"

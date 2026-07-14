@@ -1,0 +1,13 @@
+{
+  "name": "@taxcraft/worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Cloudflare Worker adapter for the stateless TaxCraft API and calculator.",
+  "dependencies": {
+    "@taxcraft/api": "0.1.0"
+  },
+  "scripts": {
+    "build": "node --check src/index.js"
+  }
+}
