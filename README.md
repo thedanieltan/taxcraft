@@ -22,6 +22,13 @@ npm start
 
 Open `http://localhost:3000` to use the reference calculator. The same process serves the stateless API and `GET /openapi.json`.
 
+## Client examples
+
+- `examples/node-client` — dependency-free Node client and runnable example;
+- `examples/browser-client` — dependency-free cross-origin browser client.
+
+The public API permits credential-free CORS requests. It does not permit cookies or authenticated browser credentials.
+
 ## Run with Docker
 
 ```bash
