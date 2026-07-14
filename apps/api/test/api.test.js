@@ -68,7 +68,7 @@ test("calculates UK non-savings Income Tax and returns HMRC sources", async () =
   assert.equal(response.status, 200);
   assert.equal(response.body.status, "ok");
   assert.equal(response.body.totals.incomeTaxMinor, 448_600);
-  assert.deepEqual(response.body.sources.map((source) => source.sourceId), ["gb-hmrc-income-tax-rates-2024-2027"]);
+  assert.deepEqual(response.body.sources.map((source) => source.sourceId), ["gb-hmrc-income-tax-rates-current-and-past"]);
 });
 
 test("rejects identity-bearing facts and never logs the submitted values", async () => {
