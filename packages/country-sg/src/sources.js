@@ -22,5 +22,21 @@ export const SINGAPORE_SOURCES = Object.freeze([
     title: "Sample Income Tax calculations",
     url: "https://www.iras.gov.sg/taxes/individual-income-tax/basics-of-individual-income-tax/tax-residency-and-tax-rates/sample-income-tax-calculations",
     retrievedAt: "2026-07-13"
+  },
+  {
+    sourceId: "sg-iras-what-is-taxable",
+    publisher: "Inland Revenue Authority of Singapore",
+    publisherType: "tax-authority",
+    title: "What is taxable, what is not",
+    url: "https://www.iras.gov.sg/taxes/individual-income-tax/basics-of-individual-income-tax/what-is-taxable-what-is-not",
+    retrievedAt: "2026-07-14"
+  },
+  {
+    sourceId: "sg-iras-reliefs-rebates-deductions",
+    publisher: "Inland Revenue Authority of Singapore",
+    publisherType: "tax-authority",
+    title: "Tax reliefs, rebates and deductions",
+    url: "https://www.iras.gov.sg/taxes/individual-income-tax/basics-of-individual-income-tax/tax-reliefs-rebates-and-deductions",
+    retrievedAt: "2026-07-14"
   }
 ]);
