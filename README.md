@@ -17,6 +17,18 @@ TaxCraft performs arithmetic but does not determine residency, territorial statu
 
 Each jurisdiction supports no more than three tax years at a time. Older versions are retired from the API and active maintenance.
 
+## Global PIT programme
+
+TaxCraft maintains a canonical implementation backlog for every ISO 3166-1 country or territory in `catalog/pit-jurisdictions.json`. Jurisdictions remain visible from initial rule mapping through implementation, deployment, live acceptance and maintenance.
+
+The programme maps every personal income tax system and implements calculators from the simplest calculation families through the most complex. Complexity controls sequencing, not inclusion.
+
+```bash
+npm run check:catalog
+```
+
+See `docs/global-pit-roadmap.md` for the programme and `docs/jurisdiction-register.md` for the register contract.
+
 ## Run locally
 
 ```bash
@@ -54,7 +66,7 @@ See `docs/deployment.md` for the required secrets, live acceptance and rollback 
 npm run check
 ```
 
-CI builds and tests all packages, then builds the service image and verifies the stateless API behavior.
+CI validates the PIT catalogue, builds and tests all packages, then builds the service image and verifies the stateless API behavior.
 
 ## Current-source maintenance
 
@@ -69,6 +81,9 @@ A blocked source watch opens or updates one public operational issue. A later su
 ## Project documents
 
 - `docs/product.md` — product scope
+- `docs/global-pit-roadmap.md` — global PIT implementation programme
+- `docs/jurisdiction-register.md` — canonical jurisdiction backlog and lifecycle
+- `docs/calculation-families.md` — calculator sequencing families
 - `docs/api.md` — API contract and examples
 - `docs/deployment.md` — Cloudflare deployment and live acceptance
 - `docs/autonomous-maintenance.md` — source admission and lifecycle
