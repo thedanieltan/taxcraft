@@ -1,1 +1,627 @@
-{"schemaVersion":"1.1.0","taxDomain":"PIT","asOf":"2026-07-18","scope":{"standard":"ISO 3166-1","entityCount":249,"description":"Machine-readable personal income tax structure map aligned one-to-one with the TaxCraft jurisdiction register."},"classificationStatuses":["implemented","source-indexed","source-discovery"],"implemented":{"GB":{"calculationFamily":"PROGRESSIVE_RELIEFS","sourceIds":["TAXCRAFT_COUNTRY_GB","PWC_WWTS_PIT_QUICK_CHART"],"taxYearBasis":"tax-year","notes":"Maintained UK package covers non-savings Income Tax for England, Wales and Northern Ireland."},"SG":{"calculationFamily":"PROGRESSIVE_RELIEFS","sourceIds":["TAXCRAFT_COUNTRY_SG","PWC_WWTS_PIT_QUICK_CHART"],"taxYearBasis":"year-of-assessment","notes":"Maintained Singapore resident PIT package."}},"sourceIndexed":{"classificationConfidence":"provisional","sourceIds":["PWC_WWTS_PIT_QUICK_CHART","EY_WORLDWIDE_PERSONAL_TAX_2025_26"],"notes":"Calculation families are provisional implementation-planning candidates. Only EY full jurisdiction chapters are promoted; contact-only 'other jurisdictions' entries remain in source discovery. Official sources remain required when tax-year parameters are encoded.","families":{"NO_PIT":["AE","BH","BM","BN","BS","KW","KY","MC","OM","QA","SA","VG"],"FLAT_WITH_ALLOWANCE":["AM","BG","BO","EE","GE","HU","LY","MD","MK","RO","UA","UZ"],"SIMPLE_PROGRESSIVE":["BW","CY","CZ","DO","GT","HN","IQ","KH","LA","NZ","PA","PY","SS","TL","TT","ZM"],"PROGRESSIVE_RELIEFS":["AR","AT","AU","AW","BB","BD","BQ","BR","CD","CG","CI","CM","CV","DZ","EC","EG","ET","FJ","GA","GG","GH","GQ","GR","GY","ID","IL","IM","JE","JM","JO","KE","KR","KZ","LC","LK","LR","LS","MA","ME","MG","MM","MO","MR","MU","MY","MZ","NA","NC","NI","PE","PG","PH","PL","PR","PS","RW","SI","SK","SN","SR","ST","SV","SX","SZ","TD","TH","TN","TR","UG","VE","ZA","ZW"],"HOUSEHOLD_FILING":["DE","FR","IE","LU","MT","PT"],"MULTI_LAYER":["BA","BE","CA","CH","DK","ES","FI","GL","HR","IS","IT","JP","LI","SE"],"MULTI_SCHEDULE":["AL","AO","AZ","CL","CN","CO","CR","LB","LT","LV","MN","MV","MX","NG","PK","RS","TW","TZ","UY","VN"],"COMPLEX_COMPOSITE":["GI","GU","HK","IN","MP","NL","NO","US","VI"]},"evidenceGroups":{"PWC_WWTS_PIT_QUICK_CHART":["AE","AL","AM","AO","AR","AT","AU","AZ","BA","BB","BD","BE","BG","BH","BM","BN","BO","BR","BS","BW","CA","CD","CG","CH","CI","CL","CM","CN","CO","CR","CV","CY","CZ","DE","DK","DO","DZ","EC","EE","EG","ES","ET","FI","FR","GA","GE","GG","GH","GI","GL","GQ","GR","GT","GY","HK","HN","HR","HU","ID","IE","IL","IM","IN","IQ","IS","IT","JE","JM","JO","JP","KE","KH","KR","KW","KY","KZ","LA","LB","LC","LI","LR","LT","LU","LV","LY","MA","MD","ME","MG","MK","MM","MN","MO","MR","MT","MU","MX","MY","MZ","NA","NC","NG","NI","NL","NO","NZ","OM","PA","PE","PG","PH","PK","PL","PR","PS","PT","PY","QA","RO","RS","RW","SA","SE","SI","SK","SN","SV","SZ","TD","TH","TL","TN","TR","TT","TW","TZ","UA","UG","US","UY","UZ","VE","VN","ZA","ZM"],"EY_WORLDWIDE_PERSONAL_TAX_2025_26":["AW","BQ","FJ","GU","LK","LS","MC","MP","MV","SR","SS","ST","SX","VG","VI","ZW"]}},"sourceDiscovery":["AD","AF","AG","AI","AQ","AS","AX","BF","BI","BJ","BL","BT","BV","BY","BZ","CC","CF","CK","CU","CW","CX","DJ","DM","EH","ER","FK","FM","FO","GD","GF","GM","GN","GP","GS","GW","HM","HT","IO","IR","KG","KI","KM","KN","KP","MF","MH","ML","MQ","MS","MW","NE","NF","NP","NR","NU","PF","PM","PN","PW","RE","RU","SB","SC","SD","SH","SJ","SL","SM","SO","SY","TC","TF","TG","TJ","TK","TM","TO","TV","UM","VA","VC","VU","WF","WS","YE","YT"],"structuralOverrides":{"BA":{"taxLayers":{"national":true,"subnational":true,"local":false,"subdivisionRequired":true}},"BE":{"taxLayers":{"national":true,"subnational":false,"local":true,"subdivisionRequired":false}},"CA":{"taxLayers":{"national":true,"subnational":true,"local":true,"subdivisionRequired":true}},"CH":{"taxLayers":{"national":true,"subnational":true,"local":true,"subdivisionRequired":true}},"DE":{"taxUnit":"household-or-filing-status"},"DK":{"taxLayers":{"national":true,"subnational":false,"local":true,"subdivisionRequired":false}},"ES":{"taxLayers":{"national":true,"subnational":true,"local":true,"subdivisionRequired":true}},"FI":{"taxLayers":{"national":true,"subnational":false,"local":true,"subdivisionRequired":false}},"FR":{"taxUnit":"household-or-filing-status"},"GB":{"taxUnit":"individual"},"GL":{"taxLayers":{"national":true,"subnational":false,"local":true,"subdivisionRequired":false}},"HR":{"taxLayers":{"national":true,"subnational":false,"local":true,"subdivisionRequired":true}},"IE":{"taxUnit":"household-or-filing-status"},"IS":{"taxLayers":{"national":true,"subnational":false,"local":true,"subdivisionRequired":false}},"IT":{"taxLayers":{"national":true,"subnational":false,"local":true,"subdivisionRequired":false}},"JP":{"taxLayers":{"national":true,"subnational":false,"local":true,"subdivisionRequired":false}},"LI":{"taxLayers":{"national":true,"subnational":false,"local":true,"subdivisionRequired":false}},"LU":{"taxUnit":"household-or-filing-status"},"MT":{"taxUnit":"household-or-filing-status"},"OM":{"notes":"No ordinary PIT is in force as of the map date; a 5% PIT is scheduled from 1 January 2028."},"PT":{"taxUnit":"household-or-filing-status"},"SE":{"taxLayers":{"national":true,"subnational":false,"local":true,"subdivisionRequired":false}},"SG":{"taxUnit":"individual"},"US":{"taxLayers":{"national":true,"subnational":true,"local":true,"subdivisionRequired":true},"taxUnit":"filing-status"}}}
+{
+  "schemaVersion": "1.1.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-18",
+  "scope": {
+    "standard": "ISO 3166-1",
+    "entityCount": 249,
+    "description": "Machine-readable personal income tax structure map aligned one-to-one with the TaxCraft jurisdiction register."
+  },
+  "classificationStatuses": [
+    "implemented",
+    "source-indexed",
+    "source-discovery"
+  ],
+  "implemented": {
+    "GB": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": [
+        "TAXCRAFT_COUNTRY_GB",
+        "PWC_WWTS_PIT_QUICK_CHART"
+      ],
+      "taxYearBasis": "tax-year",
+      "notes": "Maintained UK package covers non-savings Income Tax for England, Wales and Northern Ireland."
+    },
+    "SG": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": [
+        "TAXCRAFT_COUNTRY_SG",
+        "PWC_WWTS_PIT_QUICK_CHART"
+      ],
+      "taxYearBasis": "year-of-assessment",
+      "notes": "Maintained Singapore resident PIT package."
+    }
+  },
+  "sourceIndexed": {
+    "classificationConfidence": "provisional",
+    "sourceIds": [
+      "PWC_WWTS_PIT_QUICK_CHART",
+      "EY_WORLDWIDE_PERSONAL_TAX_2025_26"
+    ],
+    "notes": "Calculation families are provisional implementation-planning candidates. Only EY full jurisdiction chapters are promoted; contact-only 'other jurisdictions' entries remain in source discovery. Official sources remain required when tax-year parameters are encoded.",
+    "families": {
+      "NO_PIT": [
+        "AE",
+        "BH",
+        "BM",
+        "BN",
+        "BS",
+        "KW",
+        "KY",
+        "MC",
+        "OM",
+        "QA",
+        "SA",
+        "VG"
+      ],
+      "FLAT_WITH_ALLOWANCE": [
+        "AM",
+        "BG",
+        "BO",
+        "EE",
+        "GE",
+        "HU",
+        "LY",
+        "MD",
+        "MK",
+        "RO",
+        "UA",
+        "UZ"
+      ],
+      "SIMPLE_PROGRESSIVE": [
+        "BW",
+        "CY",
+        "CZ",
+        "DO",
+        "GT",
+        "HN",
+        "IQ",
+        "KH",
+        "LA",
+        "NZ",
+        "PA",
+        "PY",
+        "SS",
+        "TL",
+        "TT",
+        "ZM"
+      ],
+      "PROGRESSIVE_RELIEFS": [
+        "AR",
+        "AT",
+        "AU",
+        "AW",
+        "BB",
+        "BD",
+        "BQ",
+        "BR",
+        "CD",
+        "CG",
+        "CI",
+        "CM",
+        "CV",
+        "DZ",
+        "EC",
+        "EG",
+        "ET",
+        "FJ",
+        "GA",
+        "GG",
+        "GH",
+        "GQ",
+        "GR",
+        "GY",
+        "ID",
+        "IL",
+        "IM",
+        "JE",
+        "JM",
+        "JO",
+        "KE",
+        "KR",
+        "KZ",
+        "LC",
+        "LK",
+        "LR",
+        "LS",
+        "MA",
+        "ME",
+        "MG",
+        "MM",
+        "MO",
+        "MR",
+        "MU",
+        "MY",
+        "MZ",
+        "NA",
+        "NC",
+        "NI",
+        "PE",
+        "PG",
+        "PH",
+        "PL",
+        "PR",
+        "PS",
+        "RW",
+        "SI",
+        "SK",
+        "SN",
+        "SR",
+        "ST",
+        "SV",
+        "SX",
+        "SZ",
+        "TD",
+        "TH",
+        "TN",
+        "TR",
+        "UG",
+        "VE",
+        "ZA",
+        "ZW"
+      ],
+      "HOUSEHOLD_FILING": [
+        "DE",
+        "FR",
+        "IE",
+        "LU",
+        "MT",
+        "PT"
+      ],
+      "MULTI_LAYER": [
+        "BA",
+        "BE",
+        "CA",
+        "CH",
+        "DK",
+        "ES",
+        "FI",
+        "GL",
+        "HR",
+        "IS",
+        "IT",
+        "JP",
+        "LI",
+        "SE"
+      ],
+      "MULTI_SCHEDULE": [
+        "AL",
+        "AO",
+        "AZ",
+        "CL",
+        "CN",
+        "CO",
+        "CR",
+        "LB",
+        "LT",
+        "LV",
+        "MN",
+        "MV",
+        "MX",
+        "NG",
+        "PK",
+        "RS",
+        "TW",
+        "TZ",
+        "UY",
+        "VN"
+      ],
+      "COMPLEX_COMPOSITE": [
+        "GI",
+        "GU",
+        "HK",
+        "IN",
+        "MP",
+        "NL",
+        "NO",
+        "US",
+        "VI"
+      ]
+    },
+    "evidenceGroups": {
+      "PWC_WWTS_PIT_QUICK_CHART": [
+        "AE",
+        "AL",
+        "AM",
+        "AO",
+        "AR",
+        "AT",
+        "AU",
+        "AZ",
+        "BA",
+        "BB",
+        "BD",
+        "BE",
+        "BG",
+        "BH",
+        "BM",
+        "BN",
+        "BO",
+        "BR",
+        "BS",
+        "BW",
+        "CA",
+        "CD",
+        "CG",
+        "CH",
+        "CI",
+        "CL",
+        "CM",
+        "CN",
+        "CO",
+        "CR",
+        "CV",
+        "CY",
+        "CZ",
+        "DE",
+        "DK",
+        "DO",
+        "DZ",
+        "EC",
+        "EE",
+        "EG",
+        "ES",
+        "ET",
+        "FI",
+        "FR",
+        "GA",
+        "GE",
+        "GG",
+        "GH",
+        "GI",
+        "GL",
+        "GQ",
+        "GR",
+        "GT",
+        "GY",
+        "HK",
+        "HN",
+        "HR",
+        "HU",
+        "ID",
+        "IE",
+        "IL",
+        "IM",
+        "IN",
+        "IQ",
+        "IS",
+        "IT",
+        "JE",
+        "JM",
+        "JO",
+        "JP",
+        "KE",
+        "KH",
+        "KR",
+        "KW",
+        "KY",
+        "KZ",
+        "LA",
+        "LB",
+        "LC",
+        "LI",
+        "LR",
+        "LT",
+        "LU",
+        "LV",
+        "LY",
+        "MA",
+        "MD",
+        "ME",
+        "MG",
+        "MK",
+        "MM",
+        "MN",
+        "MO",
+        "MR",
+        "MT",
+        "MU",
+        "MX",
+        "MY",
+        "MZ",
+        "NA",
+        "NC",
+        "NG",
+        "NI",
+        "NL",
+        "NO",
+        "NZ",
+        "OM",
+        "PA",
+        "PE",
+        "PG",
+        "PH",
+        "PK",
+        "PL",
+        "PR",
+        "PS",
+        "PT",
+        "PY",
+        "QA",
+        "RO",
+        "RS",
+        "RW",
+        "SA",
+        "SE",
+        "SI",
+        "SK",
+        "SN",
+        "SV",
+        "SZ",
+        "TD",
+        "TH",
+        "TL",
+        "TN",
+        "TR",
+        "TT",
+        "TW",
+        "TZ",
+        "UA",
+        "UG",
+        "US",
+        "UY",
+        "UZ",
+        "VE",
+        "VN",
+        "ZA",
+        "ZM"
+      ],
+      "EY_WORLDWIDE_PERSONAL_TAX_2025_26": [
+        "AW",
+        "BQ",
+        "FJ",
+        "GU",
+        "LK",
+        "LS",
+        "MC",
+        "MP",
+        "MV",
+        "SR",
+        "SS",
+        "ST",
+        "SX",
+        "VG",
+        "VI",
+        "ZW"
+      ]
+    }
+  },
+  "sourceDiscovery": [
+    "AD",
+    "AF",
+    "AG",
+    "AI",
+    "AQ",
+    "AS",
+    "AX",
+    "BF",
+    "BI",
+    "BJ",
+    "BL",
+    "BT",
+    "BV",
+    "BY",
+    "BZ",
+    "CC",
+    "CF",
+    "CK",
+    "CU",
+    "CW",
+    "CX",
+    "DJ",
+    "DM",
+    "EH",
+    "ER",
+    "FK",
+    "FM",
+    "FO",
+    "GD",
+    "GF",
+    "GM",
+    "GN",
+    "GP",
+    "GS",
+    "GW",
+    "HM",
+    "HT",
+    "IO",
+    "IR",
+    "KG",
+    "KI",
+    "KM",
+    "KN",
+    "KP",
+    "MF",
+    "MH",
+    "ML",
+    "MQ",
+    "MS",
+    "MW",
+    "NE",
+    "NF",
+    "NP",
+    "NR",
+    "NU",
+    "PF",
+    "PM",
+    "PN",
+    "PW",
+    "RE",
+    "RU",
+    "SB",
+    "SC",
+    "SD",
+    "SH",
+    "SJ",
+    "SL",
+    "SM",
+    "SO",
+    "SY",
+    "TC",
+    "TF",
+    "TG",
+    "TJ",
+    "TK",
+    "TM",
+    "TO",
+    "TV",
+    "UM",
+    "VA",
+    "VC",
+    "VU",
+    "WF",
+    "WS",
+    "YE",
+    "YT"
+  ],
+  "structuralOverrides": {
+    "BA": {
+      "taxLayers": {
+        "national": true,
+        "subnational": true,
+        "local": false,
+        "subdivisionRequired": true
+      }
+    },
+    "BE": {
+      "taxLayers": {
+        "national": true,
+        "subnational": false,
+        "local": true,
+        "subdivisionRequired": false
+      }
+    },
+    "CA": {
+      "taxLayers": {
+        "national": true,
+        "subnational": true,
+        "local": true,
+        "subdivisionRequired": true
+      }
+    },
+    "CH": {
+      "taxLayers": {
+        "national": true,
+        "subnational": true,
+        "local": true,
+        "subdivisionRequired": true
+      }
+    },
+    "DE": {
+      "taxUnit": "household-or-filing-status"
+    },
+    "DK": {
+      "taxLayers": {
+        "national": true,
+        "subnational": false,
+        "local": true,
+        "subdivisionRequired": false
+      }
+    },
+    "ES": {
+      "taxLayers": {
+        "national": true,
+        "subnational": true,
+        "local": true,
+        "subdivisionRequired": true
+      }
+    },
+    "FI": {
+      "taxLayers": {
+        "national": true,
+        "subnational": false,
+        "local": true,
+        "subdivisionRequired": false
+      }
+    },
+    "FR": {
+      "taxUnit": "household-or-filing-status"
+    },
+    "GB": {
+      "taxUnit": "individual"
+    },
+    "GL": {
+      "taxLayers": {
+        "national": true,
+        "subnational": false,
+        "local": true,
+        "subdivisionRequired": false
+      }
+    },
+    "HR": {
+      "taxLayers": {
+        "national": true,
+        "subnational": false,
+        "local": true,
+        "subdivisionRequired": true
+      }
+    },
+    "IE": {
+      "taxUnit": "household-or-filing-status"
+    },
+    "IS": {
+      "taxLayers": {
+        "national": true,
+        "subnational": false,
+        "local": true,
+        "subdivisionRequired": false
+      }
+    },
+    "IT": {
+      "taxLayers": {
+        "national": true,
+        "subnational": false,
+        "local": true,
+        "subdivisionRequired": false
+      }
+    },
+    "JP": {
+      "taxLayers": {
+        "national": true,
+        "subnational": false,
+        "local": true,
+        "subdivisionRequired": false
+      }
+    },
+    "LI": {
+      "taxLayers": {
+        "national": true,
+        "subnational": false,
+        "local": true,
+        "subdivisionRequired": false
+      }
+    },
+    "LU": {
+      "taxUnit": "household-or-filing-status"
+    },
+    "MT": {
+      "taxUnit": "household-or-filing-status"
+    },
+    "OM": {
+      "notes": "No ordinary PIT is in force as of the map date; a 5% PIT is scheduled from 1 January 2028."
+    },
+    "PT": {
+      "taxUnit": "household-or-filing-status"
+    },
+    "SE": {
+      "taxLayers": {
+        "national": true,
+        "subnational": false,
+        "local": true,
+        "subdivisionRequired": false
+      }
+    },
+    "SG": {
+      "taxUnit": "individual"
+    },
+    "US": {
+      "taxLayers": {
+        "national": true,
+        "subnational": true,
+        "local": true,
+        "subdivisionRequired": true
+      },
+      "taxUnit": "filing-status"
+    }
+  }
+}
