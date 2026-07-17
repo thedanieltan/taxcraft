@@ -25,11 +25,13 @@ The global summaries used for sequencing are not calculator parameter sources. E
 
 Country packages share deterministic Node.js arithmetic through `@taxcraft/country-sdk`: progressive bands, deductions, allowance tapers, capped rebates, credits, alternative calculations, household quotients, income schedules and tax layers. Intermediate arithmetic uses `BigInt`, while public amounts remain integer minor units.
 
+Maintained packages also declare a closed, executable PIT facts schema covering tax unit, currencies, income schedules, tax layers, rounding and source-maintenance mode. This contract will drive the global coverage API and generated calculator forms.
+
 ```bash
 npm run check:catalog
 ```
 
-See `docs/global-pit-roadmap.md`, `docs/global-pit-rule-map.md`, `docs/pit-primitives.md` and `docs/jurisdiction-register.md`.
+See `docs/global-pit-roadmap.md`, `docs/global-pit-rule-map.md`, `docs/pit-primitives.md`, `docs/pit-country-package-contract.md` and `docs/jurisdiction-register.md`.
 
 ## Run locally
 
@@ -86,6 +88,7 @@ A blocked source watch opens or updates one public operational issue. A later su
 - `docs/global-pit-roadmap.md` — global PIT implementation programme
 - `docs/global-pit-rule-map.md` — global structure map and provenance
 - `docs/pit-primitives.md` — shared deterministic arithmetic contract
+- `docs/pit-country-package-contract.md` — executable package manifest and input contract
 - `docs/jurisdiction-register.md` — canonical jurisdiction backlog and lifecycle
 - `docs/calculation-families.md` — calculator sequencing families
 - `docs/api.md` — API contract and examples

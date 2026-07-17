@@ -1,5 +1,18 @@
 import { MODEL_STATUS } from "@taxcraft/contracts";
 import { createTaxCraft, validateCountryPackage } from "@taxcraft/core";
+import { validatePitFacts } from "./pit-facts.js";
+import { validatePitManifest } from "./pit-package.js";
+
+export { validatePitFacts } from "./pit-facts.js";
+
+export {
+  PIT_FACT_KINDS,
+  PIT_MAINTENANCE_MODES,
+  PIT_PACKAGE_CONTRACT_VERSION,
+  PIT_TAX_UNITS,
+  PIT_TAX_YEAR_BASES,
+  validatePitManifest,
+} from "./pit-package.js";
 
 export {
   ROUNDING_MODE,
@@ -51,6 +64,27 @@ export function defineCountryPackage({ manifest, sources, models }) {
 
   validateCountryPackage(countryPackage);
   return Object.freeze(countryPackage);
+}
+
+export function definePitCountryPackage(definition) {
+  validatePitManifest(definition?.manifest);
+  const factsSchema = definition.manifest.pit.factsSchema;
+  const models = Object.fromEntries(Object.entries(definition.models ?? {}).map(([taxYear, model]) => [
+    taxYear,
+    {
+      ...model,
+      async validateFacts({ facts }) {
+        const schemaIssues = validatePitFacts(factsSchema, facts);
+        if (schemaIssues.some(({ code }) => code === "facts.invalid")) {
+          return { ok: false, issues: schemaIssues };
+        }
+        const countryResult = await model.validateFacts({ facts });
+        if (!countryResult?.ok) return countryResult;
+        return schemaIssues.length ? { ok: false, issues: schemaIssues } : countryResult;
+      },
+    },
+  ]));
+  return defineCountryPackage({ ...definition, models });
 }
 
 export function advanceSupportWindow(existingVersions, newVersion) {
