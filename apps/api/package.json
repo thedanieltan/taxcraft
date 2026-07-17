@@ -9,6 +9,7 @@
     "@taxcraft/catalog": "0.1.0",
     "@taxcraft/core": "0.1.0",
     "@taxcraft/country-gb": "0.1.0",
+    "@taxcraft/country-no-pit": "0.1.0",
     "@taxcraft/country-sg": "0.1.0"
   },
   "scripts": {
