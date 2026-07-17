@@ -39,8 +39,8 @@ test("rule map distinguishes implemented, indexed and discovery work", () => {
   }, {});
   assert.deepEqual(counts, {
     implemented: 2,
-    "source-indexed": 145,
-    "source-discovery": 102,
+    "source-indexed": 161,
+    "source-discovery": 86,
   });
 });
 
@@ -62,9 +62,22 @@ test("source-indexed families produce an ordered calculator backlog", () => {
   }
 });
 
-test("global summary evidence is planning metadata, not calculator parameters", () => {
-  const source = sources.sources.find(({ id }) => id === "PWC_WWTS_PIT_QUICK_CHART");
-  assert.equal(source.type, "secondary-summary");
-  assert.match(source.scope, /not a source for calculator parameters/i);
-  assert.deepEqual(ruleMap.sourceIndexed.sourceIds, [source.id]);
+test("source evidence is planning metadata, not calculator parameters", () => {
+  const sourceById = new Map(sources.sources.map((source) => [source.id, source]));
+  assert.equal(sourceById.get("PWC_WWTS_PIT_QUICK_CHART").type, "secondary-summary");
+  assert.equal(sourceById.get("EY_WORLDWIDE_PERSONAL_TAX_2025_26").type, "secondary-guide");
+  assert.match(sourceById.get("PWC_WWTS_PIT_QUICK_CHART").scope, /not a source for calculator parameters/i);
+  assert.match(sourceById.get("EY_WORLDWIDE_PERSONAL_TAX_2025_26").scope, /Contact-only entries.*excluded/i);
+});
+
+test("EY promotion uses full chapters and excludes contact-only entries", () => {
+  const eyCodes = new Set(
+    ruleMap.sourceIndexed.evidenceGroups.EY_WORLDWIDE_PERSONAL_TAX_2025_26,
+  );
+  for (const code of ["AW", "BQ", "FJ", "GU", "LK", "LS", "MC", "MP", "MV", "SR", "SS", "ST", "SX", "VG", "VI", "ZW"]) {
+    assert.ok(eyCodes.has(code), `${code} should have a full EY chapter`);
+  }
+  for (const code of ["AI", "AG", "DM", "FO", "GD", "FM", "MH", "MS", "PW", "KN", "VC", "SY"]) {
+    assert.ok(!eyCodes.has(code), `${code} must remain outside EY full-chapter evidence`);
+  }
 });
