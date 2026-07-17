@@ -1,0 +1,175 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-18",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_NO_PIT",
+    "type": "repository-package",
+    "authority": "Jurisdiction-specific government and tax authorities",
+    "location": "packages/country-no-pit",
+    "scope": "Eight independently manifested, official-source-backed PIT packages for AE, BH, BM, BN, KY, MC, OM and QA.",
+    "observedAt": "2026-07-18"
+  },
+  "implementations": {
+    "AE": {
+      "calculationFamily": "NO_PIT",
+      "sourceIds": ["TAXCRAFT_COUNTRY_NO_PIT", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Wage and salary income outside the natural-person business activity scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "NO_PIT",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["AED"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-no-pit",
+        "coverageSummary": "Confirmed wage and salary income outside the natural-person business activity scope."
+      }
+    },
+    "BH": {
+      "calculationFamily": "NO_PIT",
+      "sourceIds": ["TAXCRAFT_COUNTRY_NO_PIT", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Ordinary individual personal income; social insurance and other taxes excluded.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "NO_PIT",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["BHD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-no-pit",
+        "coverageSummary": "Ordinary individual personal income; social insurance and other obligations excluded."
+      }
+    },
+    "BM": {
+      "calculationFamily": "NO_PIT",
+      "sourceIds": ["TAXCRAFT_COUNTRY_NO_PIT", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Personal income tax only; Bermuda payroll tax remains outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "NO_PIT",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["BMD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-no-pit",
+        "coverageSummary": "Personal income tax result; payroll tax and social insurance remain separate."
+      }
+    },
+    "BN": {
+      "calculationFamily": "NO_PIT",
+      "sourceIds": ["TAXCRAFT_COUNTRY_NO_PIT", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Individual personal income rather than company income.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "NO_PIT",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["BND"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-no-pit",
+        "coverageSummary": "Individual personal income; company income and mandatory contributions excluded."
+      }
+    },
+    "KY": {
+      "calculationFamily": "NO_PIT",
+      "sourceIds": ["TAXCRAFT_COUNTRY_NO_PIT", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Individual personal income under the Cayman Islands no-direct-tax structure.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "NO_PIT",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["KYD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-no-pit",
+        "coverageSummary": "Individual personal income; indirect taxes, fees and mandatory contributions excluded."
+      }
+    },
+    "MC": {
+      "calculationFamily": "NO_PIT",
+      "sourceIds": ["TAXCRAFT_COUNTRY_NO_PIT", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Monaco residents outside the French-national bilateral convention exception.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "NO_PIT",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["EUR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-no-pit",
+        "coverageSummary": "Monaco residents outside the French-national convention exception."
+      }
+    },
+    "OM": {
+      "calculationFamily": "NO_PIT",
+      "sourceIds": ["TAXCRAFT_COUNTRY_NO_PIT", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Pre-2028 individual income; announced Personal Income Tax Law commences 1 January 2028.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "NO_PIT",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["OMR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-no-pit",
+        "coverageSummary": "Individual income for 2024–2026 before the announced 1 January 2028 commencement."
+      }
+    },
+    "QA": {
+      "calculationFamily": "NO_PIT",
+      "sourceIds": ["TAXCRAFT_COUNTRY_NO_PIT", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Salary and wage income; business and other taxable source income excluded.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "NO_PIT",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["QAR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-no-pit",
+        "coverageSummary": "Salary and wage income; business and other taxable Qatar-source income excluded."
+      }
+    }
+  }
+}
