@@ -11,8 +11,8 @@ The rule map aligns one-to-one with the 249 ISO 3166-1 entries in `catalog/pit-j
 As of 18 July 2026:
 
 - 2 jurisdictions are backed by implemented TaxCraft packages;
-- 145 additional jurisdictions are indexed from PwC Worldwide Tax Summaries;
-- 102 jurisdictions remain visible for source discovery.
+- 161 additional jurisdictions are source-indexed: 145 from PwC Worldwide Tax Summaries and 16 additional full chapters from the EY Worldwide Personal Tax and Immigration Guide;
+- 86 jurisdictions remain visible for source discovery.
 
 Every entry remains present even when its tax structure has not yet been sourced.
 
@@ -43,7 +43,7 @@ Complexity controls order only. It does not remove any jurisdiction from the pro
 
 `catalog/pit-rule-sources.json` records the evidence sources used by the map.
 
-The PwC quick chart is used as a broad discovery and sequencing index. Calculator parameters must continue to come from official legislation, tax authorities or equivalent primary publications when each country package is implemented.
+The PwC quick chart is used as a broad discovery and sequencing index. The EY guide expands coverage only where it contains a full personal-tax chapter; entries listed only in its contacts section remain in source discovery. Calculator parameters must continue to come from official legislation, tax authorities or equivalent primary publications when each country package is implemented.
 
 ## Validation
 
