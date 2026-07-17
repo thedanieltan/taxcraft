@@ -1,151 +1,319 @@
+import {
+  createFieldModel,
+  formatFieldHint,
+  formatMoneyMinor,
+  humanizeKey,
+  parseFieldValue,
+  selectPrimaryTotal,
+} from "/schema.js";
+
+const jurisdiction = document.querySelector("#jurisdiction");
+const jurisdictionStatus = document.querySelector("#jurisdiction-status");
 const form = document.querySelector("#tax-form");
 const taxYear = document.querySelector("#tax-year");
-const employmentIncome = document.querySelector("#employment-income");
-const otherTaxableIncome = document.querySelector("#other-taxable-income");
-const allowableDeductions = document.querySelector("#allowable-deductions");
-const personalReliefs = document.querySelector("#personal-reliefs");
-const resident = document.querySelector("#resident-confirmation");
+const factsFields = document.querySelector("#facts-fields");
 const message = document.querySelector("#message");
 const result = document.querySelector("#result");
+const catalogueStats = document.querySelector("#catalogue-stats");
 
-await loadJurisdictions();
+let selectedJurisdiction = null;
+let selectedSchema = null;
+let fieldModels = [];
+
+await initialize();
+
+jurisdiction.addEventListener("change", async () => {
+  await selectJurisdiction(jurisdiction.value);
+});
+
+taxYear.addEventListener("change", async () => {
+  await loadInputSchema();
+});
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   clearMessage();
   result.hidden = true;
 
-  const values = {
-    employmentIncome: readWholeDollars(employmentIncome),
-    otherTaxableIncome: readWholeDollars(otherTaxableIncome),
-    allowableDeductions: readWholeDollars(allowableDeductions),
-    personalReliefs: readWholeDollars(personalReliefs)
-  };
-
-  if (Object.values(values).some((value) => value === null)) {
-    showMessage("All amounts must be non-negative whole Singapore-dollar values.");
+  if (!selectedJurisdiction?.calculator?.available || !selectedSchema) {
+    showMessage("The selected jurisdiction does not have an implemented TaxCraft calculator.");
     return;
   }
-  if (!resident.checked) {
-    showMessage("Confirm the supported residency, income classification and deduction or relief boundary before calculating.");
+
+  const facts = {};
+  try {
+    for (const model of fieldModels) {
+      const input = document.querySelector(`#fact-${CSS.escape(model.name)}`);
+      facts[model.name] = parseFieldValue(model, input.value, input.checked);
+    }
+  } catch (error) {
+    showMessage(error.message);
     return;
   }
 
   try {
-    const worksheetResponse = await fetch("/v1/worksheets/SG/chargeable-income", {
+    setBusy(true);
+    const response = await fetch("/v1/pit/calculate", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
-        facts: {
-          employmentIncomeMinor: values.employmentIncome * 100,
-          otherTaxableIncomeMinor: values.otherTaxableIncome * 100,
-          allowableDeductionsMinor: values.allowableDeductions * 100,
-          personalReliefsMinor: values.personalReliefs * 100,
-          eligibilityConfirmed: true
-        }
-      })
-    });
-    const worksheet = await worksheetResponse.json();
-    if (!worksheetResponse.ok || worksheet.status !== "ok") {
-      showMessage(issueMessage(worksheet, "The chargeable-income worksheet is not supported."));
-      return;
-    }
-
-    const taxResponse = await fetch("/v1/calculate", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        jurisdiction: "SG",
+        jurisdiction: selectedJurisdiction.code,
         taxYear: taxYear.value,
-        facts: {
-          taxResident: true,
-          chargeableIncomeMinor: worksheet.totals.chargeableIncomeMinor
-        }
-      })
+        facts,
+      }),
     });
-    const tax = await taxResponse.json();
-    if (!taxResponse.ok || tax.status !== "ok") {
-      showMessage(issueMessage(tax, "The tax calculation is not supported."));
+    const payload = await response.json();
+    if (!response.ok || payload.status !== "ok") {
+      showMessage(issueMessage(payload, "The calculation is not supported for the entered facts."));
       return;
     }
-
-    renderResult(combineResults(worksheet, tax));
+    renderResult(payload);
   } catch {
     showMessage("The calculator could not reach the TaxCraft API.");
+  } finally {
+    setBusy(false);
   }
 });
 
-async function loadJurisdictions() {
+async function initialize() {
   try {
-    const response = await fetch("/v1/jurisdictions");
-    const payload = await response.json();
-    const singapore = payload.jurisdictions?.find((entry) => entry.jurisdiction === "SG");
-    for (const version of [...(singapore?.taxYears ?? [])].sort((left, right) => right.order - left.order)) {
-      const option = document.createElement("option");
-      option.value = version.taxYear;
-      option.textContent = `${version.taxYear}${version.status === "current" ? " — current" : ""}`;
-      taxYear.append(option);
-    }
+    const [statusResponse, jurisdictionsResponse] = await Promise.all([
+      fetch("/v1/pit/status"),
+      fetch("/v1/pit/jurisdictions"),
+    ]);
+    const [status, catalogue] = await Promise.all([
+      statusResponse.json(),
+      jurisdictionsResponse.json(),
+    ]);
+    if (!statusResponse.ok || !jurisdictionsResponse.ok) throw new Error("catalogue unavailable");
+    renderStats(status);
+    renderJurisdictionOptions(catalogue.jurisdictions ?? []);
+    jurisdiction.value = catalogue.jurisdictions?.some(({ code }) => code === "SG") ? "SG" : "";
+    await selectJurisdiction(jurisdiction.value);
   } catch {
-    showMessage("Supported tax years could not be loaded.");
+    jurisdiction.replaceChildren(option("", "Catalogue unavailable"));
+    showMessage("The global PIT catalogue could not be loaded.");
   }
 }
 
-function combineResults(worksheet, tax) {
-  return {
-    ...tax,
-    worksheetTotals: worksheet.totals,
-    lines: [...worksheet.lines, ...tax.lines],
-    sources: uniqueBy([...worksheet.sources, ...tax.sources], (source) => source.sourceId),
-    assumptions: [...new Set([...worksheet.assumptions, ...tax.assumptions])],
-    coverage: {
-      supported: [...new Set([...worksheet.coverage.supported, ...tax.coverage.supported])],
-      unsupported: [...new Set([...worksheet.coverage.unsupported, ...tax.coverage.unsupported])]
+function renderStats(status) {
+  const entries = [
+    ["Registered", status.jurisdictionCount],
+    ["Calculators", status.counts?.implemented ?? 0],
+    ["Source-indexed", status.counts?.["source-indexed"] ?? 0],
+    ["In discovery", status.counts?.["source-discovery"] ?? 0],
+  ];
+  catalogueStats.replaceChildren(...entries.flatMap(([label, value]) => {
+    const term = document.createElement("dt");
+    term.textContent = label;
+    const description = document.createElement("dd");
+    description.textContent = String(value);
+    return [term, description];
+  }));
+}
+
+function renderJurisdictionOptions(entries) {
+  const groupDefinitions = [
+    ["implemented", "Implemented calculators"],
+    ["source-indexed", "Source-indexed — calculator pending"],
+    ["source-discovery", "Source discovery pending"],
+  ];
+  const groups = groupDefinitions.map(([status, label]) => {
+    const group = document.createElement("optgroup");
+    group.label = label;
+    for (const entry of entries.filter((candidate) => candidate.classificationStatus === status)) {
+      group.append(option(entry.code, `${entry.name} (${entry.code})`));
     }
-  };
+    return group;
+  });
+  jurisdiction.replaceChildren(option("", "Select a country or territory"), ...groups);
+}
+
+async function selectJurisdiction(code) {
+  clearMessage();
+  result.hidden = true;
+  form.hidden = true;
+  jurisdictionStatus.hidden = true;
+  selectedSchema = null;
+  fieldModels = [];
+  factsFields.replaceChildren();
+  taxYear.replaceChildren();
+  if (!code) return;
+
+  try {
+    const response = await fetch(`/v1/pit/jurisdictions/${encodeURIComponent(code)}`);
+    const detail = await response.json();
+    if (!response.ok) throw new Error("jurisdiction unavailable");
+    selectedJurisdiction = detail;
+    renderJurisdictionStatus(detail);
+    if (!detail.calculator?.available) return;
+
+    const versions = [...detail.calculator.taxYears].sort((left, right) => right.order - left.order);
+    taxYear.replaceChildren(...versions.map((version) => option(
+      version.taxYear,
+      `${version.taxYear}${version.status === "current" ? " — current" : ""}`,
+    )));
+    form.hidden = false;
+    await loadInputSchema();
+  } catch {
+    selectedJurisdiction = null;
+    showMessage("Jurisdiction details could not be loaded.");
+  }
+}
+
+function renderJurisdictionStatus(detail) {
+  const heading = document.createElement("div");
+  heading.className = "status-heading";
+  const title = document.createElement("strong");
+  title.textContent = detail.name;
+  const badge = document.createElement("span");
+  badge.className = `badge badge-${detail.classificationStatus}`;
+  badge.textContent = detail.calculator?.available
+    ? "Calculator available"
+    : detail.classificationStatus === "source-indexed"
+      ? "Mapped · calculator pending"
+      : "Source discovery pending";
+  heading.append(title, badge);
+
+  const description = document.createElement("p");
+  description.textContent = detail.calculator?.available
+    ? detail.coverageSummary ?? "An implemented TaxCraft package is available."
+    : detail.classificationStatus === "source-indexed"
+      ? `Provisional family: ${humanizeKey(detail.calculationFamily)}. This is planning metadata, not a calculator.`
+      : "This jurisdiction remains in the global backlog while its PIT structure and sources are mapped.";
+
+  const meta = document.createElement("p");
+  meta.className = "status-meta";
+  meta.textContent = detail.implementationWave === null
+    ? `Classification: ${detail.verificationStatus}`
+    : `Implementation wave ${detail.implementationWave} · Classification: ${detail.verificationStatus}`;
+
+  jurisdictionStatus.replaceChildren(heading, description, meta);
+  jurisdictionStatus.hidden = false;
+}
+
+async function loadInputSchema() {
+  clearMessage();
+  result.hidden = true;
+  selectedSchema = null;
+  fieldModels = [];
+  factsFields.replaceChildren();
+  if (!selectedJurisdiction?.calculator?.available || !taxYear.value) return;
+
+  try {
+    const response = await fetch(
+      `/v1/pit/jurisdictions/${encodeURIComponent(selectedJurisdiction.code)}/${encodeURIComponent(taxYear.value)}/input-schema`,
+    );
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload.message ?? "input schema unavailable");
+    selectedSchema = payload.factsSchema;
+    renderFactsSchema(payload.factsSchema);
+  } catch (error) {
+    showMessage(error.message || "The calculator input schema could not be loaded.");
+  }
+}
+
+function renderFactsSchema(schema) {
+  const required = new Set(schema.required ?? []);
+  fieldModels = Object.entries(schema.properties).map(([name, property]) => (
+    createFieldModel(name, property, required.has(name))
+  ));
+  factsFields.replaceChildren(...fieldModels.map(renderField));
+}
+
+function renderField(model) {
+  const wrapper = document.createElement("div");
+  wrapper.className = model.control === "checkbox" ? "fact fact-confirmation" : "fact";
+
+  const input = document.createElement(model.control === "select" ? "select" : "input");
+  input.id = `fact-${model.name}`;
+  input.name = model.name;
+  input.required = model.required;
+
+  if (model.control === "checkbox") {
+    input.type = "checkbox";
+    if (model.constValue === true) input.required = true;
+  } else if (model.control === "select") {
+    input.append(option("", `Select ${model.title.toLowerCase()}`));
+    input.append(...model.enumValues.map((value) => option(value, value)));
+  } else {
+    input.type = model.control;
+    if (model.minimum !== null) input.min = String(model.minimum);
+    if (model.maximum !== null) input.max = String(model.maximum);
+    if (model.step !== null) input.step = String(model.step);
+    if (model.type === "integer" && model.minimum === 0) input.value = "0";
+    if (model.type === "integer") input.inputMode = model.step !== null && model.step < 1 ? "decimal" : "numeric";
+  }
+
+  const label = document.createElement("label");
+  label.htmlFor = input.id;
+  const labelText = document.createElement("span");
+  labelText.textContent = model.title;
+  const hint = document.createElement("small");
+  hint.textContent = formatFieldHint(model);
+
+  if (model.control === "checkbox") {
+    label.className = "confirmation";
+    label.append(input, labelText);
+    wrapper.append(label);
+  } else {
+    label.append(labelText, hint);
+    wrapper.append(label, input);
+  }
+
+  if (model.description) {
+    const description = document.createElement("p");
+    description.className = "help";
+    description.textContent = model.description;
+    wrapper.append(description);
+  }
+  return wrapper;
 }
 
 function renderResult(payload) {
-  document.querySelector("#result-year").textContent = payload.taxYear;
-  document.querySelector("#result-total").textContent = formatMoney(payload.totals.netTaxPayableMinor, payload.currency);
+  const primary = selectPrimaryTotal(payload.totals);
+  document.querySelector("#result-context").textContent = `${selectedJurisdiction.name} · ${payload.taxYear}`;
+  document.querySelector("#result-total").textContent = primary
+    ? formatMoneyMinor(primary.valueMinor, payload.currency)
+    : "Calculated";
 
   const totals = document.querySelector("#totals");
-  totals.replaceChildren();
-  addTotal(totals, "Employment income", payload.worksheetTotals.employmentIncomeMinor, payload.currency);
-  addTotal(totals, "Other taxable income", payload.worksheetTotals.otherTaxableIncomeMinor, payload.currency);
-  addTotal(totals, "Total taxable income entered", payload.worksheetTotals.totalIncomeMinor, payload.currency);
-  addTotal(totals, "Allowable deductions", -payload.worksheetTotals.allowableDeductionsMinor, payload.currency);
-  addTotal(totals, "Assessable income", payload.worksheetTotals.assessableIncomeMinor, payload.currency);
-  addTotal(totals, "Personal reliefs", -Math.min(payload.worksheetTotals.personalReliefsMinor, payload.worksheetTotals.assessableIncomeMinor), payload.currency);
-  addTotal(totals, "Chargeable income", payload.totals.chargeableIncomeMinor, payload.currency);
-  addTotal(totals, "Gross tax", payload.totals.grossTaxMinor, payload.currency);
-  addTotal(totals, "Personal Income Tax Rebate", -payload.totals.personalIncomeTaxRebateMinor, payload.currency);
-  addTotal(totals, "Net tax payable", payload.totals.netTaxPayableMinor, payload.currency);
+  totals.replaceChildren(...Object.entries(payload.totals)
+    .filter(([key, value]) => key.endsWith("Minor") && Number.isSafeInteger(value))
+    .flatMap(([key, value]) => totalElements(humanizeKey(key), value, payload.currency)));
 
   const lines = document.querySelector("#lines");
-  lines.replaceChildren(...payload.lines.map((line) => {
+  lines.replaceChildren(...(payload.lines ?? []).map((line) => {
     const item = document.createElement("li");
-    item.textContent = `${line.label}: ${formatMoney(line.amountMinor, payload.currency)}`;
+    item.textContent = `${line.label}: ${formatMoneyMinor(line.amountMinor, payload.currency)}`;
     return item;
   }));
 
   const sources = document.querySelector("#sources");
-  sources.replaceChildren(...payload.sources.map((source) => {
+  sources.replaceChildren(...(payload.sources ?? []).map((source) => {
     const item = document.createElement("li");
-    const link = document.createElement("a");
-    link.href = source.url;
-    link.target = "_blank";
-    link.rel = "noreferrer";
-    link.textContent = `${source.publisher}: ${source.title}`;
-    item.append(link);
+    if (source.url) {
+      const link = document.createElement("a");
+      link.href = source.url;
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      link.textContent = `${source.publisher}: ${source.title}`;
+      item.append(link);
+    } else {
+      item.textContent = source.title ?? source.sourceId;
+    }
     return item;
   }));
 
-  const coverage = document.querySelector("#coverage");
-  coverage.textContent = `Supported: ${payload.coverage.supported.join(", ")}. Not covered: ${payload.coverage.unsupported.join(", ")}.`;
+  const supported = payload.coverage?.supported ?? [];
+  const unsupported = payload.coverage?.unsupported ?? [];
+  document.querySelector("#coverage").textContent = [
+    supported.length ? `Supported: ${supported.join(", ")}.` : "",
+    unsupported.length ? `Not covered: ${unsupported.join(", ")}.` : "",
+  ].filter(Boolean).join(" ");
 
   const assumptions = document.querySelector("#assumptions");
-  assumptions.replaceChildren(...payload.assumptions.map((assumption) => {
+  assumptions.replaceChildren(...(payload.assumptions ?? []).map((assumption) => {
     const item = document.createElement("li");
     item.textContent = assumption;
     return item;
@@ -155,40 +323,29 @@ function renderResult(payload) {
   result.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-function readWholeDollars(input) {
-  const value = Number(input.value);
-  return Number.isSafeInteger(value) && value >= 0 ? value : null;
+function totalElements(label, valueMinor, currency) {
+  const term = document.createElement("dt");
+  term.textContent = label;
+  const value = document.createElement("dd");
+  value.textContent = formatMoneyMinor(valueMinor, currency);
+  return [term, value];
+}
+
+function option(value, text) {
+  const element = document.createElement("option");
+  element.value = value;
+  element.textContent = text;
+  return element;
 }
 
 function issueMessage(payload, fallback) {
   return payload.issues?.map((issue) => issue.message).join(" ") || payload.message || fallback;
 }
 
-function uniqueBy(values, key) {
-  const seen = new Set();
-  return values.filter((value) => {
-    const identifier = key(value);
-    if (seen.has(identifier)) return false;
-    seen.add(identifier);
-    return true;
-  });
-}
-
-function addTotal(container, label, valueMinor, currency) {
-  const term = document.createElement("dt");
-  term.textContent = label;
-  const value = document.createElement("dd");
-  value.textContent = formatMoney(valueMinor, currency);
-  container.append(term, value);
-}
-
-function formatMoney(valueMinor, currency) {
-  return new Intl.NumberFormat("en-SG", {
-    style: "currency",
-    currency,
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  }).format(valueMinor / 100);
+function setBusy(busy) {
+  const button = form.querySelector("button[type='submit']");
+  button.disabled = busy;
+  button.textContent = busy ? "Calculating…" : "Calculate estimate";
 }
 
 function showMessage(text) {
