@@ -2,13 +2,36 @@
 
 The reference service is stateless. It does not create accounts, set cookies or persist worksheet or calculation requests and results.
 
-## Routes
+## Global PIT catalogue routes
+
+- `GET /v1/pit/status`
+- `GET /v1/pit/calculation-families`
+- `GET /v1/pit/jurisdictions`
+- `GET /v1/pit/jurisdictions/{code}`
+- `GET /v1/pit/jurisdictions/{code}/{taxYear}/coverage`
+- `GET /v1/pit/jurisdictions/{code}/{taxYear}/input-schema`
+- `POST /v1/pit/calculate`
+
+The catalogue list contains every registered ISO 3166-1 country or territory and distinguishes:
+
+- `implemented` — an accepted TaxCraft calculator exists;
+- `source-indexed` — the system has provisional implementation-family evidence;
+- `source-discovery` — the jurisdiction remains registered but unmapped.
+
+A registered jurisdiction without a calculator returns `409 not_implemented` from model-specific coverage or input-schema routes. Catalogue metadata itself remains available with HTTP 200.
+
+## Compatibility routes
 
 - `GET /v1/jurisdictions`
 - `GET /v1/jurisdictions/{code}`
 - `GET /v1/jurisdictions/{code}/{taxYear}/coverage`
-- `POST /v1/worksheets/SG/chargeable-income`
 - `POST /v1/calculate`
+
+These routes retain the original implemented-package behaviour. `POST /v1/pit/calculate` and `POST /v1/calculate` execute the same deterministic engine.
+
+## Other routes
+
+- `POST /v1/worksheets/SG/chargeable-income`
 - `GET /openapi.json`
 
 ## Browser access
@@ -22,6 +45,16 @@ Access-Control-Allow-Headers: content-type
 ```
 
 TaxCraft does not support cookies or credentialed browser requests. External clients remain responsible for explaining what they transmit and must not add identity fields to TaxCraft payloads.
+
+## Manifest-driven input schema
+
+An implemented model exposes its executable facts schema:
+
+```text
+GET /v1/pit/jurisdictions/SG/YA2026/input-schema
+```
+
+The response identifies the model version, tax-year status, PIT package contract and closed `factsSchema`. Clients can use this metadata to generate forms without embedding jurisdiction-specific fields.
 
 ## Singapore chargeable-income worksheet
 
