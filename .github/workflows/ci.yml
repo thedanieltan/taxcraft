@@ -19,7 +19,16 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run check
+      - name: Run repository checks
+        shell: bash
+        run: |
+          if npm run check > /tmp/taxcraft-check.log 2>&1; then
+            cat /tmp/taxcraft-check.log
+          else
+            echo "Repository checks failed. Showing the diagnostic tail." >&2
+            tail --lines 200 /tmp/taxcraft-check.log >&2
+            exit 1
+          fi
 
   container:
     needs: check
