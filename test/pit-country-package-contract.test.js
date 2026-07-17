@@ -4,6 +4,7 @@ import { ukPackage } from "@taxcraft/country-gb";
 import { singaporePackage } from "@taxcraft/country-sg";
 import {
   PIT_PACKAGE_CONTRACT_VERSION,
+  validatePitFacts,
   validatePitManifest,
 } from "@taxcraft/country-sdk";
 
@@ -16,7 +17,7 @@ test("maintained packages expose the standard PIT manifest contract", () => {
   assert.deepEqual(ukPackage.manifest.pit.currencyCodes, ["GBP"]);
 });
 
-test("declared fact schemas execute before country-specific validation", async () => {
+test("declared fact schemas enforce unknown fields while preserving country error codes", async () => {
   const unknown = await singaporePackage.validateFacts({
     taxYear: "YA2026",
     facts: { taxResident: true, chargeableIncomeMinor: 0, unexpected: 1 },
@@ -29,17 +30,24 @@ test("declared fact schemas execute before country-specific validation", async (
     facts: { taxResident: true },
   });
   assert.equal(missing.ok, false);
-  assert.ok(missing.issues.some(({ code }) => code === "facts.required"));
+  assert.ok(missing.issues.some(({ code }) => code === "facts.chargeable-income"));
 
   const residency = await singaporePackage.validateFacts({
     taxYear: "YA2026",
     facts: { taxResident: false, chargeableIncomeMinor: 0 },
   });
   assert.equal(residency.ok, false);
-  assert.ok(residency.issues.some(({ code }) => code === "facts.const"));
+  assert.ok(residency.issues.some(({ code }) => code === "facts.tax-residency"));
 });
 
-test("money schemas enforce integer minor units and declared increments", async () => {
+test("the executable schema subset detects required, constant and increment violations", () => {
+  const schema = singaporePackage.manifest.pit.factsSchema;
+  assert.ok(validatePitFacts(schema, { taxResident: true }).some(({ code }) => code === "facts.required"));
+  assert.ok(validatePitFacts(schema, { taxResident: false, chargeableIncomeMinor: 0 }).some(({ code }) => code === "facts.const"));
+  assert.ok(validatePitFacts(schema, { taxResident: true, chargeableIncomeMinor: 1 }).some(({ code }) => code === "facts.multiple-of"));
+});
+
+test("money schemas retain jurisdiction-specific whole-unit errors", async () => {
   const fractionalWholeUnit = await ukPackage.validateFacts({
     taxYear: "2026-27",
     facts: {
@@ -49,7 +57,7 @@ test("money schemas enforce integer minor units and declared increments", async 
     },
   });
   assert.equal(fractionalWholeUnit.ok, false);
-  assert.ok(fractionalWholeUnit.issues.some(({ code }) => code === "facts.multiple-of"));
+  assert.ok(fractionalWholeUnit.issues.some(({ code }) => code === "facts.nonSavingsIncomeMinor.whole-pound"));
 });
 
 test("UK validation no longer imposes the obsolete arithmetic multiplication cap", async () => {
