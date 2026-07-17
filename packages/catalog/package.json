@@ -1,0 +1,14 @@
+{
+  "name": "@taxcraft/catalog",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "Generated runtime catalogue for TaxCraft personal income tax coverage.",
+  "exports": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node ../../scripts/build-catalog.mjs"
+  }
+}
