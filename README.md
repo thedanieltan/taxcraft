@@ -29,11 +29,13 @@ Maintained packages declare a closed, executable PIT facts schema covering tax u
 
 The stateless API exposes the complete global catalogue, calculation families, evidence state, implemented coverage and executable per-model input schemas. Registered jurisdictions without calculators remain visible and return an explicit `not_implemented` result from model-specific routes.
 
+The browser interface consumes the same catalogue and schemas. It lists every jurisdiction, renders implemented calculator forms without country-specific UI code and clearly labels mapped or discovery-only entries that do not yet have calculators.
+
 ```bash
 npm run check:catalog
 ```
 
-See `docs/global-pit-roadmap.md`, `docs/global-pit-rule-map.md`, `docs/pit-primitives.md`, `docs/pit-country-package-contract.md` and `docs/jurisdiction-register.md`.
+See `docs/global-pit-roadmap.md`, `docs/global-pit-rule-map.md`, `docs/pit-primitives.md`, `docs/pit-country-package-contract.md`, `docs/global-calculator.md` and `docs/jurisdiction-register.md`.
 
 ## Run locally
 
@@ -43,7 +45,7 @@ npm run build
 npm start
 ```
 
-Open `http://localhost:3000` to use the Singapore reference calculator. The same process serves the global catalogue and maintained calculators through the stateless API and `GET /openapi.json`.
+Open `http://localhost:3000` to browse the global catalogue and use any implemented calculator. The same process serves the stateless API and `GET /openapi.json`.
 
 ## Client examples
 
@@ -91,6 +93,7 @@ A blocked source watch opens or updates one public operational issue. A later su
 - `docs/global-pit-rule-map.md` — global structure map and provenance
 - `docs/pit-primitives.md` — shared deterministic arithmetic contract
 - `docs/pit-country-package-contract.md` — executable package manifest and input contract
+- `docs/global-calculator.md` — manifest-driven browser interface
 - `docs/jurisdiction-register.md` — canonical jurisdiction backlog and lifecycle
 - `docs/calculation-families.md` — calculator sequencing families
 - `docs/api.md` — global catalogue and calculation API
