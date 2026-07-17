@@ -20,7 +20,7 @@ Each package declares:
 
 ## Executable fact schema
 
-The `factsSchema` is both metadata and runtime validation. Before country-specific validation, TaxCraft rejects:
+The `factsSchema` is both metadata and runtime validation. TaxCraft checks the basic object shape before invoking country validation. Established country-specific errors are preserved; remaining schema violations are then enforced for:
 
 - undeclared fields;
 - missing required facts;
@@ -63,4 +63,4 @@ Singapore declares confirmed resident status and whole-dollar chargeable income.
 
 The United Kingdom package declares the selected England, Wales or Northern Ireland regime, non-savings income and adjusted net income in whole pounds.
 
-Both packages retain their existing country-specific validation and calculation fixtures after the shared schema check.
+Both packages retain their existing country-specific validation and calculation fixtures alongside the shared schema check.
