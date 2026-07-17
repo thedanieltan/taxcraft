@@ -13,9 +13,9 @@ The programme keeps TaxCraft stateless and non-advisory. Country packages calcul
 | WP-PIT-01 | Canonical global jurisdiction register | Integrated |
 | WP-PIT-02 | Global PIT rule map | 161 source-indexed; 86 in discovery |
 | WP-PIT-03 | Shared PIT calculation primitives | Integrated |
-| WP-PIT-04 | Standard PIT country-package contract | Branch implemented; acceptance pending |
-| WP-PIT-05 | Reconcile existing Singapore and United Kingdom packages | Contract reconciliation on branch; acceptance pending |
-| WP-PIT-06 | Coverage catalogue API | Planned |
+| WP-PIT-04 | Standard PIT country-package contract | Integrated |
+| WP-PIT-05 | Reconcile existing Singapore and United Kingdom packages | Integrated |
+| WP-PIT-06 | Coverage catalogue API | Branch implemented; acceptance pending |
 | WP-PIT-07 | Manifest-driven global calculator interface | Planned |
 | WP-PIT-08 | No-PIT jurisdiction packages | Planned |
 | WP-PIT-09 | Flat-rate jurisdiction packages | Planned |
@@ -96,7 +96,7 @@ The contract declares:
 - rounding stages;
 - source-maintenance mode.
 
-The facts schema is executable. It rejects undeclared fields, missing facts, incompatible types, invalid enums, unsafe money values and identity-bearing field names before country-specific validation. It is also the stable input description for the later coverage API and manifest-driven calculator.
+The facts schema is executable. It rejects undeclared fields, missing facts, incompatible types, invalid enums, unsafe money values and identity-bearing field names while preserving established country-specific validation semantics. It is also the stable input description for the coverage API and manifest-driven calculator.
 
 TaxCraft does not request names, identity numbers, addresses or tax documents. It does not infer residence or legal eligibility from personal circumstances.
 
@@ -121,6 +121,19 @@ Intermediate multiplication and division use `BigInt`. Public amounts remain saf
 Singapore and United Kingdom arithmetic use these shared primitives. Their existing country fixtures remain the behavioural-equivalence gate.
 
 Country packages compose the primitives while retaining package-specific coverage, sources and fixtures.
+
+## Coverage catalogue API
+
+The build generates a filesystem-free `@taxcraft/catalog` ESM package from the validated JSON catalogues. The API exposes:
+
+- global catalogue status and calculation families;
+- all 249 registered jurisdictions;
+- per-jurisdiction mapping, evidence and implementation metadata;
+- implemented model coverage and official sources;
+- executable per-model input schemas;
+- a namespaced PIT calculation route.
+
+Registered but unimplemented jurisdictions remain queryable as metadata and return an explicit `not_implemented` result from model-specific routes. Existing `/v1/jurisdictions` and `/v1/calculate` behaviour remains available for compatibility.
 
 ## Validation
 
