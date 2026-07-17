@@ -16,7 +16,7 @@
     "build:release": "node scripts/build-release.mjs",
     "check": "npm run check:policies && npm run check:catalog && npm run lint && npm run build && npm test",
     "check:policies": "node scripts/validate-policies.mjs",
-    "check:catalog": "node scripts/validate-pit-catalog.mjs",
+    "check:catalog": "node scripts/validate-pit-catalog.mjs && node scripts/validate-pit-rule-map.mjs",
     "lint": "node scripts/lint.mjs",
     "start": "npm run start -w @taxcraft/api",
     "test": "node --test",
