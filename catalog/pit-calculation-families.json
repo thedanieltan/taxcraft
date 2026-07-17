@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "families": [
+    {
+      "id": "UNMAPPED",
+      "description": "Tax structure has not yet been mapped.",
+      "implementationWave": null
+    },
+    {
+      "id": "NO_PIT",
+      "description": "No ordinary national personal income tax calculation for the supported scope.",
+      "implementationWave": 1
+    },
+    {
+      "id": "FLAT",
+      "description": "One principal rate applied to a caller-confirmed tax base.",
+      "implementationWave": 2
+    },
+    {
+      "id": "FLAT_WITH_ALLOWANCE",
+      "description": "One principal rate after a fixed allowance or standard deduction.",
+      "implementationWave": 2
+    },
+    {
+      "id": "SIMPLE_PROGRESSIVE",
+      "description": "One principal progressive rate schedule with limited adjustments.",
+      "implementationWave": 3
+    },
+    {
+      "id": "PROGRESSIVE_RELIEFS",
+      "description": "Progressive rates with deductions, allowances, credits, rebates or phase-outs.",
+      "implementationWave": 4
+    },
+    {
+      "id": "HOUSEHOLD_FILING",
+      "description": "Tax depends materially on filing status, spouses, dependants or household computation.",
+      "implementationWave": 5
+    },
+    {
+      "id": "MULTI_LAYER",
+      "description": "National tax combines with state, provincial, cantonal, regional or municipal tax.",
+      "implementationWave": 6
+    },
+    {
+      "id": "MULTI_SCHEDULE",
+      "description": "Different income categories use materially different schedules.",
+      "implementationWave": 7
+    },
+    {
+      "id": "COMPLEX_COMPOSITE",
+      "description": "The system combines alternative calculations, extensive credits, multiple layers or other cross-cutting rules.",
+      "implementationWave": 8
+    }
+  ]
+}
