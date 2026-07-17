@@ -254,6 +254,79 @@ export function annualizeAmount({
   );
 }
 
+export function deductFloorZero({ amountMinor, deductionMinor }) {
+  nonNegativeSafeInteger(amountMinor, "amountMinor");
+  nonNegativeSafeInteger(deductionMinor, "deductionMinor");
+  const appliedDeductionMinor = Math.min(amountMinor, deductionMinor);
+  return {
+    amountBeforeDeductionMinor: amountMinor,
+    availableDeductionMinor: deductionMinor,
+    appliedDeductionMinor,
+    amountAfterDeductionMinor: amountMinor - appliedDeductionMinor,
+  };
+}
+
+export function calculateTaxSchedules(schedules) {
+  if (!Array.isArray(schedules) || schedules.length === 0) {
+    throw new Error("Tax schedules require at least one schedule.");
+  }
+  let totalTaxMinor = 0;
+  const results = schedules.map((schedule, index) => {
+    if (!schedule || typeof schedule !== "object" || Array.isArray(schedule)) {
+      throw new Error(`Tax schedule ${index} must be an object.`);
+    }
+    if (typeof schedule.id !== "string" || schedule.id.length === 0) {
+      throw new Error(`Tax schedule ${index} requires an id.`);
+    }
+    const result = calculateProgressiveBands({
+      taxableMinor: schedule.taxableMinor,
+      bands: schedule.bands,
+      rounding: schedule.rounding ?? ROUNDING_MODE.HALF_UP,
+    });
+    totalTaxMinor = safeAdd(totalTaxMinor, result.taxMinor, "tax schedule total");
+    return { id: schedule.id, ...result };
+  });
+  return { totalTaxMinor, schedules: results };
+}
+
+export function calculateQuotientTax({
+  taxableMinor,
+  quotientNumerator,
+  quotientDenominator = 1,
+  bands,
+  incomeRounding = ROUNDING_MODE.FLOOR,
+  bandRounding = ROUNDING_MODE.HALF_UP,
+  totalRounding = ROUNDING_MODE.HALF_UP,
+}) {
+  nonNegativeSafeInteger(taxableMinor, "taxableMinor");
+  positiveSafeInteger(quotientNumerator, "quotientNumerator");
+  positiveSafeInteger(quotientDenominator, "quotientDenominator");
+  const quotientIncomeMinor = roundRatio(
+    BigInt(taxableMinor) * BigInt(quotientDenominator),
+    BigInt(quotientNumerator),
+    incomeRounding,
+  );
+  const unitTax = calculateProgressiveBands({
+    taxableMinor: quotientIncomeMinor,
+    bands,
+    rounding: bandRounding,
+  });
+  const taxMinor = roundRatio(
+    BigInt(unitTax.taxMinor) * BigInt(quotientNumerator),
+    BigInt(quotientDenominator),
+    totalRounding,
+  );
+  return {
+    taxableMinor,
+    quotientNumerator,
+    quotientDenominator,
+    quotientIncomeMinor,
+    unitTaxMinor: unitTax.taxMinor,
+    taxMinor,
+    bands: unitTax.bands,
+  };
+}
+
 function shouldIncrement({ quotient, remainder, denominator, negative, rounding }) {
   if (remainder === 0n) return false;
   if (rounding === ROUNDING_MODE.TRUNCATE) return false;
