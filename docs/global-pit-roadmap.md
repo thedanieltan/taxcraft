@@ -10,8 +10,8 @@ The programme keeps TaxCraft stateless and non-advisory. Country packages calcul
 
 | Work package | Deliverable | State |
 | --- | --- | --- |
-| WP-PIT-01 | Canonical global jurisdiction register | Branch implemented; acceptance pending |
-| WP-PIT-02 | Global PIT rule map | Source index implemented; source discovery continues |
+| WP-PIT-01 | Canonical global jurisdiction register | Integrated |
+| WP-PIT-02 | Global PIT rule map | 161 source-indexed; 86 in discovery |
 | WP-PIT-03 | Shared PIT calculation primitives | Planned |
 | WP-PIT-04 | Standard PIT country-package contract | Planned |
 | WP-PIT-05 | Reconcile existing Singapore and United Kingdom packages | Planned |
@@ -52,10 +52,10 @@ Mapping status and implementation status are separate. A mapped jurisdiction may
 The current rule map contains all 249 registered jurisdictions:
 
 - 2 implemented package mappings;
-- 145 jurisdictions indexed from a current global PIT summary and assigned provisional calculation families;
-- 102 jurisdictions retained explicitly for source discovery.
+- 161 jurisdictions indexed from current global PIT summaries and assigned provisional calculation families;
+- 86 jurisdictions retained explicitly for source discovery.
 
-The global summary is planning evidence only. It does not supply calculator parameters. Enacted tax-year values, allowances, credits and examples continue to come from official publications when a package is implemented.
+The global summaries are planning evidence only. The EY guide is used only for jurisdictions with full personal-tax chapters; contact-only listings are excluded. They do not supply calculator parameters. Enacted tax-year values, allowances, credits and examples continue to come from official publications when a package is implemented.
 
 Each progressively enriched mapping records:
 
@@ -128,7 +128,7 @@ Every mapped package must retain the existing TaxCraft guarantees:
 - declared rounding;
 - supported-version lifecycle enforcement.
 
-The catalogue validators additionally check identity-code uniqueness, ordering, lifecycle consistency, rule-map coverage, source references, known calculation families and continued representation of existing packages.
+The catalogue validators additionally check identity-code uniqueness, ordering, lifecycle consistency, rule-map coverage, per-source evidence, known calculation families and continued representation of existing packages.
 
 ## Source maintenance
 

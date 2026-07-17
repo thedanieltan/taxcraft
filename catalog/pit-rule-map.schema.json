@@ -17,7 +17,7 @@
   ],
   "properties": {
     "schemaVersion": {
-      "const": "1.0.0"
+      "const": "1.1.0"
     },
     "taxDomain": {
       "const": "PIT"
@@ -75,7 +75,8 @@
         "classificationConfidence",
         "sourceIds",
         "notes",
-        "families"
+        "families",
+        "evidenceGroups"
       ],
       "properties": {
         "classificationConfidence": {
@@ -108,6 +109,21 @@
               "MULTI_SCHEDULE",
               "COMPLEX_COMPOSITE"
             ]
+          },
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Z]{2}$"
+            },
+            "uniqueItems": true
+          }
+        },
+        "evidenceGroups": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "minLength": 1
           },
           "additionalProperties": {
             "type": "array",

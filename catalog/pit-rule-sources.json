@@ -25,6 +25,14 @@
       "location": "https://taxsummaries.pwc.com/quick-charts/personal-income-tax-pit-rates",
       "scope": "Headline PIT rates and linked individual tax summaries for 147 territories. This is an implementation-planning index, not a source for calculator parameters.",
       "observedAt": "2026-07-18"
+    },
+    {
+      "id": "EY_WORLDWIDE_PERSONAL_TAX_2025_26",
+      "type": "secondary-guide",
+      "authority": "EY Global",
+      "location": "https://www.ey.com/content/dam/ey-unified-site/ey-com/en-gl/technical/tax-guides/documents/ey-gl-worldwide-personal-immigration-tax-guide-03-2026.pdf",
+      "scope": "Full personal-tax chapters in the 2025-26 Worldwide Personal Tax and Immigration Guide, current as of 1 October 2025 with exceptions noted. Contact-only entries in the guide's other-jurisdictions section are excluded from classification evidence.",
+      "observedAt": "2026-07-18"
     }
   ]
 }

@@ -16,7 +16,7 @@ const [registry, familyCatalog, ruleMap, sourceRegistry] = await Promise.all([
   readFile(sourcesUrl, "utf8").then(JSON.parse),
 ]);
 
-assert(ruleMap.schemaVersion === "1.0.0", "Unexpected PIT rule-map schema version");
+assert(ruleMap.schemaVersion === "1.1.0", "Unexpected PIT rule-map schema version");
 assert(ruleMap.taxDomain === "PIT", "PIT rule map must contain only personal income tax");
 assert(sourceRegistry.taxDomain === "PIT", "PIT rule sources must contain only personal income tax");
 assert(ruleMap.scope.standard === registry.scope.standard, "Rule map and register use different scope standards");
@@ -57,15 +57,44 @@ for (const [code, entry] of Object.entries(ruleMap.implemented)) {
   assert(entry.sourceIds.length > 0, `${code} implemented mapping has no evidence source`);
 }
 
+const indexedCodes = new Set();
 for (const [familyId, codes] of Object.entries(ruleMap.sourceIndexed.families)) {
   assert(familyId !== "UNMAPPED", "Source-indexed jurisdiction cannot use UNMAPPED");
   assert(familyById.has(familyId), `Unknown source-indexed family ${familyId}`);
-  assert(
-    ruleMap.sourceIndexed.sourceIds.includes("PWC_WWTS_PIT_QUICK_CHART"),
-    "Source-indexed mappings must cite the global summary",
-  );
   for (const code of codes) {
-    assign(code, "source-indexed", familyId, ruleMap.sourceIndexed.sourceIds);
+    assert(!indexedCodes.has(code), `Source-indexed jurisdiction ${code} appears in multiple families`);
+    indexedCodes.add(code);
+  }
+}
+
+const declaredSourceIds = new Set(ruleMap.sourceIndexed.sourceIds);
+const evidenceSourceIds = new Set(Object.keys(ruleMap.sourceIndexed.evidenceGroups));
+assert(
+  declaredSourceIds.size === ruleMap.sourceIndexed.sourceIds.length,
+  "Source-indexed source list contains duplicates",
+);
+assert(
+  declaredSourceIds.size === evidenceSourceIds.size &&
+    [...declaredSourceIds].every((sourceId) => evidenceSourceIds.has(sourceId)),
+  "Source-indexed source list and evidence groups differ",
+);
+
+const evidenceByCode = new Map();
+for (const [sourceId, codes] of Object.entries(ruleMap.sourceIndexed.evidenceGroups)) {
+  assert(sourceIds.has(sourceId), `Evidence group references unknown source ${sourceId}`);
+  for (const code of codes) {
+    assert(indexedCodes.has(code), `Evidence group classifies non-indexed jurisdiction ${code}`);
+    const evidence = evidenceByCode.get(code) ?? [];
+    evidence.push(sourceId);
+    evidenceByCode.set(code, evidence);
+  }
+}
+
+for (const [familyId, codes] of Object.entries(ruleMap.sourceIndexed.families)) {
+  for (const code of codes) {
+    const evidenceIds = evidenceByCode.get(code) ?? [];
+    assert(evidenceIds.length > 0, `${code} has no source-index evidence`);
+    assign(code, "source-indexed", familyId, evidenceIds);
   }
 }
 
@@ -92,8 +121,8 @@ const statusCounts = [...assignments.values()].reduce((result, assignment) => {
 }, {});
 
 assert(statusCounts.implemented === 2, "The rule map must preserve the two existing implemented packages");
-assert(statusCounts["source-indexed"] === 145, "Unexpected global-summary source coverage");
-assert(statusCounts["source-discovery"] === 102, "Unexpected source-discovery backlog");
+assert(statusCounts["source-indexed"] === 161, "Unexpected source-indexed coverage");
+assert(statusCounts["source-discovery"] === 86, "Unexpected source-discovery backlog");
 
 for (const [code, assignment] of assignments) {
   const family = familyById.get(assignment.calculationFamily);
@@ -105,6 +134,16 @@ for (const [code, assignment] of assignments) {
     const layers = ruleMap.structuralOverrides[code]?.taxLayers;
     if (layers) assert(layers.national === false, `${code} NO_PIT override declares national PIT`);
   }
+}
+
+const eyEvidence = new Set(
+  ruleMap.sourceIndexed.evidenceGroups.EY_WORLDWIDE_PERSONAL_TAX_2025_26 ?? [],
+);
+for (const contactOnlyCode of ["AI", "AG", "DM", "FO", "GD", "FM", "MH", "MS", "PW", "KN", "VC", "SY"]) {
+  assert(
+    !eyEvidence.has(contactOnlyCode),
+    `${contactOnlyCode} was promoted from an EY contact-only entry`,
+  );
 }
 
 console.log(
