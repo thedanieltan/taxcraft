@@ -1,6 +1,21 @@
 import { MODEL_STATUS } from "@taxcraft/contracts";
 import { createTaxCraft, validateCountryPackage } from "@taxcraft/core";
 
+export {
+  ROUNDING_MODE,
+  annualizeAmount,
+  applyBasisPoints,
+  applyCappedRate,
+  applyRate,
+  applyTaxCredit,
+  calculateProgressiveBands,
+  calculateSteppedTaper,
+  compareTaxAmounts,
+  prorateAmount,
+  roundRatio,
+  sumTaxLayers,
+} from "./pit-primitives.js";
+
 export function defineCountryPackage({ manifest, sources, models }) {
   if (!models || typeof models !== "object" || Array.isArray(models)) {
     throw new Error("Country package models must be keyed by tax year.");
