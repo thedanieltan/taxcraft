@@ -1,15 +1,14 @@
 export function createFieldModel(name, property, required = false) {
   const currency = property["x-taxcraft-currency"] ?? null;
-  const scale = property["x-taxcraft-kind"] === "money-minor"
-    ? currencyScale(currency)
-    : 1;
+  const kind = property["x-taxcraft-kind"];
+  const scale = kind === "money-minor" ? currencyScale(currency) : 1;
   const enumValues = Array.isArray(property.enum) ? [...property.enum] : [];
 
   return {
     name,
     title: property.title,
     description: property.description ?? "",
-    kind: property["x-taxcraft-kind"],
+    kind,
     type: property.type,
     required,
     currency,
@@ -25,7 +24,7 @@ export function createFieldModel(name, property, required = false) {
     constValue: Object.hasOwn(property, "const") ? property.const : undefined,
     minimum: scaled(property.minimum, scale),
     maximum: scaled(property.maximum, scale),
-    step: scaled(property.multipleOf, scale) ?? (property.type === "integer" ? 1 : null),
+    step: scaled(property.multipleOf, scale) ?? (kind === "money-minor" ? 1 / scale : property.type === "integer" ? 1 : null),
   };
 }
 
