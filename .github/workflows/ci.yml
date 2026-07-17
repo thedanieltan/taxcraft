@@ -28,14 +28,23 @@ jobs:
           if npm run check > /tmp/taxcraft-check.log 2>&1; then
             cat /tmp/taxcraft-check.log
           else
-            summary=$(grep --max-count 1 '^not ok ' /tmp/taxcraft-check.log || true)
+            summary=$(awk '
+              /^not ok / { capture = 1 }
+              capture {
+                line = $0
+                gsub(/[[:space:]]+/, " ", line)
+                printf "%s | ", line
+                count++
+              }
+              capture && count >= 12 { exit }
+            ' /tmp/taxcraft-check.log)
             if [ -z "$summary" ]; then
               summary=$(grep --max-count 1 --extended-regexp 'AssertionError|Error:|failed' /tmp/taxcraft-check.log || true)
             fi
             if [ -z "$summary" ]; then
               summary="repository checks failed"
             fi
-            summary=${summary//$'\n'/ }
+            summary=$(printf '%s' "$summary" | cut --characters 1-240)
             echo "failure-summary=$summary" >> "$GITHUB_OUTPUT"
             echo "Repository checks failed. Showing the diagnostic tail." >&2
             tail --lines 200 /tmp/taxcraft-check.log >&2
@@ -48,7 +57,10 @@ jobs:
     name: "Failure: ${{ needs.check.outputs.failure-summary }}"
     runs-on: ubuntu-latest
     steps:
-      - run: echo '${{ needs.check.outputs.failure-summary }}'
+      - name: Report failure summary
+        env:
+          FAILURE_SUMMARY: ${{ needs.check.outputs.failure-summary }}
+        run: printf '%s\n' "$FAILURE_SUMMARY"
 
   container:
     needs: check
