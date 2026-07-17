@@ -75,8 +75,12 @@ export function definePitCountryPackage(definition) {
       ...model,
       async validateFacts({ facts }) {
         const schemaIssues = validatePitFacts(factsSchema, facts);
-        if (schemaIssues.length) return { ok: false, issues: schemaIssues };
-        return model.validateFacts({ facts });
+        if (schemaIssues.some(({ code }) => code === "facts.invalid")) {
+          return { ok: false, issues: schemaIssues };
+        }
+        const countryResult = await model.validateFacts({ facts });
+        if (!countryResult?.ok) return countryResult;
+        return schemaIssues.length ? { ok: false, issues: schemaIssues } : countryResult;
       },
     },
   ]));
