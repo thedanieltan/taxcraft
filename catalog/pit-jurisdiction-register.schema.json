@@ -1,0 +1,326 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taxcraft.dev/schemas/pit-jurisdiction-register.v1.json",
+  "title": "TaxCraft PIT jurisdiction register",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "taxDomain",
+    "scope",
+    "statuses",
+    "defaults",
+    "entities",
+    "overrides"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "taxDomain": {
+      "const": "PIT"
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "standard",
+        "entityType",
+        "entityCount",
+        "description"
+      ],
+      "properties": {
+        "standard": {
+          "const": "ISO 3166-1"
+        },
+        "entityType": {
+          "const": "country-or-territory"
+        },
+        "entityCount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "statuses": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mapping",
+        "implementation"
+      ],
+      "properties": {
+        "mapping": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "unmapped",
+              "mapped"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "implementation": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "not-started",
+              "in-progress",
+              "implemented",
+              "deployed",
+              "live-accepted",
+              "maintenance-blocked"
+            ]
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "taxDomain",
+        "mappingStatus",
+        "implementationStatus",
+        "calculationFamily",
+        "taxYearBasis",
+        "currencyCodes",
+        "nationalTaxLayer",
+        "subnationalTaxLayer",
+        "localTaxLayer",
+        "requiredSubdivisionSelection",
+        "supportedTaxYears",
+        "package",
+        "coverageSummary"
+      ],
+      "properties": {
+        "taxDomain": {
+          "const": "PIT"
+        },
+        "mappingStatus": {
+          "enum": [
+            "unmapped",
+            "mapped"
+          ]
+        },
+        "implementationStatus": {
+          "enum": [
+            "not-started",
+            "in-progress",
+            "implemented",
+            "deployed",
+            "live-accepted",
+            "maintenance-blocked"
+          ]
+        },
+        "calculationFamily": {
+          "enum": [
+            "UNMAPPED",
+            "NO_PIT",
+            "FLAT",
+            "FLAT_WITH_ALLOWANCE",
+            "SIMPLE_PROGRESSIVE",
+            "PROGRESSIVE_RELIEFS",
+            "HOUSEHOLD_FILING",
+            "MULTI_LAYER",
+            "MULTI_SCHEDULE",
+            "COMPLEX_COMPOSITE"
+          ]
+        },
+        "taxYearBasis": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "currencyCodes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
+          },
+          "uniqueItems": true
+        },
+        "nationalTaxLayer": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "subnationalTaxLayer": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "localTaxLayer": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "requiredSubdivisionSelection": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "supportedTaxYears": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "package": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "coverageSummary": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$"
+          },
+          {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
+          },
+          {
+            "type": "string",
+            "pattern": "^[0-9]{3}$"
+          },
+          {
+            "type": "string",
+            "minLength": 1
+          }
+        ],
+        "items": false,
+        "minItems": 4,
+        "maxItems": 4
+      }
+    },
+    "overrides": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[A-Z]{2}$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "taxDomain": {
+            "const": "PIT"
+          },
+          "mappingStatus": {
+            "enum": [
+              "unmapped",
+              "mapped"
+            ]
+          },
+          "implementationStatus": {
+            "enum": [
+              "not-started",
+              "in-progress",
+              "implemented",
+              "deployed",
+              "live-accepted",
+              "maintenance-blocked"
+            ]
+          },
+          "calculationFamily": {
+            "enum": [
+              "UNMAPPED",
+              "NO_PIT",
+              "FLAT",
+              "FLAT_WITH_ALLOWANCE",
+              "SIMPLE_PROGRESSIVE",
+              "PROGRESSIVE_RELIEFS",
+              "HOUSEHOLD_FILING",
+              "MULTI_LAYER",
+              "MULTI_SCHEDULE",
+              "COMPLEX_COMPOSITE"
+            ]
+          },
+          "taxYearBasis": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "currencyCodes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Z]{3}$"
+            },
+            "uniqueItems": true
+          },
+          "nationalTaxLayer": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "subnationalTaxLayer": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "localTaxLayer": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "requiredSubdivisionSelection": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "supportedTaxYears": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "package": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "coverageSummary": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
