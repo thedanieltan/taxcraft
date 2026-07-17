@@ -25,7 +25,9 @@ The global summaries used for sequencing are not calculator parameter sources. E
 
 Country packages share deterministic Node.js arithmetic through `@taxcraft/country-sdk`: progressive bands, deductions, allowance tapers, capped rebates, credits, alternative calculations, household quotients, income schedules and tax layers. Intermediate arithmetic uses `BigInt`, while public amounts remain integer minor units.
 
-Maintained packages also declare a closed, executable PIT facts schema covering tax unit, currencies, income schedules, tax layers, rounding and source-maintenance mode. This contract will drive the global coverage API and generated calculator forms.
+Maintained packages declare a closed, executable PIT facts schema covering tax unit, currencies, income schedules, tax layers, rounding and source-maintenance mode.
+
+The stateless API exposes the complete global catalogue, calculation families, evidence state, implemented coverage and executable per-model input schemas. Registered jurisdictions without calculators remain visible and return an explicit `not_implemented` result from model-specific routes.
 
 ```bash
 npm run check:catalog
@@ -41,7 +43,7 @@ npm run build
 npm start
 ```
 
-Open `http://localhost:3000` to use the Singapore reference calculator. The same process serves all maintained packages through the stateless API and `GET /openapi.json`.
+Open `http://localhost:3000` to use the Singapore reference calculator. The same process serves the global catalogue and maintained calculators through the stateless API and `GET /openapi.json`.
 
 ## Client examples
 
@@ -70,7 +72,7 @@ See `docs/deployment.md` for the required secrets, live acceptance and rollback 
 npm run check
 ```
 
-CI validates the PIT register and rule map, builds and tests all packages, then builds the service image and verifies the stateless API behavior.
+CI validates the PIT register and rule map, builds the generated runtime catalogue and all packages, then builds the service image and verifies the stateless API behavior.
 
 ## Current-source maintenance
 
@@ -91,7 +93,7 @@ A blocked source watch opens or updates one public operational issue. A later su
 - `docs/pit-country-package-contract.md` — executable package manifest and input contract
 - `docs/jurisdiction-register.md` — canonical jurisdiction backlog and lifecycle
 - `docs/calculation-families.md` — calculator sequencing families
-- `docs/api.md` — API contract and examples
+- `docs/api.md` — global catalogue and calculation API
 - `docs/deployment.md` — Cloudflare deployment and live acceptance
 - `docs/autonomous-maintenance.md` — source admission and lifecycle
 - `docs/operations.md` — operational and rollback procedures
