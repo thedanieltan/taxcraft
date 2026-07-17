@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="TaxCraft personal income tax calculator">
-  <title>TaxCraft</title>
+  <meta name="description" content="TaxCraft global personal income tax calculator catalogue">
+  <title>TaxCraft global PIT calculator</title>
   <link rel="stylesheet" href="/styles.css">
   <script type="module" src="/app.js"></script>
 </head>
@@ -12,43 +12,34 @@
   <main>
     <header class="hero">
       <p class="eyebrow">TaxCraft</p>
-      <h1>Singapore personal income tax estimate</h1>
-      <p>Enter supported income and user-confirmed deduction or relief totals. TaxCraft derives chargeable income and applies the selected IRAS Year of Assessment.</p>
+      <h1>Global personal income tax calculators</h1>
+      <p>Browse every registered jurisdiction and calculate with implemented, source-backed TaxCraft packages. Inputs and forms are generated from each package's executable contract.</p>
+      <dl id="catalogue-stats" class="stats" aria-label="PIT catalogue status"></dl>
     </header>
 
     <section class="panel" aria-labelledby="calculator-title">
-      <h2 id="calculator-title">Calculate</h2>
-      <form id="tax-form" autocomplete="off">
-        <label for="tax-year">Year of Assessment</label>
+      <h2 id="calculator-title">Choose a jurisdiction</h2>
+
+      <label for="jurisdiction">Country or territory</label>
+      <select id="jurisdiction" required>
+        <option value="">Loading catalogue…</option>
+      </select>
+
+      <section id="jurisdiction-status" class="status-card" aria-live="polite" hidden></section>
+
+      <form id="tax-form" autocomplete="off" hidden>
+        <label for="tax-year">Tax year</label>
         <select id="tax-year" required></select>
 
-        <fieldset>
-          <legend>Income</legend>
-          <label for="employment-income">Employment income (SGD, whole dollars)</label>
-          <input id="employment-income" type="number" min="0" step="1" inputmode="numeric" required>
-
-          <label for="other-taxable-income">Other taxable income (SGD, whole dollars)</label>
-          <input id="other-taxable-income" type="number" min="0" step="1" inputmode="numeric" value="0" required>
+        <fieldset id="facts-fieldset">
+          <legend>Calculation facts</legend>
+          <div id="facts-fields" class="facts-fields"></div>
         </fieldset>
-
-        <fieldset>
-          <legend>User-confirmed deductions and reliefs</legend>
-          <label for="allowable-deductions">Allowable deductions total (SGD, whole dollars)</label>
-          <input id="allowable-deductions" type="number" min="0" step="1" inputmode="numeric" value="0" required>
-
-          <label for="personal-reliefs">Personal reliefs total (SGD, whole dollars)</label>
-          <input id="personal-reliefs" type="number" min="0" step="1" inputmode="numeric" value="0" required>
-          <p class="help">Use amounts you have already confirmed from official IRAS guidance. TaxCraft does not determine whether you qualify.</p>
-        </fieldset>
-
-        <label class="confirmation" for="resident-confirmation">
-          <input id="resident-confirmation" type="checkbox" required>
-          <span>I have confirmed Singapore tax residency, which income is taxable, and my eligibility and amounts for deductions and personal reliefs.</span>
-        </label>
 
         <button type="submit">Calculate estimate</button>
       </form>
-      <p class="privacy">Inputs are sent only for this calculation. TaxCraft does not create an account or save calculation history.</p>
+
+      <p class="privacy">TaxCraft does not create accounts or save calculation history. Only the declared facts for the selected package are sent to the stateless API.</p>
     </section>
 
     <section id="message" class="message" aria-live="polite" hidden></section>
@@ -56,13 +47,13 @@
     <section id="result" class="panel" aria-labelledby="result-title" hidden>
       <div class="result-heading">
         <div>
-          <p class="eyebrow" id="result-year"></p>
-          <h2 id="result-title">Estimated tax payable</h2>
+          <p class="eyebrow" id="result-context"></p>
+          <h2 id="result-title">Estimated personal income tax</h2>
         </div>
         <p id="result-total" class="total"></p>
       </div>
 
-      <h3>Worksheet and calculation</h3>
+      <h3>Calculation totals</h3>
       <dl id="totals" class="totals"></dl>
 
       <h3>Rules applied</h3>
@@ -79,7 +70,7 @@
     </section>
 
     <footer>
-      <p>This is an estimate based on the information entered and the supported rules for the selected tax year. It is not tax, legal, accounting or financial advice.</p>
+      <p>This is an estimate based on caller-confirmed facts and the supported rules for the selected model. It is not tax, legal, accounting or financial advice.</p>
     </footer>
   </main>
 </body>
