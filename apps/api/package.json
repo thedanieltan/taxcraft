@@ -6,6 +6,7 @@
   "description": "Stateless HTTP API and reference web server for TaxCraft.",
   "exports": "./src/app.js",
   "dependencies": {
+    "@taxcraft/catalog": "0.1.0",
     "@taxcraft/core": "0.1.0",
     "@taxcraft/country-gb": "0.1.0",
     "@taxcraft/country-sg": "0.1.0"

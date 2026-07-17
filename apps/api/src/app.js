@@ -1,3 +1,9 @@
+import {
+  getPitCatalogueStatus,
+  getPitJurisdiction,
+  listPitCalculationFamilies,
+  listPitJurisdictions,
+} from "@taxcraft/catalog";
 import { createTaxCraft } from "@taxcraft/core";
 import { ukPackage } from "@taxcraft/country-gb";
 import { calculateChargeableIncomeWorksheet, singaporePackage } from "@taxcraft/country-sg";
@@ -11,14 +17,21 @@ export const OPENAPI_DOCUMENT = Object.freeze({
   info: {
     title: "TaxCraft API",
     version: "0.1.0",
-    description: "Stateless personal income tax estimates for explicitly supported country packages."
+    description: "Stateless personal income tax catalogue and deterministic estimates for implemented country packages."
   },
   paths: {
-    "/v1/jurisdictions": { get: { summary: "List supported jurisdictions" } },
-    "/v1/jurisdictions/{code}": { get: { summary: "Read jurisdiction metadata" } },
-    "/v1/jurisdictions/{code}/{taxYear}/coverage": { get: { summary: "Read model coverage and official sources" } },
+    "/v1/jurisdictions": { get: { summary: "List implemented jurisdictions (compatibility route)" } },
+    "/v1/jurisdictions/{code}": { get: { summary: "Read implemented jurisdiction metadata (compatibility route)" } },
+    "/v1/jurisdictions/{code}/{taxYear}/coverage": { get: { summary: "Read implemented model coverage (compatibility route)" } },
+    "/v1/pit/status": { get: { summary: "Read global PIT catalogue status" } },
+    "/v1/pit/calculation-families": { get: { summary: "List PIT calculation families and implementation waves" } },
+    "/v1/pit/jurisdictions": { get: { summary: "List all registered PIT jurisdictions" } },
+    "/v1/pit/jurisdictions/{code}": { get: { summary: "Read global PIT jurisdiction metadata" } },
+    "/v1/pit/jurisdictions/{code}/{taxYear}/coverage": { get: { summary: "Read implemented PIT model coverage and sources" } },
+    "/v1/pit/jurisdictions/{code}/{taxYear}/input-schema": { get: { summary: "Read the executable PIT calculation facts schema" } },
     "/v1/worksheets/SG/chargeable-income": { post: { summary: "Derive Singapore chargeable income from user-confirmed totals" } },
-    "/v1/calculate": { post: { summary: "Calculate a deterministic tax estimate" } },
+    "/v1/calculate": { post: { summary: "Calculate a deterministic tax estimate (compatibility route)" } },
+    "/v1/pit/calculate": { post: { summary: "Calculate a deterministic PIT estimate" } },
     "/openapi.json": { get: { summary: "Read this OpenAPI document" } }
   }
 });
@@ -34,6 +47,34 @@ export function createApi({ logger = () => {} } = {}) {
 
       if (method === "GET" && pathname === "/openapi.json") {
         return json(200, OPENAPI_DOCUMENT);
+      }
+
+      if (method === "GET" && pathname === "/v1/pit/status") {
+        return json(200, getPitCatalogueStatus());
+      }
+
+      if (method === "GET" && pathname === "/v1/pit/calculation-families") {
+        return json(200, { calculationFamilies: listPitCalculationFamilies() });
+      }
+
+      if (method === "GET" && pathname === "/v1/pit/jurisdictions") {
+        return json(200, { jurisdictions: listPitJurisdictions() });
+      }
+
+      const pitJurisdictionMatch = pathname.match(/^\/v1\/pit\/jurisdictions\/([A-Z]{2})$/);
+      if (method === "GET" && pitJurisdictionMatch) {
+        const catalogueEntry = getPitJurisdiction(pitJurisdictionMatch[1]);
+        return catalogueEntry ? json(200, pitJurisdictionDetail(catalogueEntry)) : notFound();
+      }
+
+      const pitCoverageMatch = pathname.match(/^\/v1\/pit\/jurisdictions\/([A-Z]{2})\/([^/]+)\/coverage$/);
+      if (method === "GET" && pitCoverageMatch) {
+        return implementedModelResource(pitCoverageMatch[1], pitCoverageMatch[2], "coverage");
+      }
+
+      const inputSchemaMatch = pathname.match(/^\/v1\/pit\/jurisdictions\/([A-Z]{2})\/([^/]+)\/input-schema$/);
+      if (method === "GET" && inputSchemaMatch) {
+        return implementedModelResource(inputSchemaMatch[1], inputSchemaMatch[2], "input-schema");
       }
 
       if (method === "GET" && pathname === "/v1/jurisdictions") {
@@ -55,14 +96,7 @@ export function createApi({ logger = () => {} } = {}) {
         if (!countryPackage) return notFound();
         const version = countryPackage.manifest.taxYears.find((entry) => entry.taxYear === taxYear);
         if (!version) return notFound();
-        return json(200, {
-          jurisdiction,
-          taxYear,
-          modelVersion: version.modelVersion,
-          status: version.status,
-          coverage: countryPackage.coverage(taxYear),
-          sources: structuredClone(countryPackage.sources)
-        });
+        return json(200, coverageResponse(countryPackage, version));
       }
 
       if (method === "POST" && pathname === "/v1/worksheets/SG/chargeable-income") {
@@ -82,7 +116,7 @@ export function createApi({ logger = () => {} } = {}) {
         });
       }
 
-      if (method === "POST" && pathname === "/v1/calculate") {
+      if (method === "POST" && (pathname === "/v1/calculate" || pathname === "/v1/pit/calculate")) {
         const parsed = parseBody(body);
         if (!parsed.ok) {
           logger({ event: "invalid_request", reason: "invalid_json" });
@@ -111,6 +145,53 @@ export function createApi({ logger = () => {} } = {}) {
       return notFound();
     }
   });
+}
+
+function implementedModelResource(jurisdiction, taxYear, resource) {
+  const catalogueEntry = getPitJurisdiction(jurisdiction);
+  if (!catalogueEntry) return notFound();
+  const countryPackage = packagesByJurisdiction.get(jurisdiction);
+  if (!countryPackage) return notImplemented(catalogueEntry);
+  const version = countryPackage.manifest.taxYears.find((entry) => entry.taxYear === taxYear);
+  if (!version) return notFound();
+  if (resource === "input-schema") {
+    return json(200, {
+      jurisdiction,
+      taxYear,
+      modelVersion: version.modelVersion,
+      status: version.status,
+      pit: structuredClone(countryPackage.manifest.pit),
+      factsSchema: structuredClone(countryPackage.manifest.pit.factsSchema),
+    });
+  }
+  return json(200, coverageResponse(countryPackage, version));
+}
+
+function pitJurisdictionDetail(catalogueEntry) {
+  const countryPackage = packagesByJurisdiction.get(catalogueEntry.code);
+  return {
+    ...catalogueEntry,
+    calculator: countryPackage
+      ? {
+        available: true,
+        name: countryPackage.manifest.name,
+        taxYears: structuredClone(countryPackage.manifest.taxYears),
+        pit: structuredClone(countryPackage.manifest.pit),
+      }
+      : { available: false },
+  };
+}
+
+function coverageResponse(countryPackage, version) {
+  return {
+    jurisdiction: countryPackage.manifest.jurisdiction,
+    taxYear: version.taxYear,
+    modelVersion: version.modelVersion,
+    status: version.status,
+    coverage: countryPackage.coverage(version.taxYear),
+    pit: structuredClone(countryPackage.manifest.pit),
+    sources: structuredClone(countryPackage.sources)
+  };
 }
 
 function isPublicApiPath(pathname) {
@@ -146,6 +227,7 @@ function jurisdictionDetail(countryPackage) {
     ...jurisdictionSummary(countryPackage),
     storesUserPII: countryPackage.manifest.storesUserPII,
     advisory: countryPackage.manifest.advisory,
+    pit: structuredClone(countryPackage.manifest.pit),
     sources: structuredClone(countryPackage.sources)
   };
 }
@@ -154,6 +236,16 @@ function invalidJson() {
   return json(400, {
     status: "invalid",
     issues: [{ code: "request.json", path: "$", message: "Request body must be valid JSON." }]
+  });
+}
+
+function notImplemented(catalogueEntry) {
+  return json(409, {
+    status: "not_implemented",
+    message: "The jurisdiction is registered but no TaxCraft calculator is implemented.",
+    jurisdiction: catalogueEntry.code,
+    classificationStatus: catalogueEntry.classificationStatus,
+    calculationFamily: catalogueEntry.calculationFamily,
   });
 }
 
