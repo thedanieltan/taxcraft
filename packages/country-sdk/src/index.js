@@ -1,5 +1,15 @@
 import { MODEL_STATUS } from "@taxcraft/contracts";
 import { createTaxCraft, validateCountryPackage } from "@taxcraft/core";
+import { validatePitManifest } from "./pit-package.js";
+
+export {
+  PIT_FACT_KINDS,
+  PIT_MAINTENANCE_MODES,
+  PIT_PACKAGE_CONTRACT_VERSION,
+  PIT_TAX_UNITS,
+  PIT_TAX_YEAR_BASES,
+  validatePitManifest,
+} from "./pit-package.js";
 
 export {
   ROUNDING_MODE,
@@ -51,6 +61,11 @@ export function defineCountryPackage({ manifest, sources, models }) {
 
   validateCountryPackage(countryPackage);
   return Object.freeze(countryPackage);
+}
+
+export function definePitCountryPackage(definition) {
+  validatePitManifest(definition?.manifest);
+  return defineCountryPackage(definition);
 }
 
 export function advanceSupportWindow(existingVersions, newVersion) {
