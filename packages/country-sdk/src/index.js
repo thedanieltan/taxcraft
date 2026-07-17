@@ -1,6 +1,9 @@
 import { MODEL_STATUS } from "@taxcraft/contracts";
 import { createTaxCraft, validateCountryPackage } from "@taxcraft/core";
+import { validatePitFacts } from "./pit-facts.js";
 import { validatePitManifest } from "./pit-package.js";
+
+export { validatePitFacts } from "./pit-facts.js";
 
 export {
   PIT_FACT_KINDS,
@@ -65,7 +68,19 @@ export function defineCountryPackage({ manifest, sources, models }) {
 
 export function definePitCountryPackage(definition) {
   validatePitManifest(definition?.manifest);
-  return defineCountryPackage(definition);
+  const factsSchema = definition.manifest.pit.factsSchema;
+  const models = Object.fromEntries(Object.entries(definition.models ?? {}).map(([taxYear, model]) => [
+    taxYear,
+    {
+      ...model,
+      async validateFacts({ facts }) {
+        const schemaIssues = validatePitFacts(factsSchema, facts);
+        if (schemaIssues.length) return { ok: false, issues: schemaIssues };
+        return model.validateFacts({ facts });
+      },
+    },
+  ]));
+  return defineCountryPackage({ ...definition, models });
 }
 
 export function advanceSupportWindow(existingVersions, newVersion) {
