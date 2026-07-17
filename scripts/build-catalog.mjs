@@ -1,4 +1,5 @@
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { applyPitImplementationOverrides } from "./pit-implementation-overrides.mjs";
 
 const root = new URL("../", import.meta.url);
 const source = new URL("../packages/catalog/src/", import.meta.url);
@@ -12,7 +13,7 @@ const [jurisdictionRegister, calculationFamilies, ruleMap, ruleSources, implemen
   readJson(new URL("catalog/pit-implementation-overrides.json", root)),
 ]);
 
-const merged = applyImplementationOverrides({
+const merged = applyPitImplementationOverrides({
   jurisdictionRegister,
   ruleMap,
   ruleSources,
@@ -33,46 +34,6 @@ await writeFile(
   ].join("\n"),
   "utf8",
 );
-
-function applyImplementationOverrides({ jurisdictionRegister, ruleMap, ruleSources, implementationOverrides }) {
-  const register = structuredClone(jurisdictionRegister);
-  const map = structuredClone(ruleMap);
-  const sources = structuredClone(ruleSources);
-  const knownSourceIds = new Set(sources.sources.map((entry) => entry.id));
-
-  if (!knownSourceIds.has(implementationOverrides.source.id)) {
-    sources.sources.push(structuredClone(implementationOverrides.source));
-    knownSourceIds.add(implementationOverrides.source.id);
-  }
-
-  for (const [code, implementation] of Object.entries(implementationOverrides.implementations)) {
-    register.overrides[code] = {
-      ...(register.overrides[code] ?? {}),
-      ...structuredClone(implementation.register),
-    };
-
-    map.implemented[code] = {
-      calculationFamily: implementation.calculationFamily,
-      sourceIds: structuredClone(implementation.sourceIds),
-      taxYearBasis: implementation.taxYearBasis,
-      notes: implementation.notes,
-    };
-
-    for (const codes of Object.values(map.sourceIndexed.families)) {
-      const index = codes.indexOf(code);
-      if (index !== -1) codes.splice(index, 1);
-    }
-    for (const codes of Object.values(map.sourceIndexed.evidenceGroups)) {
-      const index = codes.indexOf(code);
-      if (index !== -1) codes.splice(index, 1);
-    }
-    const discoveryIndex = map.sourceDiscovery.indexOf(code);
-    if (discoveryIndex !== -1) map.sourceDiscovery.splice(discoveryIndex, 1);
-  }
-
-  map.asOf = implementationOverrides.asOf;
-  return { jurisdictionRegister: register, ruleMap: map, ruleSources: sources };
-}
 
 async function readJson(url) {
   return JSON.parse(await readFile(url, "utf8"));
