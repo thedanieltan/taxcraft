@@ -39,7 +39,7 @@ jobs:
               capture && count >= 12 { exit }
             ' /tmp/taxcraft-check.log)
             if [ -z "$summary" ]; then
-              summary=$(grep --max-count 1 --extended-regexp 'AssertionError|Error:|failed' /tmp/taxcraft-check.log || true)
+              summary=$(grep --max-count 1 --extended-regexp 'AssertionError|Error:|failed|missing final newline|trailing whitespace|tab character|invalid JSON' /tmp/taxcraft-check.log || true)
             fi
             if [ -z "$summary" ]; then
               summary="repository checks failed"
