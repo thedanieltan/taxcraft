@@ -1,4 +1,4 @@
-import { defineCountryPackage } from "@taxcraft/country-sdk";
+import { definePitCountryPackage } from "@taxcraft/country-sdk";
 import { calculateResidentTax } from "./calculate.js";
 import { SINGAPORE_MODEL_DATA } from "./model-data.js";
 import { SINGAPORE_SOURCES } from "./sources.js";
@@ -8,7 +8,7 @@ function model(taxYear) {
   return {
     coverage: {
       supported: ["resident tax on whole-dollar chargeable income"],
-      unsupported: ["residency and relief eligibility decisions", "non-resident cases", "taxpayer-specific rebates"]
+      unsupported: ["residency and relief eligibility decisions", "non-resident cases", "taxpayer-specific rebates"],
     },
     validateFacts({ facts }) {
       const issues = [];
@@ -16,31 +16,31 @@ function model(taxYear) {
         issues.push({
           code: "facts.tax-residency",
           path: "$.facts.taxResident",
-          message: "This package only calculates cases where Singapore tax residency has already been confirmed."
+          message: "This package only calculates cases where Singapore tax residency has already been confirmed.",
         });
       }
       if (!Number.isSafeInteger(facts.chargeableIncomeMinor) || facts.chargeableIncomeMinor < 0) {
         issues.push({
           code: "facts.chargeable-income",
           path: "$.facts.chargeableIncomeMinor",
-          message: "Chargeable income must use non-negative integer minor units."
+          message: "Chargeable income must use non-negative integer minor units.",
         });
       } else if (facts.chargeableIncomeMinor % 100 !== 0) {
         issues.push({
           code: "facts.chargeable-income-whole-dollar",
           path: "$.facts.chargeableIncomeMinor",
-          message: "The Singapore package accepts chargeable income in whole Singapore dollars."
+          message: "The Singapore package accepts chargeable income in whole Singapore dollars.",
         });
       }
       return issues.length ? { ok: false, issues } : { ok: true, facts };
     },
     calculate({ facts }) {
       return calculateResidentTax({ taxYear, chargeableIncomeMinor: facts.chargeableIncomeMinor });
-    }
+    },
   };
 }
 
-export const singaporePackage = defineCountryPackage({
+export const singaporePackage = definePitCountryPackage({
   manifest: {
     jurisdiction: "SG",
     name: "Singapore resident personal income tax",
@@ -50,11 +50,54 @@ export const singaporePackage = defineCountryPackage({
       taxYear,
       modelVersion,
       status,
-      order
-    }))
+      order,
+    })),
+    pit: {
+      contractVersion: "taxcraft.pit-country-package.v1",
+      taxUnit: "individual",
+      taxYearBasis: "year-of-assessment",
+      currencyCodes: ["SGD"],
+      incomeSchedules: ["aggregate-chargeable-income"],
+      taxLayers: {
+        national: true,
+        subnational: false,
+        local: false,
+        subdivisionRequired: false,
+      },
+      factsSchema: {
+        type: "object",
+        additionalProperties: false,
+        required: ["taxResident", "chargeableIncomeMinor"],
+        properties: {
+          taxResident: {
+            type: "boolean",
+            title: "Confirmed Singapore tax resident",
+            description: "The caller confirms that Singapore resident individual rates apply.",
+            const: true,
+            "x-taxcraft-kind": "confirmed-status",
+          },
+          chargeableIncomeMinor: {
+            type: "integer",
+            title: "Chargeable income",
+            description: "Caller-confirmed chargeable income in whole Singapore dollars, represented in cents.",
+            minimum: 0,
+            multipleOf: 100,
+            "x-taxcraft-kind": "money-minor",
+            "x-taxcraft-currency": "SGD",
+          },
+        },
+      },
+      rounding: [
+        { stage: "rate-and-rebate", mode: "half-up", unitMinor: 1 },
+      ],
+      maintenance: {
+        mode: "automated",
+        sourceWatch: true,
+      },
+    },
   },
   sources: SINGAPORE_SOURCES,
-  models: Object.fromEntries(SINGAPORE_MODEL_DATA.taxYears.map(({ taxYear }) => [taxYear, model(taxYear)]))
+  models: Object.fromEntries(SINGAPORE_MODEL_DATA.taxYears.map(({ taxYear }) => [taxYear, model(taxYear)])),
 });
 
 export {
@@ -62,5 +105,5 @@ export {
   calculateChargeableIncomeWorksheet,
   validateWorksheetFacts,
   SINGAPORE_MODEL_DATA,
-  SINGAPORE_SOURCES
+  SINGAPORE_SOURCES,
 };
