@@ -10,7 +10,7 @@ The programme keeps TaxCraft stateless and non-advisory. Country packages calcul
 
 | Work package | Deliverable | State |
 | --- | --- | --- |
-| WP-PIT-01 | Canonical global jurisdiction register | Implemented |
+| WP-PIT-01 | Canonical global jurisdiction register | Branch implemented; acceptance pending |
 | WP-PIT-02 | Global PIT rule map | In progress |
 | WP-PIT-03 | Shared PIT calculation primitives | Planned |
 | WP-PIT-04 | Standard PIT country-package contract | Planned |
