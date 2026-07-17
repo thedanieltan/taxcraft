@@ -134,6 +134,7 @@ async function selectJurisdiction(code) {
   result.hidden = true;
   form.hidden = true;
   jurisdictionStatus.hidden = true;
+  selectedJurisdiction = null;
   selectedSchema = null;
   fieldModels = [];
   factsFields.replaceChildren();
