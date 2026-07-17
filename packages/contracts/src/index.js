@@ -23,6 +23,7 @@ export const ACCEPTED_SOURCE_TYPES = Object.freeze([
   "official-gazette",
   "finance-ministry",
   "official-budget",
+  "government-agency",
   "mandatory-contribution-authority",
   "government-archive",
 ]);
