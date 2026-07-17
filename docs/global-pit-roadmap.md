@@ -15,8 +15,8 @@ The programme keeps TaxCraft stateless and non-advisory. Country packages calcul
 | WP-PIT-03 | Shared PIT calculation primitives | Integrated |
 | WP-PIT-04 | Standard PIT country-package contract | Integrated |
 | WP-PIT-05 | Reconcile existing Singapore and United Kingdom packages | Integrated |
-| WP-PIT-06 | Coverage catalogue API | Branch implemented; acceptance pending |
-| WP-PIT-07 | Manifest-driven global calculator interface | Planned |
+| WP-PIT-06 | Coverage catalogue API | Integrated |
+| WP-PIT-07 | Manifest-driven global calculator interface | Branch implemented; acceptance pending |
 | WP-PIT-08 | No-PIT jurisdiction packages | Planned |
 | WP-PIT-09 | Flat-rate jurisdiction packages | Planned |
 | WP-PIT-10 | Simple progressive jurisdiction packages | Planned |
@@ -135,6 +135,22 @@ The build generates a filesystem-free `@taxcraft/catalog` ESM package from the v
 
 Registered but unimplemented jurisdictions remain queryable as metadata and return an explicit `not_implemented` result from model-specific routes. Existing `/v1/jurisdictions` and `/v1/calculate` behaviour remains available for compatibility.
 
+## Manifest-driven calculator
+
+The reference interface consumes the global catalogue and package input schemas rather than embedding country-specific forms.
+
+It:
+
+1. lists every registered jurisdiction by implementation state;
+2. shows provisional family or discovery metadata when no calculator exists;
+3. loads supported tax years for implemented packages;
+4. renders booleans, enums, subdivisions, integers and money fields from `factsSchema`;
+5. converts major currency-unit entry to integer minor units;
+6. submits through the namespaced PIT calculation route;
+7. renders package-neutral totals, calculation lines, official sources, coverage and assumptions.
+
+Adding an accepted package with a valid manifest makes its form available without editing the browser application.
+
 ## Validation
 
 Every mapped package must retain the existing TaxCraft guarantees:
@@ -156,19 +172,6 @@ The catalogue validators additionally check identity-code uniqueness, ordering, 
 Maintained packages continue to use official sources. Automated observations may produce a candidate only when independent extraction paths agree. Ambiguous or incomplete source changes leave accepted models unchanged.
 
 Source automation is added by calculation family and source shape. Initial country implementation is not blocked when reliable source automation has not yet been developed; such packages remain manually maintained and their maintenance state is declared.
-
-## Public experience
-
-The reference calculator will evolve into a catalogue-driven interface:
-
-1. Select jurisdiction.
-2. Select supported tax year.
-3. Enter the facts declared by that package.
-4. Review taxable-income derivation.
-5. Review tax by rate, schedule and layer.
-6. Review assumptions, exclusions and official sources.
-
-The interface will be generated from package manifests rather than accumulating manually coded country forms.
 
 ## Deployment states
 
