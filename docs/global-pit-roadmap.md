@@ -11,7 +11,7 @@ The programme keeps TaxCraft stateless and non-advisory. Country packages calcul
 | Work package | Deliverable | State |
 | --- | --- | --- |
 | WP-PIT-01 | Canonical global jurisdiction register | Branch implemented; acceptance pending |
-| WP-PIT-02 | Global PIT rule map | In progress |
+| WP-PIT-02 | Global PIT rule map | Source index implemented; source discovery continues |
 | WP-PIT-03 | Shared PIT calculation primitives | Planned |
 | WP-PIT-04 | Standard PIT country-package contract | Planned |
 | WP-PIT-05 | Reconcile existing Singapore and United Kingdom packages | Planned |
@@ -47,7 +47,17 @@ Mapping status and implementation status are separate. A mapped jurisdiction may
 
 ## Mapping programme
 
-WP-PIT-02 records the computational shape of each jurisdiction before implementation. Each map will identify:
+`catalog/pit-rule-map.json` records the computational shape and implementation family before country-package work begins.
+
+The current rule map contains all 249 registered jurisdictions:
+
+- 2 implemented package mappings;
+- 145 jurisdictions indexed from a current global PIT summary and assigned provisional calculation families;
+- 102 jurisdictions retained explicitly for source discovery.
+
+The global summary is planning evidence only. It does not supply calculator parameters. Enacted tax-year values, allowances, credits and examples continue to come from official publications when a package is implemented.
+
+Each progressively enriched mapping records:
 
 - tax-year basis and currency;
 - individual, household or optional joint assessment;
@@ -58,8 +68,6 @@ WP-PIT-02 records the computational shape of each jurisdiction before implementa
 - rounding conventions;
 - official authority and source locations;
 - worked examples or other deterministic validation material.
-
-The current register marks Singapore and the United Kingdom as mapped because maintained packages already exist. All other jurisdictions remain explicitly visible as unmapped backlog entries.
 
 ## Implementation waves
 
@@ -120,7 +128,7 @@ Every mapped package must retain the existing TaxCraft guarantees:
 - declared rounding;
 - supported-version lifecycle enforcement.
 
-The catalogue validator additionally checks identity-code uniqueness, ordering, lifecycle consistency, known calculation families and continued representation of existing packages.
+The catalogue validators additionally check identity-code uniqueness, ordering, lifecycle consistency, rule-map coverage, source references, known calculation families and continued representation of existing packages.
 
 ## Source maintenance
 
