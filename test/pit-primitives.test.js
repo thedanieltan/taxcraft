@@ -7,8 +7,11 @@ import {
   applyCappedRate,
   applyTaxCredit,
   calculateProgressiveBands,
+  calculateQuotientTax,
   calculateSteppedTaper,
+  calculateTaxSchedules,
   compareTaxAmounts,
+  deductFloorZero,
   prorateAmount,
   roundRatio,
   sumTaxLayers,
@@ -115,4 +118,33 @@ test("alternative comparisons and tax layers remain deterministic", () => {
 test("proration and annualisation use the declared rounding policy", () => {
   assert.equal(prorateAmount({ annualAmountMinor: 1_000, eligibleUnits: 1, totalUnits: 3 }), 333);
   assert.equal(annualizeAmount({ periodAmountMinor: 1_000, periodUnits: 3, annualUnits: 12 }), 4_000);
+});
+
+test("deductions, category schedules and household quotients compose deterministically", () => {
+  assert.deepEqual(deductFloorZero({ amountMinor: 1_000, deductionMinor: 1_500 }), {
+    amountBeforeDeductionMinor: 1_000,
+    availableDeductionMinor: 1_500,
+    appliedDeductionMinor: 1_000,
+    amountAfterDeductionMinor: 0,
+  });
+  const schedules = calculateTaxSchedules([
+    {
+      id: "employment",
+      taxableMinor: 10_000,
+      bands: [{ upperBoundMinor: null, rateBasisPoints: 1_000 }],
+    },
+    {
+      id: "investment",
+      taxableMinor: 5_000,
+      bands: [{ upperBoundMinor: null, rateBasisPoints: 2_000 }],
+    },
+  ]);
+  assert.equal(schedules.totalTaxMinor, 2_000);
+  const quotient = calculateQuotientTax({
+    taxableMinor: 100_000,
+    quotientNumerator: 2,
+    bands: [{ upperBoundMinor: null, rateBasisPoints: 1_000 }],
+  });
+  assert.equal(quotient.quotientIncomeMinor, 50_000);
+  assert.equal(quotient.taxMinor, 10_000);
 });
