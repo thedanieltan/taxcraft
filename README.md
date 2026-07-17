@@ -21,13 +21,15 @@ Each jurisdiction supports no more than three tax years at a time. Older version
 
 The canonical register covers all 249 ISO 3166-1 countries and territories. The machine-readable rule map keeps every jurisdiction visible, assigns source-indexed systems to provisional calculation families and retains unsourced jurisdictions for discovery.
 
-The global summary used for sequencing is not used as a calculator parameter source. Each country package continues to require official tax-year rules and deterministic fixtures.
+The global summaries used for sequencing are not calculator parameter sources. Each country package continues to require official tax-year rules and deterministic fixtures.
+
+Country packages share deterministic Node.js arithmetic through `@taxcraft/country-sdk`: progressive bands, deductions, allowance tapers, capped rebates, credits, alternative calculations, household quotients, income schedules and tax layers. Intermediate arithmetic uses `BigInt`, while public amounts remain integer minor units.
 
 ```bash
 npm run check:catalog
 ```
 
-See `docs/global-pit-roadmap.md`, `docs/global-pit-rule-map.md` and `docs/jurisdiction-register.md`.
+See `docs/global-pit-roadmap.md`, `docs/global-pit-rule-map.md`, `docs/pit-primitives.md` and `docs/jurisdiction-register.md`.
 
 ## Run locally
 
@@ -83,6 +85,7 @@ A blocked source watch opens or updates one public operational issue. A later su
 - `docs/product.md` — product scope
 - `docs/global-pit-roadmap.md` — global PIT implementation programme
 - `docs/global-pit-rule-map.md` — global structure map and provenance
+- `docs/pit-primitives.md` — shared deterministic arithmetic contract
 - `docs/jurisdiction-register.md` — canonical jurisdiction backlog and lifecycle
 - `docs/calculation-families.md` — calculator sequencing families
 - `docs/api.md` — API contract and examples
