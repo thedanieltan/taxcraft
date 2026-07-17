@@ -12,9 +12,9 @@ The programme keeps TaxCraft stateless and non-advisory. Country packages calcul
 | --- | --- | --- |
 | WP-PIT-01 | Canonical global jurisdiction register | Integrated |
 | WP-PIT-02 | Global PIT rule map | 161 source-indexed; 86 in discovery |
-| WP-PIT-03 | Shared PIT calculation primitives | Branch implemented; acceptance pending |
-| WP-PIT-04 | Standard PIT country-package contract | Planned |
-| WP-PIT-05 | Reconcile existing Singapore and United Kingdom packages | Arithmetic migrated on branch; contract reconciliation pending |
+| WP-PIT-03 | Shared PIT calculation primitives | Integrated |
+| WP-PIT-04 | Standard PIT country-package contract | Branch implemented; acceptance pending |
+| WP-PIT-05 | Reconcile existing Singapore and United Kingdom packages | Contract reconciliation on branch; acceptance pending |
 | WP-PIT-06 | Coverage catalogue API | Planned |
 | WP-PIT-07 | Manifest-driven global calculator interface | Planned |
 | WP-PIT-08 | No-PIT jurisdiction packages | Planned |
@@ -84,14 +84,19 @@ Countries are delivered in calculation-family work packages rather than one pull
 
 ## Calculator contract
 
-The global request model will activate only the facts required by the selected package. It may include:
+Every maintained PIT package declares `manifest.pit` under `taxcraft.pit-country-package.v1`.
 
-- jurisdiction and tax year;
-- confirmed residency scope;
-- filing status;
-- supported income categories;
-- caller-confirmed deductions, allowances and credits;
-- canonical subdivision code where regional tax applies.
+The contract declares:
+
+- tax unit and tax-year basis;
+- supported currencies and income schedules;
+- national, regional and local layers;
+- required subdivision selection;
+- a closed facts schema;
+- rounding stages;
+- source-maintenance mode.
+
+The facts schema is executable. It rejects undeclared fields, missing facts, incompatible types, invalid enums, unsafe money values and identity-bearing field names before country-specific validation. It is also the stable input description for the later coverage API and manifest-driven calculator.
 
 TaxCraft does not request names, identity numbers, addresses or tax documents. It does not infer residence or legal eligibility from personal circumstances.
 
@@ -113,7 +118,7 @@ TaxCraft does not request names, identity numbers, addresses or tax documents. I
 
 Intermediate multiplication and division use `BigInt`. Public amounts remain safe integer minor units. Rounding is explicit per operation and supports floor, ceiling, truncation, half-up and half-even conventions.
 
-Singapore and United Kingdom arithmetic now use these shared primitives on the implementation branch. Their existing country fixtures remain the behavioural-equivalence gate.
+Singapore and United Kingdom arithmetic use these shared primitives. Their existing country fixtures remain the behavioural-equivalence gate.
 
 Country packages compose the primitives while retaining package-specific coverage, sources and fixtures.
 
