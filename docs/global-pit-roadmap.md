@@ -12,9 +12,9 @@ The programme keeps TaxCraft stateless and non-advisory. Country packages calcul
 | --- | --- | --- |
 | WP-PIT-01 | Canonical global jurisdiction register | Integrated |
 | WP-PIT-02 | Global PIT rule map | 161 source-indexed; 86 in discovery |
-| WP-PIT-03 | Shared PIT calculation primitives | Planned |
+| WP-PIT-03 | Shared PIT calculation primitives | Branch implemented; acceptance pending |
 | WP-PIT-04 | Standard PIT country-package contract | Planned |
-| WP-PIT-05 | Reconcile existing Singapore and United Kingdom packages | Planned |
+| WP-PIT-05 | Reconcile existing Singapore and United Kingdom packages | Arithmetic migrated on branch; contract reconciliation pending |
 | WP-PIT-06 | Coverage catalogue API | Planned |
 | WP-PIT-07 | Manifest-driven global calculator interface | Planned |
 | WP-PIT-08 | No-PIT jurisdiction packages | Planned |
@@ -97,22 +97,25 @@ TaxCraft does not request names, identity numbers, addresses or tax documents. I
 
 ## Shared calculation primitives
 
-The programme will extract and test reusable deterministic operations for:
+`@taxcraft/country-sdk` exports reusable deterministic operations for:
 
-- flat rates;
+- exact rational rates and basis points;
 - progressive bands;
-- basic allowances and standard deductions;
-- allowance tapers;
+- floor-zero deductions;
+- stepped allowance tapers;
 - refundable and non-refundable credits;
 - capped rebates;
-- surtaxes;
 - alternative-tax comparisons;
 - household quotients;
 - category-specific schedules;
 - national, regional and local layers;
-- currency rounding and annualisation.
+- currency rounding, proration and annualisation.
 
-Country packages compose these primitives while retaining package-specific coverage, sources and fixtures.
+Intermediate multiplication and division use `BigInt`. Public amounts remain safe integer minor units. Rounding is explicit per operation and supports floor, ceiling, truncation, half-up and half-even conventions.
+
+Singapore and United Kingdom arithmetic now use these shared primitives on the implementation branch. Their existing country fixtures remain the behavioural-equivalence gate.
+
+Country packages compose the primitives while retaining package-specific coverage, sources and fixtures.
 
 ## Validation
 
