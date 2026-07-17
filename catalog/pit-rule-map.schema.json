@@ -1,0 +1,233 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://taxcraft.dev/schemas/pit-rule-map.v1.json",
+  "title": "TaxCraft global PIT rule map",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "taxDomain",
+    "asOf",
+    "scope",
+    "classificationStatuses",
+    "implemented",
+    "sourceIndexed",
+    "sourceDiscovery",
+    "structuralOverrides"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "taxDomain": {
+      "const": "PIT"
+    },
+    "asOf": {
+      "type": "string",
+      "format": "date"
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "standard",
+        "entityCount",
+        "description"
+      ],
+      "properties": {
+        "standard": {
+          "const": "ISO 3166-1"
+        },
+        "entityCount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "classificationStatuses": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "implemented",
+          "source-indexed",
+          "source-discovery"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "implemented": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[A-Z]{2}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/implemented"
+      }
+    },
+    "sourceIndexed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classificationConfidence",
+        "sourceIds",
+        "notes",
+        "families"
+      ],
+      "properties": {
+        "classificationConfidence": {
+          "const": "provisional"
+        },
+        "sourceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        },
+        "families": {
+          "type": "object",
+          "propertyNames": {
+            "enum": [
+              "UNMAPPED",
+              "NO_PIT",
+              "FLAT",
+              "FLAT_WITH_ALLOWANCE",
+              "SIMPLE_PROGRESSIVE",
+              "PROGRESSIVE_RELIEFS",
+              "HOUSEHOLD_FILING",
+              "MULTI_LAYER",
+              "MULTI_SCHEDULE",
+              "COMPLEX_COMPOSITE"
+            ]
+          },
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Z]{2}$"
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "sourceDiscovery": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z]{2}$"
+      },
+      "uniqueItems": true
+    },
+    "structuralOverrides": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[A-Z]{2}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/structuralOverride"
+      }
+    }
+  },
+  "$defs": {
+    "implemented": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "calculationFamily",
+        "sourceIds",
+        "taxYearBasis",
+        "notes"
+      ],
+      "properties": {
+        "calculationFamily": {
+          "enum": [
+            "UNMAPPED",
+            "NO_PIT",
+            "FLAT",
+            "FLAT_WITH_ALLOWANCE",
+            "SIMPLE_PROGRESSIVE",
+            "PROGRESSIVE_RELIEFS",
+            "HOUSEHOLD_FILING",
+            "MULTI_LAYER",
+            "MULTI_SCHEDULE",
+            "COMPLEX_COMPOSITE"
+          ]
+        },
+        "sourceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "taxYearBasis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "structuralOverride": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "taxLayers": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "national",
+            "subnational",
+            "local",
+            "subdivisionRequired"
+          ],
+          "properties": {
+            "national": {
+              "type": "boolean"
+            },
+            "subnational": {
+              "type": "boolean"
+            },
+            "local": {
+              "type": "boolean"
+            },
+            "subdivisionRequired": {
+              "type": "boolean"
+            }
+          }
+        },
+        "taxUnit": {
+          "enum": [
+            "individual",
+            "individual-primary",
+            "household-or-filing-status",
+            "filing-status"
+          ]
+        },
+        "incomeSchedule": {
+          "enum": [
+            "single-primary",
+            "multiple"
+          ]
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
