@@ -19,15 +19,15 @@ Each jurisdiction supports no more than three tax years at a time. Older version
 
 ## Global PIT programme
 
-TaxCraft maintains a canonical implementation backlog for every ISO 3166-1 country or territory in `catalog/pit-jurisdictions.json`. Jurisdictions remain visible from initial rule mapping through implementation, deployment, live acceptance and maintenance.
+The canonical register covers all 249 ISO 3166-1 countries and territories. The machine-readable rule map keeps every jurisdiction visible, assigns source-indexed systems to provisional calculation families and retains unsourced jurisdictions for discovery.
 
-The programme maps every personal income tax system and implements calculators from the simplest calculation families through the most complex. Complexity controls sequencing, not inclusion.
+The global summary used for sequencing is not used as a calculator parameter source. Each country package continues to require official tax-year rules and deterministic fixtures.
 
 ```bash
 npm run check:catalog
 ```
 
-See `docs/global-pit-roadmap.md` for the programme and `docs/jurisdiction-register.md` for the register contract.
+See `docs/global-pit-roadmap.md`, `docs/global-pit-rule-map.md` and `docs/jurisdiction-register.md`.
 
 ## Run locally
 
@@ -66,7 +66,7 @@ See `docs/deployment.md` for the required secrets, live acceptance and rollback 
 npm run check
 ```
 
-CI validates the PIT catalogue, builds and tests all packages, then builds the service image and verifies the stateless API behavior.
+CI validates the PIT register and rule map, builds and tests all packages, then builds the service image and verifies the stateless API behavior.
 
 ## Current-source maintenance
 
@@ -82,6 +82,7 @@ A blocked source watch opens or updates one public operational issue. A later su
 
 - `docs/product.md` — product scope
 - `docs/global-pit-roadmap.md` — global PIT implementation programme
+- `docs/global-pit-rule-map.md` — global structure map and provenance
 - `docs/jurisdiction-register.md` — canonical jurisdiction backlog and lifecycle
 - `docs/calculation-families.md` — calculator sequencing families
 - `docs/api.md` — API contract and examples
