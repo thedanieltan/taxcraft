@@ -146,7 +146,7 @@ function createKenyaPackage() {
       pit: {
         contractVersion: "taxcraft.pit-country-package.v1",
         taxUnit: "individual",
-        taxYearBasis: "year-of-income",
+        taxYearBasis: "income-year",
         currencyCodes: [definition.currency],
         incomeSchedules: ["employment-income"],
         taxLayers: {
