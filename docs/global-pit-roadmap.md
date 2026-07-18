@@ -9,7 +9,7 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 | Work package | Deliverable | State |
 | --- | --- | --- |
 | WP-PIT-01 | Canonical global jurisdiction register | Integrated |
-| WP-PIT-02 | Global PIT rule map | 29 implemented; 134 source-indexed; 86 in discovery |
+| WP-PIT-02 | Global PIT rule map | 29 implemented; 135 source-indexed; 85 in discovery |
 | WP-PIT-03 | Shared calculation primitives | Integrated |
 | WP-PIT-04 | Country-package contract | Integrated |
 | WP-PIT-05 | Singapore and UK reconciliation | Integrated |
@@ -31,8 +31,8 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 The runtime catalogue contains all 249 ISO 3166-1 countries and territories:
 
 - 29 implemented calculators;
-- 134 source-indexed jurisdictions awaiting implementation;
-- 86 jurisdictions awaiting source discovery.
+- 135 source-indexed jurisdictions awaiting implementation;
+- 85 jurisdictions awaiting source discovery.
 
 Implementation, deployment and live acceptance remain separate states.
 
