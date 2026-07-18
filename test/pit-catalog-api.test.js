@@ -9,16 +9,16 @@ import { OPENAPI_DOCUMENT, createApi } from "@taxcraft/api";
 
 const api = createApi();
 const IMPLEMENTED_CODES = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "KE", "ZA",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "KE", "ZA", "AU", "PH",
 ];
-const VERIFIED_CODES = ["SG", "AE", "EE", "NZ", "CY", "AM", "UA", "UZ", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "KE", "ZA"];
+const VERIFIED_CODES = ["SG", "AE", "EE", "NZ", "CY", "AM", "UA", "UZ", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "KE", "ZA", "AU", "PH"];
 
 test("runtime catalogue exposes all registered PIT jurisdictions", () => {
   const jurisdictions = listPitJurisdictions();
   const status = getPitCatalogueStatus();
   assert.equal(jurisdictions.length, 249);
-  assert.equal(status.counts.implemented, 34);
-  assert.equal(status.counts["source-indexed"], 130);
+  assert.equal(status.counts.implemented, 36);
+  assert.equal(status.counts["source-indexed"], 128);
   assert.equal(status.counts["source-discovery"], 85);
   for (const code of VERIFIED_CODES) assert.equal(getPitJurisdiction(code).verificationStatus, "verified");
   assert.equal(getPitJurisdiction("AD").verificationStatus, "unmapped");
@@ -63,6 +63,8 @@ test("implemented model input schemas are public and unimplemented models fail e
     ["RW", "2026", ["scopeConfirmed", "incomePeriod", "taxableEmploymentIncomeMinor"]],
     ["KE", "2026", ["scopeConfirmed", "incomePeriod", "individualTaxSchedule", "taxableEmploymentIncomeMinor"]],
     ["ZA", "2027", ["scopeConfirmed", "rebateSchedule", "taxableIncomeMinor"]],
+    ["AU", "2026-27", ["scopeConfirmed", "taxableIncomeMinor"]],
+    ["PH", "2026", ["scopeConfirmed", "taxableIncomeMinor"]],
   ];
   for (const [code, year, required] of cases) {
     const schema = await api.handle({ method: "GET", path: `/v1/pit/jurisdictions/${code}/${year}/input-schema` });
