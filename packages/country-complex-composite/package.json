@@ -1,0 +1,17 @@
+{
+  "name": "@taxcraft/country-complex-composite",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "Official-source personal income tax packages with alternative and cross-cutting calculations for TaxCraft.",
+  "exports": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@taxcraft/country-sdk": "0.1.0"
+  },
+  "scripts": {
+    "build": "node ../../scripts/build-country-complex-composite.mjs"
+  }
+}
