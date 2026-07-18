@@ -6,7 +6,7 @@ import { createApi, OPENAPI_DOCUMENT } from "../src/app.js";
 const api = createApi();
 
 const MAINTAINED_JURISDICTIONS = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC",
 ];
 
 test("lists maintained jurisdictions and exposes source-linked coverage", async () => {
@@ -14,20 +14,20 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
   assert.equal(list.status, 200);
   assert.deepEqual(list.body.jurisdictions.map((entry) => entry.jurisdiction), MAINTAINED_JURISDICTIONS);
 
-  const singapore = list.body.jurisdictions.find((entry) => entry.jurisdiction === "SG");
-  const uk = list.body.jurisdictions.find((entry) => entry.jurisdiction === "GB");
-  const uae = list.body.jurisdictions.find((entry) => entry.jurisdiction === "AE");
-  const estonia = list.body.jurisdictions.find((entry) => entry.jurisdiction === "EE");
-  const newZealand = list.body.jurisdictions.find((entry) => entry.jurisdiction === "NZ");
-  const ukraine = list.body.jurisdictions.find((entry) => entry.jurisdiction === "UA");
-  const dominicanRepublic = list.body.jurisdictions.find((entry) => entry.jurisdiction === "DO");
-  assert.deepEqual(singapore.taxYears.map((entry) => entry.taxYear), ["YA2024", "YA2025", "YA2026"]);
-  assert.deepEqual(uk.taxYears.map((entry) => entry.taxYear), ["2024-25", "2025-26", "2026-27"]);
-  assert.deepEqual(uae.taxYears.map((entry) => entry.taxYear), ["2024", "2025", "2026"]);
-  assert.deepEqual(estonia.taxYears.map((entry) => entry.taxYear), ["2024", "2025", "2026"]);
-  assert.deepEqual(newZealand.taxYears.map((entry) => entry.taxYear), ["2024", "2025", "2026"]);
-  assert.deepEqual(ukraine.taxYears.map((entry) => entry.taxYear), ["2024", "2025", "2026"]);
-  assert.deepEqual(dominicanRepublic.taxYears.map((entry) => entry.taxYear), ["2024", "2025", "2026"]);
+  const yearCases = [
+    ["SG", ["YA2024", "YA2025", "YA2026"]],
+    ["GB", ["2024-25", "2025-26", "2026-27"]],
+    ["AE", ["2024", "2025", "2026"]],
+    ["EE", ["2024", "2025", "2026"]],
+    ["NZ", ["2024", "2025", "2026"]],
+    ["UA", ["2024", "2025", "2026"]],
+    ["DO", ["2024", "2025", "2026"]],
+    ["SC", ["2024", "2025", "2026"]],
+  ];
+  for (const [code, expectedYears] of yearCases) {
+    const entry = list.body.jurisdictions.find(({ jurisdiction }) => jurisdiction === code);
+    assert.deepEqual(entry.taxYears.map(({ taxYear }) => taxYear), expectedYears);
+  }
 
   const coverageCases = [
     ["SG", "YA2026", "sg-iras-resident-rates-ya2024-onwards"],
@@ -36,6 +36,9 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
     ["NZ", "2026", "nz.ird.individual-tax-rates"],
     ["UA", "2026", "ua.sts.tax-code-section-iv-article-167"],
     ["DO", "2026", "do.dgii.individual-income-tax-scale"],
+    ["BB", "2026", "bb.bra.personal-income-tax-rates-2026"],
+    ["TT", "2026", "tt.ird.individual-income-tax-rates"],
+    ["SC", "2026", "sc.src.employment-income-tax-rates"],
   ];
   for (const [code, year, sourceId] of coverageCases) {
     const coverage = await api.handle({ method: "GET", path: `/v1/jurisdictions/${code}/${year}/coverage` });
@@ -58,8 +61,8 @@ test("calculates through the official Singapore package and returns cited source
     body: {
       jurisdiction: "SG",
       taxYear: "YA2026",
-      facts: { taxResident: true, chargeableIncomeMinor: 10_000_000 }
-    }
+      facts: { taxResident: true, chargeableIncomeMinor: 10_000_000 },
+    },
   });
 
   assert.equal(response.status, 200);
@@ -81,9 +84,9 @@ test("calculates UK non-savings Income Tax and returns HMRC sources", async () =
       facts: {
         territory: "England",
         nonSavingsIncomeMinor: 3_500_000,
-        adjustedNetIncomeMinor: 3_500_000
-      }
-    }
+        adjustedNetIncomeMinor: 3_500_000,
+      },
+    },
   });
 
   assert.equal(response.status, 200);
@@ -104,9 +107,9 @@ test("rejects identity-bearing facts and never logs the submitted values", async
       facts: {
         taxResident: true,
         chargeableIncomeMinor: 12_345_600,
-        name: "Private Person"
-      }
-    }
+        name: "Private Person",
+      },
+    },
   });
 
   assert.equal(response.status, 400);

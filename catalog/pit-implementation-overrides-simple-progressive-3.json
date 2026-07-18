@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-18",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_3",
+    "type": "repository-package",
+    "authority": "Jurisdiction-specific tax authorities",
+    "location": "packages/country-simple-progressive",
+    "scope": "Official-source-backed PIT packages for Barbados, Seychelles and Trinidad and Tobago.",
+    "observedAt": "2026-07-18"
+  },
+  "implementations": {
+    "BB": {
+      "calculationFamily": "SIMPLE_PROGRESSIVE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_3", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Annual individual income tax on caller-confirmed taxable income after allowances.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "SIMPLE_PROGRESSIVE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["BBD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-simple-progressive",
+        "coverageSummary": "Individual income tax on caller-confirmed taxable income, including the 2026 rate reduction."
+      }
+    },
+    "SC": {
+      "calculationFamily": "SIMPLE_PROGRESSIVE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_3"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Monthly employment income tax using separate citizen and non-citizen schedules.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "SIMPLE_PROGRESSIVE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["SCR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-simple-progressive",
+        "coverageSummary": "Monthly employment income tax on caller-confirmed gross cash emoluments using citizen or non-citizen treatment."
+      }
+    },
+    "TT": {
+      "calculationFamily": "SIMPLE_PROGRESSIVE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_3", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Annual individual income tax on caller-confirmed chargeable income.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "SIMPLE_PROGRESSIVE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["TTD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-simple-progressive",
+        "coverageSummary": "Individual income tax on caller-confirmed chargeable income at the 25% and 30% bands."
+      }
+    }
+  }
+}
