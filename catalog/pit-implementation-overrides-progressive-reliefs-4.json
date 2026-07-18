@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-18",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_4",
+    "type": "repository-package",
+    "authority": "Financial Administration of the Czech Republic",
+    "location": "packages/country-progressive-reliefs/src/czech-republic.js",
+    "scope": "Official-source-backed Czech annual personal income tax package with statutory rounding and basic taxpayer credit.",
+    "observedAt": "2026-07-18"
+  },
+  "implementations": {
+    "CZ": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_4", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Annual 15% and 23% tax with year-specific thresholds, statutory rounding and the standard taxpayer credit.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["CZK"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Annual personal income tax with statutory rounding and the standard taxpayer credit."
+      }
+    }
+  }
+}
