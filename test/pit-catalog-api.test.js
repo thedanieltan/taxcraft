@@ -9,19 +9,18 @@ import { OPENAPI_DOCUMENT, createApi } from "@taxcraft/api";
 
 const api = createApi();
 const IMPLEMENTED_CODES = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT",
 ];
+const VERIFIED_CODES = ["SG", "AE", "EE", "NZ", "CY", "AM", "UA", "UZ", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT"];
 
 test("runtime catalogue exposes all registered PIT jurisdictions", () => {
   const jurisdictions = listPitJurisdictions();
   const status = getPitCatalogueStatus();
   assert.equal(jurisdictions.length, 249);
-  assert.equal(status.counts.implemented, 29);
-  assert.equal(status.counts["source-indexed"], 135);
+  assert.equal(status.counts.implemented, 31);
+  assert.equal(status.counts["source-indexed"], 133);
   assert.equal(status.counts["source-discovery"], 85);
-  for (const code of ["SG", "AE", "EE", "NZ", "CY", "AM", "UA", "UZ", "PA", "HN", "DO", "BB", "TT", "SC"]) {
-    assert.equal(getPitJurisdiction(code).verificationStatus, "verified");
-  }
+  for (const code of VERIFIED_CODES) assert.equal(getPitJurisdiction(code).verificationStatus, "verified");
   assert.equal(getPitJurisdiction("AD").verificationStatus, "unmapped");
 });
 
@@ -30,13 +29,13 @@ test("global PIT jurisdiction API returns the complete catalogue", async () => {
   assert.equal(response.status, 200);
   assert.equal(response.body.jurisdictions.length, 249);
   assert.equal(response.body.jurisdictions[0].code, "AD");
-  for (const code of ["SG", "AE", "EE", "NZ", "UA", "PA", "HN", "DO", "BB", "TT", "SC"]) {
+  for (const code of VERIFIED_CODES) {
     assert.ok(response.body.jurisdictions.some(({ code: entryCode, implementationStatus }) => entryCode === code && implementationStatus === "implemented"));
   }
 });
 
 test("jurisdiction detail distinguishes catalogue records from calculators", async () => {
-  for (const code of ["SG", "AE", "EE", "NZ", "UA", "PA", "HN", "DO", "BB", "TT", "SC"]) {
+  for (const code of VERIFIED_CODES) {
     const detail = await api.handle({ method: "GET", path: `/v1/pit/jurisdictions/${code}` });
     assert.equal(detail.status, 200);
     assert.equal(detail.body.classificationStatus, "implemented");
@@ -58,9 +57,9 @@ test("implemented model input schemas are public and unimplemented models fail e
     ["NZ", "2026", ["scopeConfirmed", "taxableIncomeMinor"]],
     ["UA", "2026", ["scopeConfirmed", "taxBaseMinor"]],
     ["DO", "2026", ["scopeConfirmed", "taxableIncomeMinor"]],
-    ["BB", "2026", ["scopeConfirmed", "taxableIncomeMinor"]],
-    ["TT", "2026", ["scopeConfirmed", "taxableIncomeMinor"]],
     ["SC", "2026", ["scopeConfirmed", "employmentTaxSchedule", "monthlyGrossEmolumentsMinor"]],
+    ["UG", "2026", ["scopeConfirmed", "individualTaxSchedule", "annualChargeableIncomeMinor"]],
+    ["GT", "2026", ["scopeConfirmed", "annualTaxableEmploymentIncomeMinor"]],
   ];
   for (const [code, year, required] of cases) {
     const schema = await api.handle({ method: "GET", path: `/v1/pit/jurisdictions/${code}/${year}/input-schema` });
