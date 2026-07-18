@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-18",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_COMPLEX_COMPOSITE_1",
+    "type": "repository-package",
+    "authority": "Hong Kong Inland Revenue Department",
+    "location": "packages/country-complex-composite",
+    "scope": "Official-source-backed Hong Kong salaries tax package comparing progressive and standard-rate liabilities.",
+    "observedAt": "2026-07-18"
+  },
+  "implementations": {
+    "HK": {
+      "calculationFamily": "COMPLEX_COMPOSITE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_COMPLEX_COMPOSITE_1", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "year-of-assessment",
+      "notes": "Salaries tax calculated as the lower of progressive tax on net chargeable income and standard-rate tax on net income, followed by the year-specific tax reduction.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "COMPLEX_COMPOSITE",
+        "taxYearBasis": "year-of-assessment",
+        "currencyCodes": ["HKD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2023-24", "2024-25", "2025-26"],
+        "package": "@taxcraft/country-complex-composite",
+        "coverageSummary": "Lower-of progressive and standard-rate salaries tax with year-specific final-tax reduction."
+      }
+    }
+  }
+}
