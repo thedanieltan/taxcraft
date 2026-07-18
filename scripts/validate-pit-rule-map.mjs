@@ -24,6 +24,8 @@ const [baseRegistry, familyCatalog, baseRuleMap, baseSourceRegistry, implementat
 ]);
 
 const registeredCodes = new Set(baseRegistry.entities.map(([code]) => code));
+const baseIndexedCodes = new Set(Object.values(baseRuleMap.sourceIndexed.families).flat());
+const baseDiscoveryCodes = new Set(baseRuleMap.sourceDiscovery);
 const promotedCodes = new Set();
 for (const implementationOverrides of implementationOverlays) {
   assert(implementationOverrides.schemaVersion === "1.0.0", "Unexpected implementation-overlay schema version");
@@ -35,6 +37,10 @@ for (const implementationOverrides of implementationOverlays) {
     assert(registeredCodes.has(code), `Implementation overlay references unknown jurisdiction ${code}`);
     assert(!baseRuleMap.implemented[code], `${code} is already implemented in the base rule map`);
     assert(!promotedCodes.has(code), `${code} is implemented by more than one overlay`);
+    assert(
+      baseIndexedCodes.has(code) || baseDiscoveryCodes.has(code),
+      `${code} is not present in an implementation backlog`,
+    );
     assert(implementation.calculationFamily !== "UNMAPPED", `${code} cannot be implemented as UNMAPPED`);
     assert(implementation.sourceIds.includes(implementationOverrides.source.id), `${code} omits its implementation package source`);
     assert(implementation.register?.implementationStatus === "implemented", `${code} register status is not implemented`);
@@ -153,9 +159,11 @@ const statusCounts = [...assignments.values()].reduce((result, assignment) => {
   return result;
 }, {});
 const promotedCount = listPitImplementationEntries(implementationOverlays).length;
-assert(statusCounts.implemented === 2 + promotedCount, "Unexpected implemented package count");
-assert(statusCounts["source-indexed"] === 161 - promotedCount, "Unexpected source-indexed coverage");
-assert(statusCounts["source-discovery"] === 86, "Unexpected source-discovery backlog");
+const promotedFromIndexed = [...promotedCodes].filter((code) => baseIndexedCodes.has(code)).length;
+const promotedFromDiscovery = [...promotedCodes].filter((code) => baseDiscoveryCodes.has(code)).length;
+assert(statusCounts.implemented === Object.keys(baseRuleMap.implemented).length + promotedCount, "Unexpected implemented package count");
+assert(statusCounts["source-indexed"] === baseIndexedCodes.size - promotedFromIndexed, "Unexpected source-indexed coverage");
+assert(statusCounts["source-discovery"] === baseDiscoveryCodes.size - promotedFromDiscovery, "Unexpected source-discovery backlog");
 
 for (const [code, assignment] of assignments) {
   const family = familyById.get(assignment.calculationFamily);
