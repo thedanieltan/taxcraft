@@ -8,14 +8,17 @@ import {
 import { OPENAPI_DOCUMENT, createApi } from "@taxcraft/api";
 
 const api = createApi();
+const IMPLEMENTED_CODES = ["SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA"];
 
 test("runtime catalogue exposes all registered PIT jurisdictions", () => {
   const jurisdictions = listPitJurisdictions();
+  const status = getPitCatalogueStatus();
   assert.equal(jurisdictions.length, 249);
-  assert.equal(getPitCatalogueStatus().counts.implemented, 2);
-  assert.equal(getPitCatalogueStatus().counts["source-indexed"], 161);
-  assert.equal(getPitCatalogueStatus().counts["source-discovery"], 86);
+  assert.equal(status.counts.implemented, 10);
+  assert.equal(status.counts["source-indexed"], 153);
+  assert.equal(status.counts["source-discovery"], 86);
   assert.equal(getPitJurisdiction("SG").verificationStatus, "verified");
+  assert.equal(getPitJurisdiction("AE").verificationStatus, "verified");
   assert.equal(getPitJurisdiction("NZ").verificationStatus, "provisional");
   assert.equal(getPitJurisdiction("AD").verificationStatus, "unmapped");
 });
@@ -26,6 +29,7 @@ test("global PIT jurisdiction API returns the complete catalogue", async () => {
   assert.equal(response.body.jurisdictions.length, 249);
   assert.equal(response.body.jurisdictions[0].code, "AD");
   assert.ok(response.body.jurisdictions.some(({ code, implementationStatus }) => code === "SG" && implementationStatus === "implemented"));
+  assert.ok(response.body.jurisdictions.some(({ code, implementationStatus }) => code === "AE" && implementationStatus === "implemented"));
 });
 
 test("jurisdiction detail distinguishes catalogue records from calculators", async () => {
@@ -33,6 +37,11 @@ test("jurisdiction detail distinguishes catalogue records from calculators", asy
   assert.equal(singapore.status, 200);
   assert.equal(singapore.body.calculator.available, true);
   assert.equal(singapore.body.calculator.pit.contractVersion, "taxcraft.pit-country-package.v1");
+
+  const uae = await api.handle({ method: "GET", path: "/v1/pit/jurisdictions/AE" });
+  assert.equal(uae.status, 200);
+  assert.equal(uae.body.classificationStatus, "implemented");
+  assert.equal(uae.body.calculator.available, true);
 
   const andorra = await api.handle({ method: "GET", path: "/v1/pit/jurisdictions/AD" });
   assert.equal(andorra.status, 200);
@@ -48,6 +57,13 @@ test("implemented model input schemas are public and unimplemented models fail e
   assert.equal(schema.status, 200);
   assert.equal(schema.body.factsSchema.additionalProperties, false);
   assert.deepEqual(schema.body.factsSchema.required, ["taxResident", "chargeableIncomeMinor"]);
+
+  const noPitSchema = await api.handle({
+    method: "GET",
+    path: "/v1/pit/jurisdictions/AE/2026/input-schema",
+  });
+  assert.equal(noPitSchema.status, 200);
+  assert.deepEqual(noPitSchema.body.factsSchema.required, ["scopeConfirmed", "coveredIncomeMinor"]);
 
   const unavailable = await api.handle({
     method: "GET",
@@ -72,8 +88,8 @@ test("PIT calculation route remains equivalent to the compatibility route", asyn
 test("legacy jurisdiction discovery remains limited to implemented packages", async () => {
   const response = await api.handle({ method: "GET", path: "/v1/jurisdictions" });
   assert.equal(response.status, 200);
-  assert.equal(response.body.jurisdictions.length, 2);
-  assert.deepEqual(response.body.jurisdictions.map(({ jurisdiction }) => jurisdiction), ["SG", "GB"]);
+  assert.equal(response.body.jurisdictions.length, IMPLEMENTED_CODES.length);
+  assert.deepEqual(response.body.jurisdictions.map(({ jurisdiction }) => jurisdiction), IMPLEMENTED_CODES);
 });
 
 test("OpenAPI publishes the global PIT catalogue surfaces", () => {

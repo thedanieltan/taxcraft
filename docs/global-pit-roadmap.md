@@ -11,13 +11,13 @@ The programme keeps TaxCraft stateless and non-advisory. Country packages calcul
 | Work package | Deliverable | State |
 | --- | --- | --- |
 | WP-PIT-01 | Canonical global jurisdiction register | Integrated |
-| WP-PIT-02 | Global PIT rule map | 161 source-indexed; 86 in discovery |
+| WP-PIT-02 | Global PIT rule map | 10 implemented; 153 source-indexed; 86 in discovery |
 | WP-PIT-03 | Shared PIT calculation primitives | Integrated |
 | WP-PIT-04 | Standard PIT country-package contract | Integrated |
 | WP-PIT-05 | Reconcile existing Singapore and United Kingdom packages | Integrated |
 | WP-PIT-06 | Coverage catalogue API | Integrated |
-| WP-PIT-07 | Manifest-driven global calculator interface | Branch implemented; acceptance pending |
-| WP-PIT-08 | No-PIT jurisdiction packages | Planned |
+| WP-PIT-07 | Manifest-driven global calculator interface | Integrated |
+| WP-PIT-08 | No-PIT jurisdiction packages | Integrated |
 | WP-PIT-09 | Flat-rate jurisdiction packages | Planned |
 | WP-PIT-10 | Simple progressive jurisdiction packages | Planned |
 | WP-PIT-11 | Progressive systems with deductions, credits and rebates | Planned |
@@ -49,10 +49,10 @@ Mapping status and implementation status are separate. A mapped jurisdiction may
 
 `catalog/pit-rule-map.json` records the computational shape and implementation family before country-package work begins.
 
-The current rule map contains all 249 registered jurisdictions:
+The current runtime rule map contains all 249 registered jurisdictions:
 
-- 2 implemented package mappings;
-- 161 jurisdictions indexed from current global PIT summaries and assigned provisional calculation families;
+- 10 implemented package mappings;
+- 153 jurisdictions indexed from current global PIT summaries and assigned provisional calculation families;
 - 86 jurisdictions retained explicitly for source discovery.
 
 The global summaries are planning evidence only. The EY guide is used only for jurisdictions with full personal-tax chapters; contact-only listings are excluded. They do not supply calculator parameters. Enacted tax-year values, allowances, credits and examples continue to come from official publications when a package is implemented.
@@ -150,6 +150,25 @@ It:
 7. renders package-neutral totals, calculation lines, official sources, coverage and assumptions.
 
 Adding an accepted package with a valid manifest makes its form available without editing the browser application.
+
+## No-PIT implementation wave
+
+The first no-PIT family bundle contains eight independently manifested packages:
+
+- United Arab Emirates;
+- Bahrain;
+- Bermuda;
+- Brunei Darussalam;
+- Cayman Islands;
+- Monaco;
+- Oman;
+- Qatar.
+
+Each package supports calendar years 2024, 2025 and 2026 and calculates zero personal income tax only inside a caller-confirmed scope. Payroll taxes, social contributions, business taxation, withholding, treaty exceptions, indirect taxes and other obligations remain explicitly outside the result.
+
+Oman's package does not expose a zero-PIT model for 2028 or later because the announced Personal Income Tax Law is due to commence on 1 January 2028.
+
+See `docs/no-pit-packages.md` for jurisdiction-specific boundaries and sources.
 
 ## Validation
 
