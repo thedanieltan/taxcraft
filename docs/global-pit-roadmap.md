@@ -17,7 +17,7 @@ The programme keeps TaxCraft stateless and non-advisory. Country packages calcul
 | WP-PIT-05 | Reconcile existing Singapore and United Kingdom packages | Integrated |
 | WP-PIT-06 | Coverage catalogue API | Integrated |
 | WP-PIT-07 | Manifest-driven global calculator interface | Integrated |
-| WP-PIT-08 | No-PIT jurisdiction packages | Branch implemented; acceptance pending |
+| WP-PIT-08 | No-PIT jurisdiction packages | Integrated |
 | WP-PIT-09 | Flat-rate jurisdiction packages | Planned |
 | WP-PIT-10 | Simple progressive jurisdiction packages | Planned |
 | WP-PIT-11 | Progressive systems with deductions, credits and rebates | Planned |
