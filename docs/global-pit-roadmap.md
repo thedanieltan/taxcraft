@@ -18,7 +18,7 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 | WP-PIT-08 | No-PIT packages | Integrated |
 | WP-PIT-09 | Flat-rate packages | Waves 1–2 integrated |
 | WP-PIT-10 | Simple-progressive packages | Waves 1–6 integrated |
-| WP-PIT-11 | Progressive systems with deductions and credits | Waves 1–2 integrated; wave 3 implemented, acceptance pending |
+| WP-PIT-11 | Progressive systems with deductions and credits | Waves 1–3 integrated |
 | WP-PIT-12 | Household and filing-status systems | Planned |
 | WP-PIT-13 | Regional and municipal systems | Planned |
 | WP-PIT-14 | Multi-schedule systems | Planned |
