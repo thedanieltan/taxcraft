@@ -9,20 +9,21 @@ import { OPENAPI_DOCUMENT, createApi } from "@taxcraft/api";
 
 const api = createApi();
 const IMPLEMENTED_CODES = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO", "NZ", "PY", "CY",
 ];
 
 test("runtime catalogue exposes all registered PIT jurisdictions", () => {
   const jurisdictions = listPitJurisdictions();
   const status = getPitCatalogueStatus();
   assert.equal(jurisdictions.length, 249);
-  assert.equal(status.counts.implemented, 14);
-  assert.equal(status.counts["source-indexed"], 149);
+  assert.equal(status.counts.implemented, 17);
+  assert.equal(status.counts["source-indexed"], 146);
   assert.equal(status.counts["source-discovery"], 86);
   assert.equal(getPitJurisdiction("SG").verificationStatus, "verified");
   assert.equal(getPitJurisdiction("AE").verificationStatus, "verified");
   assert.equal(getPitJurisdiction("EE").verificationStatus, "verified");
-  assert.equal(getPitJurisdiction("NZ").verificationStatus, "provisional");
+  assert.equal(getPitJurisdiction("NZ").verificationStatus, "verified");
+  assert.equal(getPitJurisdiction("CY").verificationStatus, "verified");
   assert.equal(getPitJurisdiction("AD").verificationStatus, "unmapped");
 });
 
@@ -34,6 +35,7 @@ test("global PIT jurisdiction API returns the complete catalogue", async () => {
   assert.ok(response.body.jurisdictions.some(({ code, implementationStatus }) => code === "SG" && implementationStatus === "implemented"));
   assert.ok(response.body.jurisdictions.some(({ code, implementationStatus }) => code === "AE" && implementationStatus === "implemented"));
   assert.ok(response.body.jurisdictions.some(({ code, implementationStatus }) => code === "EE" && implementationStatus === "implemented"));
+  assert.ok(response.body.jurisdictions.some(({ code, implementationStatus }) => code === "NZ" && implementationStatus === "implemented"));
 });
 
 test("jurisdiction detail distinguishes catalogue records from calculators", async () => {
@@ -51,6 +53,11 @@ test("jurisdiction detail distinguishes catalogue records from calculators", asy
   assert.equal(estonia.status, 200);
   assert.equal(estonia.body.classificationStatus, "implemented");
   assert.equal(estonia.body.calculator.available, true);
+
+  const newZealand = await api.handle({ method: "GET", path: "/v1/pit/jurisdictions/NZ" });
+  assert.equal(newZealand.status, 200);
+  assert.equal(newZealand.body.classificationStatus, "implemented");
+  assert.equal(newZealand.body.calculator.available, true);
 
   const andorra = await api.handle({ method: "GET", path: "/v1/pit/jurisdictions/AD" });
   assert.equal(andorra.status, 200);
@@ -80,6 +87,13 @@ test("implemented model input schemas are public and unimplemented models fail e
   });
   assert.equal(flatRateSchema.status, 200);
   assert.deepEqual(flatRateSchema.body.factsSchema.required, ["scopeConfirmed", "taxBaseMinor"]);
+
+  const progressiveSchema = await api.handle({
+    method: "GET",
+    path: "/v1/pit/jurisdictions/NZ/2026/input-schema",
+  });
+  assert.equal(progressiveSchema.status, 200);
+  assert.deepEqual(progressiveSchema.body.factsSchema.required, ["scopeConfirmed", "taxableIncomeMinor"]);
 
   const unavailable = await api.handle({
     method: "GET",
