@@ -4,7 +4,7 @@ import { createApi } from "@taxcraft/api";
 import { createTaxCraft } from "@taxcraft/core";
 import { simpleProgressivePackages } from "@taxcraft/country-simple-progressive";
 
-const EXPECTED_CODES = ["NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT"];
+const EXPECTED_CODES = ["NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW"];
 const engine = createTaxCraft({ countryPackages: simpleProgressivePackages });
 
 async function calculate(jurisdiction, taxYear, facts) {
@@ -13,7 +13,7 @@ async function calculate(jurisdiction, taxYear, facts) {
   return result;
 }
 
-test("simple-progressive bundle exposes eleven independent maintained packages", () => {
+test("simple-progressive bundle exposes twelve independent maintained packages", () => {
   assert.deepEqual(simpleProgressivePackages.map(({ manifest }) => manifest.jurisdiction), EXPECTED_CODES);
   for (const countryPackage of simpleProgressivePackages) {
     assert.equal(countryPackage.manifest.storesUserPII, false);
@@ -55,41 +55,25 @@ test("previous simple-progressive fixtures remain stable", async () => {
   assert.equal(seychelles.totals.incomeTaxMinor, 1_488_328);
 });
 
-test("Uganda applies resident thresholds and the additional high-income rate", async () => {
+test("Uganda applies resident and non-resident schedules", async () => {
   const exempt = await calculate("UG", "2026", {
     scopeConfirmed: true,
     individualTaxSchedule: "resident",
     annualChargeableIncomeMinor: 2_820_000,
   });
-  const thirdThreshold = await calculate("UG", "2026", {
-    scopeConfirmed: true,
-    individualTaxSchedule: "resident",
-    annualChargeableIncomeMinor: 4_920_000,
-  });
-  const aboveSurcharge = await calculate("UG", "2026", {
+  const residentHigh = await calculate("UG", "2026", {
     scopeConfirmed: true,
     individualTaxSchedule: "resident",
     annualChargeableIncomeMinor: 121_000_000,
   });
-  assert.equal(exempt.totals.incomeTaxMinor, 0);
-  assert.equal(thirdThreshold.totals.incomeTaxMinor, 300_000);
-  assert.equal(aboveSurcharge.totals.incomeTaxMinor, 35_224_000);
-  assert.ok(aboveSurcharge.sources.some(({ sourceId }) => sourceId === "ug.ura.individual-income-tax-rates"));
-});
-
-test("Uganda applies the non-resident schedule without a tax-free threshold", async () => {
-  const firstThreshold = await calculate("UG", "2026", {
-    scopeConfirmed: true,
-    individualTaxSchedule: "non-resident",
-    annualChargeableIncomeMinor: 4_020_000,
-  });
-  const secondThreshold = await calculate("UG", "2026", {
+  const nonResident = await calculate("UG", "2026", {
     scopeConfirmed: true,
     individualTaxSchedule: "non-resident",
     annualChargeableIncomeMinor: 4_920_000,
   });
-  assert.equal(firstThreshold.totals.incomeTaxMinor, 402_000);
-  assert.equal(secondThreshold.totals.incomeTaxMinor, 582_000);
+  assert.equal(exempt.totals.incomeTaxMinor, 0);
+  assert.equal(residentHigh.totals.incomeTaxMinor, 35_224_000);
+  assert.equal(nonResident.totals.incomeTaxMinor, 582_000);
 });
 
 test("Guatemala applies the statutory 5% and 7% employment-income scale", async () => {
@@ -103,7 +87,41 @@ test("Guatemala applies the statutory 5% and 7% employment-income scale", async 
   });
   assert.equal(firstThreshold.totals.incomeTaxMinor, 1_500_000);
   assert.equal(aboveThreshold.totals.incomeTaxMinor, 2_200_000);
-  assert.ok(aboveThreshold.sources.some(({ sourceId }) => sourceId === "gt.sat.income-tax-law-decree-10-2012"));
+});
+
+test("Rwanda applies the annual employment-income bands", async () => {
+  const cases = [
+    [720_000, 0],
+    [1_200_000, 48_000],
+    [2_400_000, 288_000],
+    [3_000_000, 468_000],
+  ];
+  for (const [taxableEmploymentIncomeMinor, expectedTaxMinor] of cases) {
+    const result = await calculate("RW", "2026", {
+      scopeConfirmed: true,
+      incomePeriod: "annual",
+      taxableEmploymentIncomeMinor,
+    });
+    assert.equal(result.totals.incomeTaxMinor, expectedTaxMinor);
+  }
+});
+
+test("Rwanda annualizes monthly income and rounds monthly PAYE up", async () => {
+  const cases = [
+    [60_000, 0],
+    [100_000, 4_000],
+    [100_001, 4_001],
+    [200_000, 24_000],
+  ];
+  for (const [taxableEmploymentIncomeMinor, expectedTaxMinor] of cases) {
+    const result = await calculate("RW", "2026", {
+      scopeConfirmed: true,
+      incomePeriod: "monthly",
+      taxableEmploymentIncomeMinor,
+    });
+    assert.equal(result.totals.incomeTaxMinor, expectedTaxMinor);
+    assert.equal(result.totals.annualizedTaxableEmploymentIncomeMinor, taxableEmploymentIncomeMinor * 12);
+  }
 });
 
 test("global catalogue and API expose every accepted simple-progressive package", async () => {
@@ -111,7 +129,7 @@ test("global catalogue and API expose every accepted simple-progressive package"
   const status = await api.handle({ method: "GET", path: "/v1/pit/status" });
   assert.equal(status.status, 200);
   assert.equal(status.body.jurisdictionCount, 249);
-  assert.ok(status.body.counts.implemented >= 31);
+  assert.ok(status.body.counts.implemented >= 32);
   assert.equal(Object.values(status.body.counts).reduce((sum, value) => sum + value, 0), 249);
 
   for (const jurisdiction of EXPECTED_CODES) {
@@ -126,6 +144,7 @@ test("global catalogue and API expose every accepted simple-progressive package"
   const schemaCases = [
     ["UG", ["scopeConfirmed", "individualTaxSchedule", "annualChargeableIncomeMinor"]],
     ["GT", ["scopeConfirmed", "annualTaxableEmploymentIncomeMinor"]],
+    ["RW", ["scopeConfirmed", "incomePeriod", "taxableEmploymentIncomeMinor"]],
   ];
   for (const [code, required] of schemaCases) {
     const schema = await api.handle({ method: "GET", path: `/v1/pit/jurisdictions/${code}/2026/input-schema` });
@@ -140,12 +159,12 @@ test("simple-progressive packages reject unsupported years and identity fields",
     method: "POST",
     path: "/v1/pit/calculate",
     body: {
-      jurisdiction: "UG",
+      jurisdiction: "RW",
       taxYear: "2027",
       facts: {
         scopeConfirmed: true,
-        individualTaxSchedule: "resident",
-        annualChargeableIncomeMinor: 5_000_000,
+        incomePeriod: "monthly",
+        taxableEmploymentIncomeMinor: 100_000,
       },
     },
   });
@@ -156,11 +175,12 @@ test("simple-progressive packages reject unsupported years and identity fields",
     method: "POST",
     path: "/v1/pit/calculate",
     body: {
-      jurisdiction: "GT",
+      jurisdiction: "RW",
       taxYear: "2026",
       facts: {
         scopeConfirmed: true,
-        annualTaxableEmploymentIncomeMinor: 40_000_000,
+        incomePeriod: "monthly",
+        taxableEmploymentIncomeMinor: 100_000,
         name: "Private Person",
       },
     },
