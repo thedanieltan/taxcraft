@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-18",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_1",
+    "type": "repository-package",
+    "authority": "Kenya Revenue Authority",
+    "location": "packages/country-progressive-reliefs",
+    "scope": "Official-source-backed Kenya employment income tax package with resident personal relief.",
+    "observedAt": "2026-07-18"
+  },
+  "implementations": {
+    "KE": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_1", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "year-of-income",
+      "notes": "Monthly or annual employment income tax with the standard non-refundable resident personal relief.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "year-of-income",
+        "currencyCodes": ["KES"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Monthly or annual employment income tax with the standard resident personal relief."
+      }
+    }
+  }
+}
