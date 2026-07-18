@@ -4,7 +4,7 @@ import { createApi } from "@taxcraft/api";
 import { createTaxCraft } from "@taxcraft/core";
 import { simpleProgressivePackages } from "@taxcraft/country-simple-progressive";
 
-const EXPECTED_CODES = ["NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW"];
+const EXPECTED_CODES = ["NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH"];
 const engine = createTaxCraft({ countryPackages: simpleProgressivePackages });
 
 async function calculate(jurisdiction, taxYear, facts) {
@@ -13,7 +13,7 @@ async function calculate(jurisdiction, taxYear, facts) {
   return result;
 }
 
-test("simple-progressive bundle exposes twelve independent maintained packages", () => {
+test("simple-progressive bundle exposes fourteen independent maintained packages", () => {
   assert.deepEqual(simpleProgressivePackages.map(({ manifest }) => manifest.jurisdiction), EXPECTED_CODES);
   for (const countryPackage of simpleProgressivePackages) {
     assert.equal(countryPackage.manifest.storesUserPII, false);
@@ -129,10 +129,11 @@ test("global catalogue and API expose every accepted simple-progressive package"
   const status = await api.handle({ method: "GET", path: "/v1/pit/status" });
   assert.equal(status.status, 200);
   assert.equal(status.body.jurisdictionCount, 249);
-  assert.ok(status.body.counts.implemented >= 32);
+  assert.ok(status.body.counts.implemented >= 36);
   assert.equal(Object.values(status.body.counts).reduce((sum, value) => sum + value, 0), 249);
 
-  for (const jurisdiction of EXPECTED_CODES) {
+  const standardYears = EXPECTED_CODES.filter((code) => code !== "AU");
+  for (const jurisdiction of standardYears) {
     const detail = await api.handle({ method: "GET", path: `/v1/pit/jurisdictions/${jurisdiction}` });
     assert.equal(detail.status, 200);
     assert.equal(detail.body.classificationStatus, "implemented");
@@ -141,13 +142,19 @@ test("global catalogue and API expose every accepted simple-progressive package"
     assert.deepEqual(detail.body.supportedTaxYears, ["2024", "2025", "2026"]);
   }
 
+  const australia = await api.handle({ method: "GET", path: "/v1/pit/jurisdictions/AU" });
+  assert.equal(australia.status, 200);
+  assert.deepEqual(australia.body.supportedTaxYears, ["2024-25", "2025-26", "2026-27"]);
+
   const schemaCases = [
-    ["UG", ["scopeConfirmed", "individualTaxSchedule", "annualChargeableIncomeMinor"]],
-    ["GT", ["scopeConfirmed", "annualTaxableEmploymentIncomeMinor"]],
-    ["RW", ["scopeConfirmed", "incomePeriod", "taxableEmploymentIncomeMinor"]],
+    ["UG", "2026", ["scopeConfirmed", "individualTaxSchedule", "annualChargeableIncomeMinor"]],
+    ["GT", "2026", ["scopeConfirmed", "annualTaxableEmploymentIncomeMinor"]],
+    ["RW", "2026", ["scopeConfirmed", "incomePeriod", "taxableEmploymentIncomeMinor"]],
+    ["AU", "2026-27", ["scopeConfirmed", "taxableIncomeMinor"]],
+    ["PH", "2026", ["scopeConfirmed", "taxableIncomeMinor"]],
   ];
-  for (const [code, required] of schemaCases) {
-    const schema = await api.handle({ method: "GET", path: `/v1/pit/jurisdictions/${code}/2026/input-schema` });
+  for (const [code, year, required] of schemaCases) {
+    const schema = await api.handle({ method: "GET", path: `/v1/pit/jurisdictions/${code}/${year}/input-schema` });
     assert.equal(schema.status, 200);
     assert.deepEqual(schema.body.factsSchema.required, required);
   }
