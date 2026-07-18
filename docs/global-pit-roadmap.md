@@ -9,7 +9,7 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 | Work package | Deliverable | State |
 | --- | --- | --- |
 | WP-PIT-01 | Canonical global jurisdiction register | Integrated |
-| WP-PIT-02 | Global PIT rule map | 31 implemented; 133 source-indexed; 85 in discovery |
+| WP-PIT-02 | Global PIT rule map | 32 implemented; 132 source-indexed; 85 in discovery |
 | WP-PIT-03 | Shared calculation primitives | Integrated |
 | WP-PIT-04 | Country-package contract | Integrated |
 | WP-PIT-05 | Singapore and UK reconciliation | Integrated |
@@ -17,7 +17,7 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 | WP-PIT-07 | Manifest-driven calculator interface | Integrated |
 | WP-PIT-08 | No-PIT packages | Integrated |
 | WP-PIT-09 | Flat-rate packages | Waves 1–2 integrated |
-| WP-PIT-10 | Simple-progressive packages | Waves 1–3 integrated; wave 4 implemented, acceptance pending |
+| WP-PIT-10 | Simple-progressive packages | Waves 1–3 integrated; waves 4–5 implemented, acceptance pending |
 | WP-PIT-11 | Progressive systems with deductions and credits | Planned |
 | WP-PIT-12 | Household and filing-status systems | Planned |
 | WP-PIT-13 | Regional and municipal systems | Planned |
@@ -30,8 +30,8 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 
 The runtime catalogue contains all 249 ISO 3166-1 countries and territories:
 
-- 31 implemented calculators;
-- 133 source-indexed jurisdictions awaiting implementation;
+- 32 implemented calculators;
+- 132 source-indexed jurisdictions awaiting implementation;
 - 85 jurisdictions awaiting source discovery.
 
 Implementation, deployment and live acceptance remain separate states.
@@ -43,7 +43,7 @@ Existing packages cover:
 - Singapore and the United Kingdom;
 - no-PIT scopes for the United Arab Emirates, Bahrain, Bermuda, Brunei Darussalam, Cayman Islands, Monaco, Oman and Qatar;
 - flat-rate scopes for Bulgaria, Estonia, Hungary, Romania, Armenia, Georgia, Moldova, North Macedonia, Ukraine and Uzbekistan;
-- simple-progressive scopes for New Zealand, Paraguay, Cyprus, Panama, Honduras, the Dominican Republic, Barbados, Seychelles, Trinidad and Tobago, Uganda and Guatemala.
+- simple-progressive scopes for New Zealand, Paraguay, Cyprus, Panama, Honduras, the Dominican Republic, Barbados, Seychelles, Trinidad and Tobago, Uganda, Guatemala and Rwanda.
 
 Country packages expose only rules supported by official sources and caller-confirmed tax facts. Unsupported relief eligibility, social contributions, filing decisions, residence determinations and income classifications remain explicit.
 
@@ -82,6 +82,7 @@ Accepted implementation metadata is composed from the ordered files listed in `c
 - `docs/simple-progressive-packages-wave-2.md`
 - `docs/simple-progressive-packages-wave-3.md`
 - `docs/simple-progressive-packages-wave-4.md`
+- `docs/simple-progressive-packages-wave-5.md`
 - `docs/pit-country-package-contract.md`
 - `docs/pit-calculation-primitives.md`
 
