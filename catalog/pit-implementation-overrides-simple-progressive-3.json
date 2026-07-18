@@ -33,7 +33,7 @@
     },
     "SC": {
       "calculationFamily": "SIMPLE_PROGRESSIVE",
-      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_3", "PWC_WWTS_PIT_QUICK_CHART"],
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_3"],
       "taxYearBasis": "calendar-year",
       "notes": "Monthly employment income tax using separate citizen and non-citizen schedules.",
       "register": {
