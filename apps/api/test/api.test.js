@@ -6,7 +6,7 @@ import { createApi, OPENAPI_DOCUMENT } from "../src/app.js";
 const api = createApi();
 
 const MAINTAINED_JURISDICTIONS = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "KE",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "KE", "ZA",
 ];
 
 test("lists maintained jurisdictions and exposes source-linked coverage", async () => {
@@ -18,6 +18,7 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
     ["SG", ["YA2024", "YA2025", "YA2026"]],
     ["GB", ["2024-25", "2025-26", "2026-27"]],
     ...["AE", "EE", "NZ", "UA", "DO", "SC", "UG", "GT", "RW", "KE"].map((code) => [code, ["2024", "2025", "2026"]]),
+    ["ZA", ["2025", "2026", "2027"]],
   ];
   for (const [code, expectedYears] of yearCases) {
     const entry = list.body.jurisdictions.find(({ jurisdiction }) => jurisdiction === code);
@@ -38,6 +39,7 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
     ["GT", "2026", "gt.sat.income-tax-law-decree-10-2012"],
     ["RW", "2026", "rw.rra.paye-bands"],
     ["KE", "2026", "ke.kra.paye-rates-and-relief"],
+    ["ZA", "2027", "za.sars.individual-tax-rates"],
   ];
   for (const [code, year, sourceId] of coverageCases) {
     const coverage = await api.handle({ method: "GET", path: `/v1/jurisdictions/${code}/${year}/coverage` });
