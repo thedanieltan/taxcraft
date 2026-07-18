@@ -4,7 +4,7 @@ import { createApi } from "@taxcraft/api";
 import { createTaxCraft } from "@taxcraft/core";
 import { simpleProgressivePackages } from "@taxcraft/country-simple-progressive";
 
-const EXPECTED_CODES = ["NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH"];
+const EXPECTED_CODES = ["NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH"];
 const engine = createTaxCraft({ countryPackages: simpleProgressivePackages });
 
 async function calculate(jurisdiction, taxYear, facts) {
@@ -13,7 +13,7 @@ async function calculate(jurisdiction, taxYear, facts) {
   return result;
 }
 
-test("simple-progressive bundle exposes fourteen independent maintained packages", () => {
+test("simple-progressive bundle exposes fifteen independent maintained packages", () => {
   assert.deepEqual(simpleProgressivePackages.map(({ manifest }) => manifest.jurisdiction), EXPECTED_CODES);
   for (const countryPackage of simpleProgressivePackages) {
     assert.equal(countryPackage.manifest.storesUserPII, false);
@@ -129,7 +129,7 @@ test("global catalogue and API expose every accepted simple-progressive package"
   const status = await api.handle({ method: "GET", path: "/v1/pit/status" });
   assert.equal(status.status, 200);
   assert.equal(status.body.jurisdictionCount, 249);
-  assert.ok(status.body.counts.implemented >= 36);
+  assert.ok(status.body.counts.implemented >= 38);
   assert.equal(Object.values(status.body.counts).reduce((sum, value) => sum + value, 0), 249);
 
   const standardYears = EXPECTED_CODES.filter((code) => code !== "AU");
@@ -152,6 +152,7 @@ test("global catalogue and API expose every accepted simple-progressive package"
     ["RW", "2026", ["scopeConfirmed", "incomePeriod", "taxableEmploymentIncomeMinor"]],
     ["AU", "2026-27", ["scopeConfirmed", "taxableIncomeMinor"]],
     ["PH", "2026", ["scopeConfirmed", "taxableIncomeMinor"]],
+    ["TH", "2026", ["scopeConfirmed", "taxableIncomeMinor"]],
   ];
   for (const [code, year, required] of schemaCases) {
     const schema = await api.handle({ method: "GET", path: `/v1/pit/jurisdictions/${code}/${year}/input-schema` });
