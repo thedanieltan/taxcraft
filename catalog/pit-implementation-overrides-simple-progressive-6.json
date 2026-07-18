@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-18",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_6",
+    "type": "repository-package",
+    "authority": "Australian Treasury, Australian Taxation Office, Philippine Congress and Bureau of Internal Revenue",
+    "location": "packages/country-simple-progressive/src/wave6.js",
+    "scope": "Official-source-backed Australia resident and Philippines graduated individual income tax packages.",
+    "observedAt": "2026-07-18"
+  },
+  "implementations": {
+    "AU": {
+      "calculationFamily": "SIMPLE_PROGRESSIVE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_6", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "tax-year",
+      "notes": "Resident statutory income tax before Medicare levy, offsets and other separate liabilities.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "SIMPLE_PROGRESSIVE",
+        "taxYearBasis": "tax-year",
+        "currencyCodes": ["AUD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024-25", "2025-26", "2026-27"],
+        "package": "@taxcraft/country-simple-progressive",
+        "coverageSummary": "Resident statutory income tax on caller-confirmed taxable income; Medicare levy and offsets excluded."
+      }
+    },
+    "PH": {
+      "calculationFamily": "SIMPLE_PROGRESSIVE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_6", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Ordinary graduated schedule on caller-confirmed taxable income; optional gross-income and final-tax regimes excluded.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "SIMPLE_PROGRESSIVE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["PHP"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-simple-progressive",
+        "coverageSummary": "Ordinary graduated individual income tax on caller-confirmed taxable income."
+      }
+    }
+  }
+}
