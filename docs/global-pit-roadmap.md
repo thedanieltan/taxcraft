@@ -11,14 +11,14 @@ The programme keeps TaxCraft stateless and non-advisory. Country packages calcul
 | Work package | Deliverable | State |
 | --- | --- | --- |
 | WP-PIT-01 | Canonical global jurisdiction register | Integrated |
-| WP-PIT-02 | Global PIT rule map | 10 implemented; 153 source-indexed; 86 in discovery |
+| WP-PIT-02 | Global PIT rule map | 14 implemented; 149 source-indexed; 86 in discovery |
 | WP-PIT-03 | Shared PIT calculation primitives | Integrated |
 | WP-PIT-04 | Standard PIT country-package contract | Integrated |
 | WP-PIT-05 | Reconcile existing Singapore and United Kingdom packages | Integrated |
 | WP-PIT-06 | Coverage catalogue API | Integrated |
 | WP-PIT-07 | Manifest-driven global calculator interface | Integrated |
 | WP-PIT-08 | No-PIT jurisdiction packages | Integrated |
-| WP-PIT-09 | Flat-rate jurisdiction packages | Planned |
+| WP-PIT-09 | Flat-rate jurisdiction packages | Wave 1 accepted; integration pending |
 | WP-PIT-10 | Simple progressive jurisdiction packages | Planned |
 | WP-PIT-11 | Progressive systems with deductions, credits and rebates | Planned |
 | WP-PIT-12 | Household and filing-status systems | Planned |
@@ -51,8 +51,8 @@ Mapping status and implementation status are separate. A mapped jurisdiction may
 
 The current runtime rule map contains all 249 registered jurisdictions:
 
-- 10 implemented package mappings;
-- 153 jurisdictions indexed from current global PIT summaries and assigned provisional calculation families;
+- 14 implemented package mappings;
+- 149 jurisdictions indexed from current global PIT summaries and assigned provisional calculation families;
 - 86 jurisdictions retained explicitly for source discovery.
 
 The global summaries are planning evidence only. The EY guide is used only for jurisdictions with full personal-tax chapters; contact-only listings are excluded. They do not supply calculator parameters. Enacted tax-year values, allowances, credits and examples continue to come from official publications when a package is implemented.
@@ -81,6 +81,8 @@ Each progressively enriched mapping records:
 8. Complex composite systems.
 
 Countries are delivered in calculation-family work packages rather than one pull request per country. A work package includes package manifests, maintained tax-year models, official sources, calculation logic, boundary fixtures, API registration, calculator support and catalogue updates.
+
+Accepted implementation metadata is composed from the ordered files listed in `catalog/pit-implementation-overlays.json`. Each work package can add its own immutable overlay without rewriting earlier package records.
 
 ## Calculator contract
 
@@ -170,6 +172,21 @@ Oman's package does not expose a zero-PIT model for 2028 or later because the an
 
 See `docs/no-pit-packages.md` for jurisdiction-specific boundaries and sources.
 
+## Flat-rate implementation wave
+
+The first flat-rate family bundle contains four independently manifested packages:
+
+- Bulgaria;
+- Estonia;
+- Hungary;
+- Romania.
+
+Bulgaria, Hungary and Romania apply their general flat rate to a caller-confirmed tax base after deductions, allowances and income-category decisions have been resolved. Estonia derives the overall annual basic exemption for 2024 through 2026 before applying the maintained annual rate, including the income-dependent 2024–2025 exemption and the fixed 2026 exemption.
+
+Each package exposes calendar years 2024, 2025 and 2026. Social contributions, filing decisions, special income categories and relief eligibility remain explicitly outside the declared package scope.
+
+See `docs/flat-rate-packages.md` for jurisdiction-specific boundaries and sources.
+
 ## Validation
 
 Every mapped package must retain the existing TaxCraft guarantees:
@@ -184,7 +201,7 @@ Every mapped package must retain the existing TaxCraft guarantees:
 - declared rounding;
 - supported-version lifecycle enforcement.
 
-The catalogue validators additionally check identity-code uniqueness, ordering, lifecycle consistency, rule-map coverage, per-source evidence, known calculation families and continued representation of existing packages.
+The catalogue validators additionally check identity-code uniqueness, ordering, lifecycle consistency, rule-map coverage, per-source evidence, known calculation families, ordered implementation overlays and continued representation of existing packages.
 
 ## Source maintenance
 

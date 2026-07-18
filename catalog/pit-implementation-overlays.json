@@ -1,0 +1,8 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "files": [
+    "pit-implementation-overrides.json",
+    "pit-implementation-overrides-flat-rate-1.json"
+  ]
+}

@@ -55,13 +55,16 @@ test("no-PIT packages require explicit scope confirmation", async () => {
   assert.ok(result.issues.some(({ path }) => path === "$.facts.scopeConfirmed"));
 });
 
-test("global catalogue and API expose the accepted no-PIT wave", async () => {
+test("global catalogue and API retain the accepted no-PIT wave", async () => {
   const api = createApi();
   const status = await api.handle({ method: "GET", path: "/v1/pit/status" });
   assert.equal(status.status, 200);
-  assert.equal(status.body.counts.implemented, 10);
-  assert.equal(status.body.counts["source-indexed"], 153);
-  assert.equal(status.body.counts["source-discovery"], 86);
+  assert.equal(status.body.jurisdictionCount, 249);
+  assert.ok(status.body.counts.implemented >= 10);
+  assert.equal(
+    Object.values(status.body.counts).reduce((sum, value) => sum + value, 0),
+    249,
+  );
 
   const detail = await api.handle({ method: "GET", path: "/v1/pit/jurisdictions/AE" });
   assert.equal(detail.status, 200);

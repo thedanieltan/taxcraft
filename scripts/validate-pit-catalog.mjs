@@ -1,28 +1,33 @@
 import { readFile } from "node:fs/promises";
-import { applyPitImplementationOverrides } from "./pit-implementation-overrides.mjs";
+import {
+  applyPitImplementationOverlaySet,
+  listPitImplementationEntries,
+  loadPitImplementationOverlays,
+} from "./pit-implementation-overlay-set.mjs";
 
-const registryUrl = new URL("../catalog/pit-jurisdictions.json", import.meta.url);
-const familiesUrl = new URL("../catalog/pit-calculation-families.json", import.meta.url);
-const ruleMapUrl = new URL("../catalog/pit-rule-map.json", import.meta.url);
-const sourcesUrl = new URL("../catalog/pit-rule-sources.json", import.meta.url);
-const implementationsUrl = new URL("../catalog/pit-implementation-overrides.json", import.meta.url);
+const root = new URL("../", import.meta.url);
+const registryUrl = new URL("catalog/pit-jurisdictions.json", root);
+const familiesUrl = new URL("catalog/pit-calculation-families.json", root);
+const ruleMapUrl = new URL("catalog/pit-rule-map.json", root);
+const sourcesUrl = new URL("catalog/pit-rule-sources.json", root);
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-const [baseRegistry, familyCatalog, ruleMap, ruleSources, implementationOverrides] = await Promise.all([
+const [baseRegistry, familyCatalog, ruleMap, ruleSources, implementationOverlays] = await Promise.all([
   readFile(registryUrl, "utf8").then(JSON.parse),
   readFile(familiesUrl, "utf8").then(JSON.parse),
   readFile(ruleMapUrl, "utf8").then(JSON.parse),
   readFile(sourcesUrl, "utf8").then(JSON.parse),
-  readFile(implementationsUrl, "utf8").then(JSON.parse),
+  loadPitImplementationOverlays(root),
 ]);
-const registry = applyPitImplementationOverrides({
+const implementationEntries = listPitImplementationEntries(implementationOverlays);
+const registry = applyPitImplementationOverlaySet({
   jurisdictionRegister: baseRegistry,
   ruleMap,
   ruleSources,
-  implementationOverrides,
+  implementationOverlays,
 }).jurisdictionRegister;
 
 assert(registry.schemaVersion === "1.0.0", "Unexpected PIT register schema version");
@@ -80,7 +85,7 @@ for (const overrideCode of Object.keys(registry.overrides)) {
   assert(seenCodes.has(overrideCode), `Override references unknown jurisdiction ${overrideCode}`);
 }
 
-for (const requiredCode of ["GB", "SG", ...Object.keys(implementationOverrides.implementations)]) {
+for (const requiredCode of ["GB", "SG", ...implementationEntries.map(({ code }) => code)]) {
   const jurisdiction = resolved.find(({ code }) => code === requiredCode);
   assert(jurisdiction, `Missing implemented jurisdiction ${requiredCode}`);
   assert(jurisdiction.implementationStatus === "implemented", `${requiredCode} must remain implemented`);

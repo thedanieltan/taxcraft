@@ -1,0 +1,17 @@
+{
+  "name": "@taxcraft/country-flat-rate",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "Official-source flat-rate personal income tax packages for TaxCraft.",
+  "exports": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@taxcraft/country-sdk": "0.1.0"
+  },
+  "scripts": {
+    "build": "node ../../scripts/build-country-flat-rate.mjs"
+  }
+}
