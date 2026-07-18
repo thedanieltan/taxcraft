@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-18",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_FLAT_RATE_1",
+    "type": "repository-package",
+    "authority": "Jurisdiction-specific tax authorities and legislation",
+    "location": "packages/country-flat-rate",
+    "scope": "Official-source-backed PIT packages for Bulgaria, Estonia, Hungary and Romania.",
+    "observedAt": "2026-07-18"
+  },
+  "implementations": {
+    "BG": {
+      "calculationFamily": "FLAT_WITH_ALLOWANCE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_FLAT_RATE_1", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Ten percent on the caller-confirmed general annual tax base; sole-trader and final-rate income excluded.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "FLAT_WITH_ALLOWANCE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["BGN"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-flat-rate",
+        "coverageSummary": "Ten percent on a caller-confirmed Bulgarian general annual tax base."
+      }
+    },
+    "EE": {
+      "calculationFamily": "FLAT_WITH_ALLOWANCE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_FLAT_RATE_1", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Resident annual income tax with the overall general or pensionable-age basic exemption for 2024 through 2026.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "FLAT_WITH_ALLOWANCE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["EUR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-flat-rate",
+        "coverageSummary": "Resident annual income tax with the overall basic exemption and caller-confirmed taxable income."
+      }
+    },
+    "HU": {
+      "calculationFamily": "FLAT_WITH_ALLOWANCE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_FLAT_RATE_1", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Fifteen percent on the caller-confirmed consolidated tax base after allowances.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "FLAT_WITH_ALLOWANCE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["HUF"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-flat-rate",
+        "coverageSummary": "Fifteen percent on a caller-confirmed consolidated tax base after allowances."
+      }
+    },
+    "RO": {
+      "calculationFamily": "FLAT_WITH_ALLOWANCE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_FLAT_RATE_1", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Ten percent on caller-confirmed taxable income governed by Romania's general rate.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "FLAT_WITH_ALLOWANCE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["RON"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-flat-rate",
+        "coverageSummary": "Ten percent on caller-confirmed taxable income under Romania's general rate."
+      }
+    }
+  }
+}
