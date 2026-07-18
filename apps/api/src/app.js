@@ -5,6 +5,7 @@ import {
   listPitJurisdictions,
 } from "@taxcraft/catalog";
 import { createTaxCraft } from "@taxcraft/core";
+import { complexCompositePackages } from "@taxcraft/country-complex-composite";
 import { flatRatePackages } from "@taxcraft/country-flat-rate";
 import { ukPackage } from "@taxcraft/country-gb";
 import { noPitPackages } from "@taxcraft/country-no-pit";
@@ -19,6 +20,7 @@ const countryPackages = Object.freeze([
   ...flatRatePackages,
   ...simpleProgressivePackages,
   ...progressiveReliefPackages,
+  ...complexCompositePackages,
 ]);
 const packagesByJurisdiction = new Map(countryPackages.map((countryPackage) => [countryPackage.manifest.jurisdiction, countryPackage]));
 const engine = createTaxCraft({ countryPackages });
