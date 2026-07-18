@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-18",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_7",
+    "type": "repository-package",
+    "authority": "Thailand Revenue Department",
+    "location": "packages/country-simple-progressive/src/wave7.js",
+    "scope": "Official-source-backed Thailand ordinary personal income tax package.",
+    "observedAt": "2026-07-18"
+  },
+  "implementations": {
+    "TH": {
+      "calculationFamily": "SIMPLE_PROGRESSIVE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_7", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Ordinary progressive personal income tax on caller-confirmed taxable income; separate minimum-tax comparison excluded.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "SIMPLE_PROGRESSIVE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["THB"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-simple-progressive",
+        "coverageSummary": "Ordinary progressive personal income tax on caller-confirmed taxable income."
+      }
+    }
+  }
+}
