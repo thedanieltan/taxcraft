@@ -5,18 +5,19 @@ import { createApi, OPENAPI_DOCUMENT } from "../src/app.js";
 
 const api = createApi();
 
+const MAINTAINED_JURISDICTIONS = ["SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA"];
+
 test("lists maintained jurisdictions and exposes source-linked coverage", async () => {
   const list = await api.handle({ method: "GET", path: "/v1/jurisdictions" });
   assert.equal(list.status, 200);
-  assert.deepEqual(list.body.jurisdictions.map((entry) => entry.jurisdiction), ["SG", "GB"]);
-  assert.deepEqual(
-    list.body.jurisdictions[0].taxYears.map((entry) => entry.taxYear),
-    ["YA2024", "YA2025", "YA2026"]
-  );
-  assert.deepEqual(
-    list.body.jurisdictions[1].taxYears.map((entry) => entry.taxYear),
-    ["2024-25", "2025-26", "2026-27"]
-  );
+  assert.deepEqual(list.body.jurisdictions.map((entry) => entry.jurisdiction), MAINTAINED_JURISDICTIONS);
+
+  const singapore = list.body.jurisdictions.find((entry) => entry.jurisdiction === "SG");
+  const uk = list.body.jurisdictions.find((entry) => entry.jurisdiction === "GB");
+  const uae = list.body.jurisdictions.find((entry) => entry.jurisdiction === "AE");
+  assert.deepEqual(singapore.taxYears.map((entry) => entry.taxYear), ["YA2024", "YA2025", "YA2026"]);
+  assert.deepEqual(uk.taxYears.map((entry) => entry.taxYear), ["2024-25", "2025-26", "2026-27"]);
+  assert.deepEqual(uae.taxYears.map((entry) => entry.taxYear), ["2024", "2025", "2026"]);
 
   const singaporeCoverage = await api.handle({ method: "GET", path: "/v1/jurisdictions/SG/YA2026/coverage" });
   assert.equal(singaporeCoverage.status, 200);
@@ -28,6 +29,11 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
   assert.equal(ukCoverage.body.status, "current");
   assert.ok(ukCoverage.body.coverage.unsupported.includes("Scotland"));
   assert.ok(ukCoverage.body.sources.every((source) => source.url.startsWith("https://www.gov.uk/")));
+
+  const uaeCoverage = await api.handle({ method: "GET", path: "/v1/jurisdictions/AE/2026/coverage" });
+  assert.equal(uaeCoverage.status, 200);
+  assert.equal(uaeCoverage.body.status, "current");
+  assert.ok(uaeCoverage.body.sources.some((source) => source.sourceId === "ae.pit.natural-person-wages"));
 });
 
 test("calculates through the official Singapore package and returns cited sources", async () => {
