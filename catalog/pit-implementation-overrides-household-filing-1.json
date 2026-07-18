@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-18",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_HOUSEHOLD_FILING_1",
+    "type": "repository-package",
+    "authority": "Revenue Commissioners",
+    "location": "packages/country-household-filing",
+    "scope": "Official-source-backed Ireland household Income Tax and individual USC package.",
+    "observedAt": "2026-07-18"
+  },
+  "implementations": {
+    "IE": {
+      "calculationFamily": "HOUSEHOLD_FILING",
+      "sourceIds": ["TAXCRAFT_COUNTRY_HOUSEHOLD_FILING_1", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Single and married or civil-partner PAYE Income Tax schedules with personal and Employee Tax Credits, plus individual standard-rate USC.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "HOUSEHOLD_FILING",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["EUR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-household-filing",
+        "coverageSummary": "Household PAYE Income Tax with personal and employee credits, plus individual standard-rate USC."
+      }
+    }
+  }
+}
