@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-18",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_3",
+    "type": "repository-package",
+    "authority": "Lembaga Hasil Dalam Negeri Malaysia",
+    "location": "packages/country-progressive-reliefs/src/malaysia.js",
+    "scope": "Official-source-backed Malaysia resident individual income tax package with separate-assessment individual rebate.",
+    "observedAt": "2026-07-18"
+  },
+  "implementations": {
+    "MY": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_3", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "year-of-assessment",
+      "notes": "Resident progressive tax on caller-confirmed chargeable income with the RM400 separate-assessment individual rebate.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "year-of-assessment",
+        "currencyCodes": ["MYR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2023", "2024", "2025"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Resident progressive tax on chargeable income with the RM400 separate-assessment individual rebate."
+      }
+    }
+  }
+}
