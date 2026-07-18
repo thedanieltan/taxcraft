@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-18",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_FLAT_RATE_2",
+    "type": "repository-package",
+    "authority": "Jurisdiction-specific tax authorities and legislation",
+    "location": "packages/country-flat-rate",
+    "scope": "Official-source-backed general PIT packages for Armenia, Georgia, Moldova, North Macedonia, Ukraine and Uzbekistan.",
+    "observedAt": "2026-07-18"
+  },
+  "implementations": {
+    "AM": {
+      "calculationFamily": "FLAT_WITH_ALLOWANCE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_FLAT_RATE_2", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Twenty percent on a caller-confirmed general Armenian income-tax base; special-rate income excluded.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "FLAT_WITH_ALLOWANCE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["AMD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-flat-rate",
+        "coverageSummary": "Twenty percent on a caller-confirmed general Armenian income-tax base."
+      }
+    },
+    "GE": {
+      "calculationFamily": "FLAT_WITH_ALLOWANCE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_FLAT_RATE_2", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Twenty percent on caller-confirmed taxable income governed by Georgia's general natural-person rate.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "FLAT_WITH_ALLOWANCE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["GEL"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-flat-rate",
+        "coverageSummary": "Twenty percent on caller-confirmed Georgian taxable income under the general rate."
+      }
+    },
+    "MD": {
+      "calculationFamily": "FLAT_WITH_ALLOWANCE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_FLAT_RATE_2", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Twelve percent on caller-confirmed taxable income under Moldova's general individual rate.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "FLAT_WITH_ALLOWANCE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["MDL"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-flat-rate",
+        "coverageSummary": "Twelve percent on caller-confirmed Moldovan taxable income under the general individual rate."
+      }
+    },
+    "MK": {
+      "calculationFamily": "FLAT_WITH_ALLOWANCE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_FLAT_RATE_2", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Ten percent on a caller-confirmed North Macedonian category-specific tax base; gambling gains excluded.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "FLAT_WITH_ALLOWANCE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["MKD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-flat-rate",
+        "coverageSummary": "Ten percent on a caller-confirmed North Macedonian tax base under the general rate."
+      }
+    },
+    "UA": {
+      "calculationFamily": "FLAT_WITH_ALLOWANCE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_FLAT_RATE_2", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Eighteen percent PIT on a caller-confirmed general Ukrainian tax base; military levy excluded.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "FLAT_WITH_ALLOWANCE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["UAH"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-flat-rate",
+        "coverageSummary": "Eighteen percent personal income tax on a caller-confirmed Ukrainian general tax base, excluding military levy."
+      }
+    },
+    "UZ": {
+      "calculationFamily": "FLAT_WITH_ALLOWANCE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_FLAT_RATE_2", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Twelve percent on caller-confirmed Uzbek resident employment taxable income.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "FLAT_WITH_ALLOWANCE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["UZS"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-flat-rate",
+        "coverageSummary": "Twelve percent on caller-confirmed Uzbek resident employment taxable income."
+      }
+    }
+  }
+}
