@@ -1,5 +1,6 @@
 import {
   ROUNDING_MODE,
+  applyBasisPoints,
   calculateProgressiveBands,
   definePitCountryPackage,
 } from "@taxcraft/country-sdk";
@@ -12,6 +13,16 @@ const PARAGUAY_BANDS = Object.freeze([
   { upperBoundMinor: 150_000_000, rateBasisPoints: 900 },
   { upperBoundMinor: null, rateBasisPoints: 1000 },
 ]);
+const DOMINICAN_SCALE = Object.freeze({
+  exemptUpperMinor: 41_622_000,
+  secondUpperMinor: 62_432_900,
+  thirdUpperMinor: 86_712_300,
+  secondStartMinor: 41_622_001,
+  thirdStartMinor: 62_432_901,
+  topStartMinor: 86_712_301,
+  thirdBaseTaxMinor: 3_121_600,
+  topBaseTaxMinor: 7_977_600,
+});
 
 export const simpleProgressivePackages = Object.freeze(
   SIMPLE_PROGRESSIVE_JURISDICTIONS.map(createPackage),
@@ -23,9 +34,9 @@ export const simpleProgressivePackagesByJurisdiction = Object.freeze(Object.from
 export { SIMPLE_PROGRESSIVE_JURISDICTIONS };
 
 function createPackage(definition) {
-  return definition.kind === "paraguay-personal-services"
-    ? createParaguayPackage(definition)
-    : createTaxableIncomePackage(definition);
+  if (definition.kind === "paraguay-personal-services") return createParaguayPackage(definition);
+  if (definition.kind === "published-base-scale") return createPublishedBaseScalePackage(definition);
+  return createTaxableIncomePackage(definition);
 }
 
 function taxYears(code) {
@@ -69,6 +80,17 @@ function baseManifest(definition, factsSchema) {
 }
 
 function createTaxableIncomePackage(definition) {
+  return definePitCountryPackage({
+    manifest: baseManifest(definition, taxableIncomeFactsSchema(definition)),
+    sources: definition.sources,
+    models: Object.fromEntries(TAX_YEARS.map((year) => [
+      String(year),
+      taxableIncomeModel(definition, year),
+    ])),
+  });
+}
+
+function taxableIncomeFactsSchema(definition) {
   const taxableIncomeProperty = {
     type: "integer",
     title: definition.taxableIncomeTitle,
@@ -80,8 +102,7 @@ function createTaxableIncomePackage(definition) {
   if (definition.taxableIncomeMultipleOf) {
     taxableIncomeProperty.multipleOf = definition.taxableIncomeMultipleOf;
   }
-
-  const factsSchema = {
+  return {
     type: "object",
     additionalProperties: false,
     required: ["scopeConfirmed", "taxableIncomeMinor"],
@@ -96,15 +117,6 @@ function createTaxableIncomePackage(definition) {
       taxableIncomeMinor: taxableIncomeProperty,
     },
   };
-
-  return definePitCountryPackage({
-    manifest: baseManifest(definition, factsSchema),
-    sources: definition.sources,
-    models: Object.fromEntries(TAX_YEARS.map((year) => [
-      String(year),
-      taxableIncomeModel(definition, year),
-    ])),
-  });
 }
 
 function taxableIncomeModel(definition, year) {
@@ -129,6 +141,124 @@ function taxableIncomeModel(definition, year) {
         sourceIds: definition.sources.map(({ sourceId }) => sourceId),
       });
     },
+  };
+}
+
+function createPublishedBaseScalePackage(definition) {
+  return definePitCountryPackage({
+    manifest: baseManifest(definition, taxableIncomeFactsSchema(definition)),
+    sources: definition.sources,
+    models: Object.fromEntries(TAX_YEARS.map((year) => [
+      String(year),
+      publishedBaseScaleModel(definition, year),
+    ])),
+  });
+}
+
+function publishedBaseScaleModel(definition, year) {
+  return {
+    coverage: {
+      supported: [...definition.supported],
+      unsupported: [...definition.unsupported],
+    },
+    validateFacts({ facts }) {
+      return { ok: true, facts };
+    },
+    calculate({ facts }) {
+      const sourceIds = definition.sources.map(({ sourceId }) => sourceId);
+      const { incomeTaxMinor, lines } = calculateDominicanScale(facts.taxableIncomeMinor, year, sourceIds);
+      return {
+        currency: definition.currency,
+        totals: {
+          taxBaseMinor: facts.taxableIncomeMinor,
+          incomeTaxMinor,
+        },
+        lines,
+        assumptions: [...definition.assumptions],
+        coverage: {
+          supported: [...definition.supported],
+          unsupported: [...definition.unsupported],
+        },
+      };
+    },
+  };
+}
+
+function calculateDominicanScale(taxableIncomeMinor, year, sourceIds) {
+  if (taxableIncomeMinor <= DOMINICAN_SCALE.exemptUpperMinor) {
+    return {
+      incomeTaxMinor: 0,
+      lines: [{
+        ruleId: `do.pit.${year}.exempt-band`,
+        label: "Income tax within the annual exempt band",
+        amountMinor: 0,
+        sourceIds,
+      }],
+    };
+  }
+  if (taxableIncomeMinor <= DOMINICAN_SCALE.secondUpperMinor) {
+    const incomeTaxMinor = applyBasisPoints(
+      taxableIncomeMinor - DOMINICAN_SCALE.secondStartMinor,
+      1500,
+      ROUNDING_MODE.HALF_UP,
+    );
+    return {
+      incomeTaxMinor,
+      lines: [{
+        ruleId: `do.pit.${year}.15-percent-band`,
+        label: "15% of income exceeding the published exempt threshold",
+        amountMinor: incomeTaxMinor,
+        sourceIds,
+      }],
+    };
+  }
+  if (taxableIncomeMinor <= DOMINICAN_SCALE.thirdUpperMinor) {
+    const excessTaxMinor = applyBasisPoints(
+      taxableIncomeMinor - DOMINICAN_SCALE.thirdStartMinor,
+      2000,
+      ROUNDING_MODE.HALF_UP,
+    );
+    return accumulatedScaleResult({
+      year,
+      sourceIds,
+      baseTaxMinor: DOMINICAN_SCALE.thirdBaseTaxMinor,
+      excessTaxMinor,
+      rateLabel: "20%",
+      bandId: "20-percent-band",
+    });
+  }
+  const excessTaxMinor = applyBasisPoints(
+    taxableIncomeMinor - DOMINICAN_SCALE.topStartMinor,
+    2500,
+    ROUNDING_MODE.HALF_UP,
+  );
+  return accumulatedScaleResult({
+    year,
+    sourceIds,
+    baseTaxMinor: DOMINICAN_SCALE.topBaseTaxMinor,
+    excessTaxMinor,
+    rateLabel: "25%",
+    bandId: "25-percent-band",
+  });
+}
+
+function accumulatedScaleResult({ year, sourceIds, baseTaxMinor, excessTaxMinor, rateLabel, bandId }) {
+  return {
+    incomeTaxMinor: baseTaxMinor + excessTaxMinor,
+    lines: [
+      {
+        ruleId: `do.pit.${year}.${bandId}.published-base`,
+        label: "Published accumulated tax at the start of the bracket",
+        amountMinor: baseTaxMinor,
+        sourceIds,
+      },
+      {
+        ruleId: `do.pit.${year}.${bandId}.excess`,
+        label: `${rateLabel} of income exceeding the bracket threshold`,
+        amountMinor: excessTaxMinor,
+        sourceIds,
+      },
+    ],
   };
 }
 
