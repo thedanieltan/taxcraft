@@ -207,10 +207,10 @@ function estoniaModel(definition, year) {
         entitlementMinor,
         facts.taxableIncomeBeforeBasicExemptionMinor,
       );
-      const taxBaseMinor = deductFloorZero(
-        facts.taxableIncomeBeforeBasicExemptionMinor,
-        exemptionAppliedMinor,
-      );
+      const { amountAfterDeductionMinor: taxBaseMinor } = deductFloorZero({
+        amountMinor: facts.taxableIncomeBeforeBasicExemptionMinor,
+        deductionMinor: exemptionAppliedMinor,
+      });
       const incomeTaxMinor = applyBasisPoints(
         taxBaseMinor,
         parameters.rateBasisPoints,
