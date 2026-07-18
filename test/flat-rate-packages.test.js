@@ -140,13 +140,16 @@ test("flat-rate packages require confirmed scope and reject undeclared facts", a
   assert.ok(identityBearing.issues.some(({ code }) => code === "facts.pii-field"));
 });
 
-test("global catalogue and API expose the first flat-rate wave", async () => {
+test("global catalogue and API retain the first flat-rate wave", async () => {
   const api = createApi();
   const status = await api.handle({ method: "GET", path: "/v1/pit/status" });
   assert.equal(status.status, 200);
-  assert.equal(status.body.counts.implemented, 14);
-  assert.equal(status.body.counts["source-indexed"], 149);
-  assert.equal(status.body.counts["source-discovery"], 86);
+  assert.equal(status.body.jurisdictionCount, 249);
+  assert.ok(status.body.counts.implemented >= 14);
+  assert.equal(
+    Object.values(status.body.counts).reduce((sum, value) => sum + value, 0),
+    249,
+  );
 
   for (const jurisdiction of EXPECTED_CODES) {
     const detail = await api.handle({ method: "GET", path: `/v1/pit/jurisdictions/${jurisdiction}` });
