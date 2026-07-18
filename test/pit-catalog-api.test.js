@@ -60,7 +60,7 @@ test("implemented model input schemas are public and unimplemented models fail e
     ["DO", "2026", ["scopeConfirmed", "taxableIncomeMinor"]],
     ["BB", "2026", ["scopeConfirmed", "taxableIncomeMinor"]],
     ["TT", "2026", ["scopeConfirmed", "taxableIncomeMinor"]],
-    ["SC", "2026", ["scopeConfirmed", "citizenshipStatus", "monthlyGrossEmolumentsMinor"]],
+    ["SC", "2026", ["scopeConfirmed", "employmentTaxSchedule", "monthlyGrossEmolumentsMinor"]],
   ];
   for (const [code, year, required] of cases) {
     const schema = await api.handle({ method: "GET", path: `/v1/pit/jurisdictions/${code}/${year}/input-schema` });
