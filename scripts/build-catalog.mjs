@@ -1,23 +1,26 @@
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
-import { applyPitImplementationOverrides } from "./pit-implementation-overrides.mjs";
+import {
+  applyPitImplementationOverlaySet,
+  loadPitImplementationOverlays,
+} from "./pit-implementation-overlay-set.mjs";
 
 const root = new URL("../", import.meta.url);
 const source = new URL("../packages/catalog/src/", import.meta.url);
 const destination = new URL("../packages/catalog/dist/", import.meta.url);
 
-const [jurisdictionRegister, calculationFamilies, ruleMap, ruleSources, implementationOverrides] = await Promise.all([
+const [jurisdictionRegister, calculationFamilies, ruleMap, ruleSources, implementationOverlays] = await Promise.all([
   readJson(new URL("catalog/pit-jurisdictions.json", root)),
   readJson(new URL("catalog/pit-calculation-families.json", root)),
   readJson(new URL("catalog/pit-rule-map.json", root)),
   readJson(new URL("catalog/pit-rule-sources.json", root)),
-  readJson(new URL("catalog/pit-implementation-overrides.json", root)),
+  loadPitImplementationOverlays(root),
 ]);
 
-const merged = applyPitImplementationOverrides({
+const merged = applyPitImplementationOverlaySet({
   jurisdictionRegister,
   ruleMap,
   ruleSources,
-  implementationOverrides,
+  implementationOverlays,
 });
 
 await rm(destination, { recursive: true, force: true });
