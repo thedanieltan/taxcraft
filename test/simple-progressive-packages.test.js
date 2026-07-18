@@ -99,23 +99,22 @@ test("Trinidad and Tobago applies the 25% and 30% chargeable-income bands", asyn
 test("Seychelles applies separate citizen and non-citizen monthly schedules", async () => {
   const citizenExempt = await calculate("SC", "2026", {
     scopeConfirmed: true,
-    citizenshipStatus: "citizen",
+    employmentTaxSchedule: "citizen",
     monthlyGrossEmolumentsMinor: 855_550,
   });
   const citizenTopThreshold = await calculate("SC", "2026", {
     scopeConfirmed: true,
-    citizenshipStatus: "citizen",
+    employmentTaxSchedule: "citizen",
     monthlyGrossEmolumentsMinor: 8_333_300,
   });
   const nonCitizenTopThreshold = await calculate("SC", "2026", {
     scopeConfirmed: true,
-    citizenshipStatus: "non-citizen",
+    employmentTaxSchedule: "non-citizen",
     monthlyGrossEmolumentsMinor: 8_333_300,
   });
   assert.equal(citizenExempt.totals.incomeTaxMinor, 0);
   assert.equal(citizenTopThreshold.totals.incomeTaxMinor, 1_488_328);
   assert.equal(nonCitizenTopThreshold.totals.incomeTaxMinor, 1_616_660);
-  assert.equal(citizenTopThreshold.totals.citizenshipStatus, "citizen");
 });
 
 test("global catalogue and API expose every accepted simple-progressive package", async () => {
@@ -142,7 +141,7 @@ test("global catalogue and API expose every accepted simple-progressive package"
   assert.equal(seychellesSchema.status, 200);
   assert.deepEqual(seychellesSchema.body.factsSchema.required, [
     "scopeConfirmed",
-    "citizenshipStatus",
+    "employmentTaxSchedule",
     "monthlyGrossEmolumentsMinor",
   ]);
 });
