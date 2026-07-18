@@ -5,7 +5,9 @@ import { createApi, OPENAPI_DOCUMENT } from "../src/app.js";
 
 const api = createApi();
 
-const MAINTAINED_JURISDICTIONS = ["SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA"];
+const MAINTAINED_JURISDICTIONS = [
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO",
+];
 
 test("lists maintained jurisdictions and exposes source-linked coverage", async () => {
   const list = await api.handle({ method: "GET", path: "/v1/jurisdictions" });
@@ -15,9 +17,11 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
   const singapore = list.body.jurisdictions.find((entry) => entry.jurisdiction === "SG");
   const uk = list.body.jurisdictions.find((entry) => entry.jurisdiction === "GB");
   const uae = list.body.jurisdictions.find((entry) => entry.jurisdiction === "AE");
+  const estonia = list.body.jurisdictions.find((entry) => entry.jurisdiction === "EE");
   assert.deepEqual(singapore.taxYears.map((entry) => entry.taxYear), ["YA2024", "YA2025", "YA2026"]);
   assert.deepEqual(uk.taxYears.map((entry) => entry.taxYear), ["2024-25", "2025-26", "2026-27"]);
   assert.deepEqual(uae.taxYears.map((entry) => entry.taxYear), ["2024", "2025", "2026"]);
+  assert.deepEqual(estonia.taxYears.map((entry) => entry.taxYear), ["2024", "2025", "2026"]);
 
   const singaporeCoverage = await api.handle({ method: "GET", path: "/v1/jurisdictions/SG/YA2026/coverage" });
   assert.equal(singaporeCoverage.status, 200);
@@ -34,6 +38,11 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
   assert.equal(uaeCoverage.status, 200);
   assert.equal(uaeCoverage.body.status, "current");
   assert.ok(uaeCoverage.body.sources.some((source) => source.sourceId === "ae.pit.natural-person-wages"));
+
+  const estoniaCoverage = await api.handle({ method: "GET", path: "/v1/jurisdictions/EE/2026/coverage" });
+  assert.equal(estoniaCoverage.status, 200);
+  assert.equal(estoniaCoverage.body.status, "current");
+  assert.ok(estoniaCoverage.body.sources.some((source) => source.sourceId === "ee.emta.basic-exemption"));
 });
 
 test("calculates through the official Singapore package and returns cited sources", async () => {
