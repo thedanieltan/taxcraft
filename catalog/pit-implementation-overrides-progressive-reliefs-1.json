@@ -14,13 +14,13 @@
     "KE": {
       "calculationFamily": "PROGRESSIVE_RELIEFS",
       "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_1", "PWC_WWTS_PIT_QUICK_CHART"],
-      "taxYearBasis": "year-of-income",
+      "taxYearBasis": "income-year",
       "notes": "Monthly or annual employment income tax with the standard non-refundable resident personal relief.",
       "register": {
         "mappingStatus": "mapped",
         "implementationStatus": "implemented",
         "calculationFamily": "PROGRESSIVE_RELIEFS",
-        "taxYearBasis": "year-of-income",
+        "taxYearBasis": "income-year",
         "currencyCodes": ["KES"],
         "nationalTaxLayer": true,
         "subnationalTaxLayer": false,
