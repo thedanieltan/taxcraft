@@ -18,7 +18,7 @@ The programme keeps TaxCraft stateless and non-advisory. Country packages calcul
 | WP-PIT-06 | Coverage catalogue API | Integrated |
 | WP-PIT-07 | Manifest-driven global calculator interface | Integrated |
 | WP-PIT-08 | No-PIT jurisdiction packages | Integrated |
-| WP-PIT-09 | Flat-rate jurisdiction packages | Wave 1 branch implemented; acceptance pending |
+| WP-PIT-09 | Flat-rate jurisdiction packages | Wave 1 accepted; integration pending |
 | WP-PIT-10 | Simple progressive jurisdiction packages | Planned |
 | WP-PIT-11 | Progressive systems with deductions, credits and rebates | Planned |
 | WP-PIT-12 | Household and filing-status systems | Planned |
