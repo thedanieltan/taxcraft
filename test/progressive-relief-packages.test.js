@@ -12,14 +12,14 @@ async function calculate(facts, taxYear = "2026") {
   return result;
 }
 
-test("progressive-reliefs bundle exposes the maintained Kenya package", () => {
-  assert.deepEqual(progressiveReliefPackages.map(({ manifest }) => manifest.jurisdiction), ["KE"]);
-  const [countryPackage] = progressiveReliefPackages;
-  assert.equal(countryPackage.manifest.storesUserPII, false);
-  assert.equal(countryPackage.manifest.advisory, false);
-  assert.deepEqual(countryPackage.manifest.taxYears.map(({ taxYear }) => taxYear), ["2024", "2025", "2026"]);
-  assert.equal(countryPackage.manifest.pit.factsSchema.additionalProperties, false);
-  assert.ok(countryPackage.sources.length >= 4);
+test("progressive-reliefs bundle retains the maintained Kenya package", () => {
+  assert.deepEqual(progressiveReliefPackages.map(({ manifest }) => manifest.jurisdiction), ["KE", "ZA"]);
+  const kenyaPackage = progressiveReliefPackages.find(({ manifest }) => manifest.jurisdiction === "KE");
+  assert.equal(kenyaPackage.manifest.storesUserPII, false);
+  assert.equal(kenyaPackage.manifest.advisory, false);
+  assert.deepEqual(kenyaPackage.manifest.taxYears.map(({ taxYear }) => taxYear), ["2024", "2025", "2026"]);
+  assert.equal(kenyaPackage.manifest.pit.factsSchema.additionalProperties, false);
+  assert.ok(kenyaPackage.sources.length >= 4);
 });
 
 test("Kenya applies monthly bands and non-refundable resident personal relief", async () => {

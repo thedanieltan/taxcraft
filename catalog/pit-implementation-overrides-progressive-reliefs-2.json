@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-18",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_2",
+    "type": "repository-package",
+    "authority": "South African Revenue Service",
+    "location": "packages/country-progressive-reliefs",
+    "scope": "Official-source-backed South Africa individual income tax package with cumulative rebates.",
+    "observedAt": "2026-07-18"
+  },
+  "implementations": {
+    "ZA": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_2", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "tax-year",
+      "notes": "Annual individual income tax with primary, secondary and tertiary rebate schedules.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "tax-year",
+        "currencyCodes": ["ZAR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2025", "2026", "2027"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Annual individual income tax with primary, secondary and tertiary rebate schedules."
+      }
+    }
+  }
+}
