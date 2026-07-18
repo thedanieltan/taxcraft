@@ -158,7 +158,7 @@ function createKenyaPackage() {
         factsSchema,
         rounding: [
           { stage: "progressive-income-tax", mode: "half-up", unitMinor: 1 },
-          { stage: "personal-relief", mode: "exact", unitMinor: 1 },
+          { stage: "personal-relief", mode: "half-up", unitMinor: 1 },
         ],
         maintenance: { mode: "manual", sourceWatch: false },
       },
