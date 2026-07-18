@@ -9,21 +9,19 @@ import { OPENAPI_DOCUMENT, createApi } from "@taxcraft/api";
 
 const api = createApi();
 const IMPLEMENTED_CODES = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO", "NZ", "PY", "CY",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY",
 ];
 
 test("runtime catalogue exposes all registered PIT jurisdictions", () => {
   const jurisdictions = listPitJurisdictions();
   const status = getPitCatalogueStatus();
   assert.equal(jurisdictions.length, 249);
-  assert.equal(status.counts.implemented, 17);
-  assert.equal(status.counts["source-indexed"], 146);
+  assert.equal(status.counts.implemented, 23);
+  assert.equal(status.counts["source-indexed"], 140);
   assert.equal(status.counts["source-discovery"], 86);
-  assert.equal(getPitJurisdiction("SG").verificationStatus, "verified");
-  assert.equal(getPitJurisdiction("AE").verificationStatus, "verified");
-  assert.equal(getPitJurisdiction("EE").verificationStatus, "verified");
-  assert.equal(getPitJurisdiction("NZ").verificationStatus, "verified");
-  assert.equal(getPitJurisdiction("CY").verificationStatus, "verified");
+  for (const code of ["SG", "AE", "EE", "NZ", "CY", "AM", "UA", "UZ"]) {
+    assert.equal(getPitJurisdiction(code).verificationStatus, "verified");
+  }
   assert.equal(getPitJurisdiction("AD").verificationStatus, "unmapped");
 });
 
@@ -32,32 +30,19 @@ test("global PIT jurisdiction API returns the complete catalogue", async () => {
   assert.equal(response.status, 200);
   assert.equal(response.body.jurisdictions.length, 249);
   assert.equal(response.body.jurisdictions[0].code, "AD");
-  assert.ok(response.body.jurisdictions.some(({ code, implementationStatus }) => code === "SG" && implementationStatus === "implemented"));
-  assert.ok(response.body.jurisdictions.some(({ code, implementationStatus }) => code === "AE" && implementationStatus === "implemented"));
-  assert.ok(response.body.jurisdictions.some(({ code, implementationStatus }) => code === "EE" && implementationStatus === "implemented"));
-  assert.ok(response.body.jurisdictions.some(({ code, implementationStatus }) => code === "NZ" && implementationStatus === "implemented"));
+  for (const code of ["SG", "AE", "EE", "NZ", "UA"]) {
+    assert.ok(response.body.jurisdictions.some(({ code: entryCode, implementationStatus }) => entryCode === code && implementationStatus === "implemented"));
+  }
 });
 
 test("jurisdiction detail distinguishes catalogue records from calculators", async () => {
-  const singapore = await api.handle({ method: "GET", path: "/v1/pit/jurisdictions/SG" });
-  assert.equal(singapore.status, 200);
-  assert.equal(singapore.body.calculator.available, true);
-  assert.equal(singapore.body.calculator.pit.contractVersion, "taxcraft.pit-country-package.v1");
-
-  const uae = await api.handle({ method: "GET", path: "/v1/pit/jurisdictions/AE" });
-  assert.equal(uae.status, 200);
-  assert.equal(uae.body.classificationStatus, "implemented");
-  assert.equal(uae.body.calculator.available, true);
-
-  const estonia = await api.handle({ method: "GET", path: "/v1/pit/jurisdictions/EE" });
-  assert.equal(estonia.status, 200);
-  assert.equal(estonia.body.classificationStatus, "implemented");
-  assert.equal(estonia.body.calculator.available, true);
-
-  const newZealand = await api.handle({ method: "GET", path: "/v1/pit/jurisdictions/NZ" });
-  assert.equal(newZealand.status, 200);
-  assert.equal(newZealand.body.classificationStatus, "implemented");
-  assert.equal(newZealand.body.calculator.available, true);
+  for (const code of ["SG", "AE", "EE", "NZ", "UA"]) {
+    const detail = await api.handle({ method: "GET", path: `/v1/pit/jurisdictions/${code}` });
+    assert.equal(detail.status, 200);
+    assert.equal(detail.body.classificationStatus, "implemented");
+    assert.equal(detail.body.calculator.available, true);
+    assert.equal(detail.body.calculator.pit.contractVersion, "taxcraft.pit-country-package.v1");
+  }
 
   const andorra = await api.handle({ method: "GET", path: "/v1/pit/jurisdictions/AD" });
   assert.equal(andorra.status, 200);
@@ -66,39 +51,21 @@ test("jurisdiction detail distinguishes catalogue records from calculators", asy
 });
 
 test("implemented model input schemas are public and unimplemented models fail explicitly", async () => {
-  const schema = await api.handle({
-    method: "GET",
-    path: "/v1/pit/jurisdictions/SG/YA2026/input-schema",
-  });
-  assert.equal(schema.status, 200);
-  assert.equal(schema.body.factsSchema.additionalProperties, false);
-  assert.deepEqual(schema.body.factsSchema.required, ["taxResident", "chargeableIncomeMinor"]);
+  const cases = [
+    ["SG", "YA2026", ["taxResident", "chargeableIncomeMinor"]],
+    ["AE", "2026", ["scopeConfirmed", "coveredIncomeMinor"]],
+    ["BG", "2026", ["scopeConfirmed", "taxBaseMinor"]],
+    ["NZ", "2026", ["scopeConfirmed", "taxableIncomeMinor"]],
+    ["UA", "2026", ["scopeConfirmed", "taxBaseMinor"]],
+  ];
+  for (const [code, year, required] of cases) {
+    const schema = await api.handle({ method: "GET", path: `/v1/pit/jurisdictions/${code}/${year}/input-schema` });
+    assert.equal(schema.status, 200);
+    assert.equal(schema.body.factsSchema.additionalProperties, false);
+    assert.deepEqual(schema.body.factsSchema.required, required);
+  }
 
-  const noPitSchema = await api.handle({
-    method: "GET",
-    path: "/v1/pit/jurisdictions/AE/2026/input-schema",
-  });
-  assert.equal(noPitSchema.status, 200);
-  assert.deepEqual(noPitSchema.body.factsSchema.required, ["scopeConfirmed", "coveredIncomeMinor"]);
-
-  const flatRateSchema = await api.handle({
-    method: "GET",
-    path: "/v1/pit/jurisdictions/BG/2026/input-schema",
-  });
-  assert.equal(flatRateSchema.status, 200);
-  assert.deepEqual(flatRateSchema.body.factsSchema.required, ["scopeConfirmed", "taxBaseMinor"]);
-
-  const progressiveSchema = await api.handle({
-    method: "GET",
-    path: "/v1/pit/jurisdictions/NZ/2026/input-schema",
-  });
-  assert.equal(progressiveSchema.status, 200);
-  assert.deepEqual(progressiveSchema.body.factsSchema.required, ["scopeConfirmed", "taxableIncomeMinor"]);
-
-  const unavailable = await api.handle({
-    method: "GET",
-    path: "/v1/pit/jurisdictions/AD/2026/coverage",
-  });
+  const unavailable = await api.handle({ method: "GET", path: "/v1/pit/jurisdictions/AD/2026/coverage" });
   assert.equal(unavailable.status, 409);
   assert.equal(unavailable.body.status, "not_implemented");
   assert.equal(unavailable.body.jurisdiction, "AD");

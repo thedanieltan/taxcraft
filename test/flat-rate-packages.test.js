@@ -4,9 +4,9 @@ import { createApi } from "@taxcraft/api";
 import { createTaxCraft } from "@taxcraft/core";
 import { flatRatePackages } from "@taxcraft/country-flat-rate";
 
-const EXPECTED_CODES = ["BG", "EE", "HU", "RO"];
+const EXPECTED_CODES = ["BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ"];
 
-test("flat-rate bundle exposes four independent maintained packages", () => {
+test("flat-rate bundle exposes ten independent maintained packages", () => {
   assert.deepEqual(flatRatePackages.map(({ manifest }) => manifest.jurisdiction), EXPECTED_CODES);
   for (const countryPackage of flatRatePackages) {
     assert.equal(countryPackage.manifest.storesUserPII, false);
@@ -24,6 +24,12 @@ test("confirmed-tax-base packages apply their enacted flat rates deterministical
     ["BG", 10_000],
     ["HU", 15_000],
     ["RO", 10_000],
+    ["AM", 20_000],
+    ["GE", 20_000],
+    ["MD", 12_000],
+    ["MK", 10_000],
+    ["UA", 18_000],
+    ["UZ", 12_000],
   ];
 
   for (const [jurisdiction, expectedTaxMinor] of cases) {
@@ -124,7 +130,7 @@ test("Estonia applies the fixed 2026 general and pensionable-age exemptions", as
 test("flat-rate packages require confirmed scope and reject undeclared facts", async () => {
   const engine = createTaxCraft({ countryPackages: flatRatePackages });
   const unconfirmed = await engine.calculate({
-    jurisdiction: "BG",
+    jurisdiction: "AM",
     taxYear: "2026",
     facts: { scopeConfirmed: false, taxBaseMinor: 100_000 },
   });
@@ -132,7 +138,7 @@ test("flat-rate packages require confirmed scope and reject undeclared facts", a
   assert.ok(unconfirmed.issues.some(({ path }) => path === "$.facts.scopeConfirmed"));
 
   const identityBearing = await engine.calculate({
-    jurisdiction: "RO",
+    jurisdiction: "UA",
     taxYear: "2026",
     facts: { scopeConfirmed: true, taxBaseMinor: 100_000, name: "Private Person" },
   });
@@ -140,16 +146,13 @@ test("flat-rate packages require confirmed scope and reject undeclared facts", a
   assert.ok(identityBearing.issues.some(({ code }) => code === "facts.pii-field"));
 });
 
-test("global catalogue and API retain the first flat-rate wave", async () => {
+test("global catalogue and API retain all accepted flat-rate packages", async () => {
   const api = createApi();
   const status = await api.handle({ method: "GET", path: "/v1/pit/status" });
   assert.equal(status.status, 200);
   assert.equal(status.body.jurisdictionCount, 249);
-  assert.ok(status.body.counts.implemented >= 14);
-  assert.equal(
-    Object.values(status.body.counts).reduce((sum, value) => sum + value, 0),
-    249,
-  );
+  assert.ok(status.body.counts.implemented >= 23);
+  assert.equal(Object.values(status.body.counts).reduce((sum, value) => sum + value, 0), 249);
 
   for (const jurisdiction of EXPECTED_CODES) {
     const detail = await api.handle({ method: "GET", path: `/v1/pit/jurisdictions/${jurisdiction}` });
@@ -160,27 +163,23 @@ test("global catalogue and API retain the first flat-rate wave", async () => {
     assert.deepEqual(detail.body.supportedTaxYears, ["2024", "2025", "2026"]);
   }
 
-  const schema = await api.handle({ method: "GET", path: "/v1/pit/jurisdictions/EE/2026/input-schema" });
+  const schema = await api.handle({ method: "GET", path: "/v1/pit/jurisdictions/UA/2026/input-schema" });
   assert.equal(schema.status, 200);
-  assert.deepEqual(schema.body.factsSchema.required, [
-    "residentConfirmed",
-    "annualIncomeForExemptionMinor",
-    "taxableIncomeBeforeBasicExemptionMinor",
-    "pensionableAgeDuringYear",
-  ]);
+  assert.deepEqual(schema.body.factsSchema.required, ["scopeConfirmed", "taxBaseMinor"]);
 
   const calculation = await api.handle({
     method: "POST",
     path: "/v1/pit/calculate",
     body: {
-      jurisdiction: "BG",
+      jurisdiction: "UA",
       taxYear: "2026",
       facts: { scopeConfirmed: true, taxBaseMinor: 500_000 },
     },
   });
   assert.equal(calculation.status, 200);
-  assert.equal(calculation.body.totals.incomeTaxMinor, 50_000);
-  assert.ok(calculation.body.sources.some(({ sourceId }) => sourceId === "bg.minfin.personal-income-tax"));
+  assert.equal(calculation.body.totals.incomeTaxMinor, 90_000);
+  assert.ok(calculation.body.sources.some(({ sourceId }) => sourceId === "ua.sts.tax-code-section-iv-article-167"));
+  assert.ok(calculation.body.coverage.unsupported.some((item) => item.includes("military levy")));
 });
 
 test("flat-rate packages reject years outside the maintained support window", async () => {
@@ -189,7 +188,7 @@ test("flat-rate packages reject years outside the maintained support window", as
     method: "POST",
     path: "/v1/pit/calculate",
     body: {
-      jurisdiction: "HU",
+      jurisdiction: "UZ",
       taxYear: "2027",
       facts: { scopeConfirmed: true, taxBaseMinor: 100_000 },
     },
