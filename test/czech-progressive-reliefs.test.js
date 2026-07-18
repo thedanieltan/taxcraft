@@ -30,19 +30,21 @@ test("Czech Republic rounds the annual reduced tax base down to whole hundreds",
   assert.equal(result.totals.grossIncomeTaxMinor, 15_000_000);
 });
 
-test("Czech Republic applies year-specific 15% and 23% thresholds and rounds gross tax up", async () => {
+test("Czech Republic applies year-specific 15% and 23% thresholds after whole-hundred base rounding", async () => {
   const cases = [
-    ["2024", 158_281_200, 23_742_200],
-    ["2025", 167_605_200, 25_140_800],
-    ["2026", 176_281_200, 26_442_200],
+    ["2024", 158_281_200, 23_742_000, 23_744_204, 23_744_300],
+    ["2025", 167_605_200, 25_140_000, 25_141_884, 25_141_900],
+    ["2026", 176_281_200, 26_442_000, 26_444_204, 26_444_300],
   ];
-  for (const [taxYear, thresholdMinor, expectedGrossTaxMinor] of cases) {
-    const threshold = await calculate(taxYear, "none", thresholdMinor);
-    assert.equal(threshold.totals.grossIncomeTaxBeforeRoundingMinor, expectedGrossTaxMinor - 20);
-    assert.equal(threshold.totals.grossIncomeTaxMinor, expectedGrossTaxMinor);
+  for (const [taxYear, publishedThresholdMinor, thresholdGrossMinor, aboveBeforeRoundingMinor, aboveGrossMinor] of cases) {
+    const threshold = await calculate(taxYear, "none", publishedThresholdMinor);
+    assert.equal(threshold.totals.roundedTaxBaseMinor, Math.floor(publishedThresholdMinor / 10_000) * 10_000);
+    assert.equal(threshold.totals.grossIncomeTaxBeforeRoundingMinor, thresholdGrossMinor);
+    assert.equal(threshold.totals.grossIncomeTaxMinor, thresholdGrossMinor);
 
-    const above = await calculate(taxYear, "none", thresholdMinor + 10_000);
-    assert.equal(above.totals.grossIncomeTaxMinor, expectedGrossTaxMinor + 2_300);
+    const above = await calculate(taxYear, "none", publishedThresholdMinor + 10_000);
+    assert.equal(above.totals.grossIncomeTaxBeforeRoundingMinor, aboveBeforeRoundingMinor);
+    assert.equal(above.totals.grossIncomeTaxMinor, aboveGrossMinor);
   }
 });
 
