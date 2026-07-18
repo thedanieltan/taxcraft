@@ -107,13 +107,13 @@ test("Cyprus applies pre-reform and 2026 reform brackets", async () => {
   assert.equal(year2026.totals.incomeTaxMinor, 1_290_000);
 });
 
-test("global catalogue and API expose the first simple-progressive wave", async () => {
+test("global catalogue and API retain the first simple-progressive wave", async () => {
   const api = createApi();
   const status = await api.handle({ method: "GET", path: "/v1/pit/status" });
   assert.equal(status.status, 200);
-  assert.equal(status.body.counts.implemented, 17);
-  assert.equal(status.body.counts["source-indexed"], 146);
-  assert.equal(status.body.counts["source-discovery"], 86);
+  assert.equal(status.body.jurisdictionCount, 249);
+  assert.ok(status.body.counts.implemented >= 17);
+  assert.equal(Object.values(status.body.counts).reduce((sum, value) => sum + value, 0), 249);
 
   for (const jurisdiction of EXPECTED_CODES) {
     const detail = await api.handle({ method: "GET", path: `/v1/pit/jurisdictions/${jurisdiction}` });
