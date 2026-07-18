@@ -1,45 +1,60 @@
 import { readFile } from "node:fs/promises";
-import { applyPitImplementationOverrides } from "./pit-implementation-overrides.mjs";
+import {
+  applyPitImplementationOverlaySet,
+  listPitImplementationEntries,
+  loadPitImplementationOverlays,
+} from "./pit-implementation-overlay-set.mjs";
 
-const registryUrl = new URL("../catalog/pit-jurisdictions.json", import.meta.url);
-const familiesUrl = new URL("../catalog/pit-calculation-families.json", import.meta.url);
-const ruleMapUrl = new URL("../catalog/pit-rule-map.json", import.meta.url);
-const sourcesUrl = new URL("../catalog/pit-rule-sources.json", import.meta.url);
-const implementationsUrl = new URL("../catalog/pit-implementation-overrides.json", import.meta.url);
+const root = new URL("../", import.meta.url);
+const registryUrl = new URL("catalog/pit-jurisdictions.json", root);
+const familiesUrl = new URL("catalog/pit-calculation-families.json", root);
+const ruleMapUrl = new URL("catalog/pit-rule-map.json", root);
+const sourcesUrl = new URL("catalog/pit-rule-sources.json", root);
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-const [baseRegistry, familyCatalog, baseRuleMap, baseSourceRegistry, implementationOverrides] = await Promise.all([
+const [baseRegistry, familyCatalog, baseRuleMap, baseSourceRegistry, implementationOverlays] = await Promise.all([
   readFile(registryUrl, "utf8").then(JSON.parse),
   readFile(familiesUrl, "utf8").then(JSON.parse),
   readFile(ruleMapUrl, "utf8").then(JSON.parse),
   readFile(sourcesUrl, "utf8").then(JSON.parse),
-  readFile(implementationsUrl, "utf8").then(JSON.parse),
+  loadPitImplementationOverlays(root),
 ]);
 
-assert(implementationOverrides.schemaVersion === "1.0.0", "Unexpected implementation-overlay schema version");
-assert(implementationOverrides.taxDomain === "PIT", "Implementation overlay must contain only personal income tax");
-assert(implementationOverrides.source?.id, "Implementation overlay requires a repository source");
-assert(Object.keys(implementationOverrides.implementations).length > 0, "Implementation overlay must contain at least one package");
-
 const registeredCodes = new Set(baseRegistry.entities.map(([code]) => code));
-for (const [code, implementation] of Object.entries(implementationOverrides.implementations)) {
-  assert(registeredCodes.has(code), `Implementation overlay references unknown jurisdiction ${code}`);
-  assert(!baseRuleMap.implemented[code], `${code} is already implemented in the base rule map`);
-  assert(implementation.calculationFamily !== "UNMAPPED", `${code} cannot be implemented as UNMAPPED`);
-  assert(implementation.sourceIds.includes(implementationOverrides.source.id), `${code} omits the implementation package source`);
-  assert(implementation.register?.implementationStatus === "implemented", `${code} register status is not implemented`);
-  assert(implementation.register?.package === "@taxcraft/country-no-pit", `${code} points to the wrong package bundle`);
-  assert(Array.isArray(implementation.register?.supportedTaxYears) && implementation.register.supportedTaxYears.length > 0, `${code} has no supported tax years`);
+const promotedCodes = new Set();
+for (const implementationOverrides of implementationOverlays) {
+  assert(implementationOverrides.schemaVersion === "1.0.0", "Unexpected implementation-overlay schema version");
+  assert(implementationOverrides.taxDomain === "PIT", "Implementation overlay must contain only personal income tax");
+  assert(implementationOverrides.source?.id, "Implementation overlay requires a repository source");
+  assert(Object.keys(implementationOverrides.implementations).length > 0, "Implementation overlay must contain at least one package");
+
+  for (const [code, implementation] of Object.entries(implementationOverrides.implementations)) {
+    assert(registeredCodes.has(code), `Implementation overlay references unknown jurisdiction ${code}`);
+    assert(!baseRuleMap.implemented[code], `${code} is already implemented in the base rule map`);
+    assert(!promotedCodes.has(code), `${code} is implemented by more than one overlay`);
+    assert(implementation.calculationFamily !== "UNMAPPED", `${code} cannot be implemented as UNMAPPED`);
+    assert(implementation.sourceIds.includes(implementationOverrides.source.id), `${code} omits its implementation package source`);
+    assert(implementation.register?.implementationStatus === "implemented", `${code} register status is not implemented`);
+    assert(
+      typeof implementation.register?.package === "string" && implementation.register.package.startsWith("@taxcraft/country-"),
+      `${code} points to an invalid country package`,
+    );
+    assert(
+      Array.isArray(implementation.register?.supportedTaxYears) && implementation.register.supportedTaxYears.length > 0,
+      `${code} has no supported tax years`,
+    );
+    promotedCodes.add(code);
+  }
 }
 
-const merged = applyPitImplementationOverrides({
+const merged = applyPitImplementationOverlaySet({
   jurisdictionRegister: baseRegistry,
   ruleMap: baseRuleMap,
   ruleSources: baseSourceRegistry,
-  implementationOverrides,
+  implementationOverlays,
 });
 const registry = merged.jurisdictionRegister;
 const ruleMap = merged.ruleMap;
@@ -137,7 +152,7 @@ const statusCounts = [...assignments.values()].reduce((result, assignment) => {
   result[assignment.classificationStatus] = (result[assignment.classificationStatus] ?? 0) + 1;
   return result;
 }, {});
-const promotedCount = Object.keys(implementationOverrides.implementations).length;
+const promotedCount = listPitImplementationEntries(implementationOverlays).length;
 assert(statusCounts.implemented === 2 + promotedCount, "Unexpected implemented package count");
 assert(statusCounts["source-indexed"] === 161 - promotedCount, "Unexpected source-indexed coverage");
 assert(statusCounts["source-discovery"] === 86, "Unexpected source-discovery backlog");
