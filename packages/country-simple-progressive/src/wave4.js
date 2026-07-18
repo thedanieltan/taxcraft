@@ -11,7 +11,7 @@ export const SIMPLE_PROGRESSIVE_WAVE_4_JURISDICTIONS = Object.freeze([
     code: "UG",
     name: "Uganda individual income tax",
     currency: "UGX",
-    taxYearBasis: "year-of-income",
+    taxYearBasis: "income-year",
     kind: "resident-schedule",
     supported: [
       "annual individual income tax on caller-confirmed chargeable income",
