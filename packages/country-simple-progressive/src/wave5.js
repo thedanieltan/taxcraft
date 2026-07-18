@@ -6,6 +6,7 @@ import {
 } from "@taxcraft/country-sdk";
 
 const TAX_YEARS = Object.freeze([2024, 2025, 2026]);
+const MAX_MONTHLY_INCOME_MINOR = Math.floor(Number.MAX_SAFE_INTEGER / 12);
 const ANNUAL_BANDS = Object.freeze([
   { upperBoundMinor: 720_000, rateBasisPoints: 0 },
   { upperBoundMinor: 1_200_000, rateBasisPoints: 1000 },
@@ -145,6 +146,16 @@ function rwandaModel(definition, year) {
   return {
     coverage: coverage(definition),
     validateFacts({ facts }) {
+      if (facts.incomePeriod === "monthly" && facts.taxableEmploymentIncomeMinor > MAX_MONTHLY_INCOME_MINOR) {
+        return {
+          ok: false,
+          issues: [{
+            code: "rw.monthly-income.annualisation-overflow",
+            path: "$.facts.taxableEmploymentIncomeMinor",
+            message: "Monthly taxable employment income is too large to annualise safely.",
+          }],
+        };
+      }
       return { ok: true, facts };
     },
     calculate({ facts }) {
