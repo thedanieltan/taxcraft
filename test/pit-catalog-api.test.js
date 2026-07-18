@@ -17,8 +17,8 @@ test("runtime catalogue exposes all registered PIT jurisdictions", () => {
   const status = getPitCatalogueStatus();
   assert.equal(jurisdictions.length, 249);
   assert.equal(status.counts.implemented, 29);
-  assert.equal(status.counts["source-indexed"], 134);
-  assert.equal(status.counts["source-discovery"], 86);
+  assert.equal(status.counts["source-indexed"], 135);
+  assert.equal(status.counts["source-discovery"], 85);
   for (const code of ["SG", "AE", "EE", "NZ", "CY", "AM", "UA", "UZ", "PA", "HN", "DO", "BB", "TT", "SC"]) {
     assert.equal(getPitJurisdiction(code).verificationStatus, "verified");
   }
