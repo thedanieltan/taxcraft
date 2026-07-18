@@ -197,5 +197,161 @@ export const SIMPLE_PROGRESSIVE_JURISDICTIONS = Object.freeze([
         retrievedAt: "2026-07-18"
       }
     ]
+  },
+  {
+    code: "PA",
+    name: "Panama individual income tax",
+    currency: "PAB",
+    taxYearBasis: "calendar-year",
+    kind: "taxable-income",
+    scopeTitle: "Confirmed Panama net taxable income",
+    scopeDescription: "The caller confirms annual net taxable income after allowable deductions for Panama-source income.",
+    taxableIncomeTitle: "Net taxable income",
+    models: {
+      "2024": { "bands": [[1_100_000, 0], [5_000_000, 1500], [null, 2500]] },
+      "2025": { "bands": [[1_100_000, 0], [5_000_000, 1500], [null, 2500]] },
+      "2026": { "bands": [[1_100_000, 0], [5_000_000, 1500], [null, 2500]] }
+    },
+    supported: [
+      "individual income tax on caller-confirmed net taxable income",
+      "calendar years 2024 through 2026"
+    ],
+    unsupported: [
+      "deductible-expense and net-taxable-income derivation",
+      "educational insurance, social-security contributions and payroll withholding",
+      "special regimes, occasional payroll and non-resident withholding",
+      "source, filing-period and residence decisions"
+    ],
+    assumptions: [
+      "The caller supplied net taxable Panama-source income after allowable deductions.",
+      "The result is annual individual income tax only and excludes educational insurance and social contributions."
+    ],
+    sources: [
+      {
+        sourceId: "pa.dgi.individual-income-tax-rates",
+        publisher: "Dirección General de Ingresos",
+        publisherType: "tax-authority",
+        title: "Income tax rates — natural persons",
+        url: "https://dgi.mef.gob.pa/DInforme/Tarifa",
+        jurisdiction: "PA",
+        retrievedAt: "2026-07-18"
+      },
+      {
+        sourceId: "pa.dgi.individual-return",
+        publisher: "Dirección General de Ingresos",
+        publisherType: "tax-authority",
+        title: "Individual income tax return",
+        url: "https://dgi.mef.gob.pa/DInforme/D-IsRenta",
+        jurisdiction: "PA",
+        retrievedAt: "2026-07-18"
+      }
+    ]
+  },
+  {
+    code: "HN",
+    name: "Honduras individual income tax",
+    currency: "HNL",
+    taxYearBasis: "calendar-year",
+    kind: "taxable-income",
+    scopeTitle: "Confirmed Honduran taxable income",
+    scopeDescription: "The caller confirms annual taxable income after applicable deductions and exemptions.",
+    taxableIncomeTitle: "Taxable income",
+    models: {
+      "2024": { "bands": [[20_936_962, 0], [31_925_154, 1500], [74_244_549, 2000], [null, 2500]] },
+      "2025": { "bands": [[21_749_316, 0], [33_163_850, 1500], [77_125_238, 2000], [null, 2500]] },
+      "2026": { "bands": [[22_832_432, 0], [34_815_410, 1500], [80_966_075, 2000], [null, 2500]] }
+    },
+    supported: [
+      "annual progressive income tax on caller-confirmed taxable income",
+      "official indexed brackets for 2024, 2025 and 2026"
+    ],
+    unsupported: [
+      "taxable-income derivation, deductions and medical-expense allowances",
+      "employment withholding reconciliation and prior payments",
+      "social contributions and other taxes",
+      "residence, source and filing-obligation decisions"
+    ],
+    assumptions: [
+      "The caller supplied annual taxable income after applicable deductions and exemptions.",
+      "The result excludes withholding reconciliation, social contributions and other taxes."
+    ],
+    sources: [
+      {
+        sourceId: "hn.sar.progressive-table-2024",
+        publisher: "Servicio de Administración de Rentas",
+        publisherType: "tax-authority",
+        title: "Progressive income-tax table 2024 — Agreement SAR-07-2024",
+        url: "https://www.sar.gob.hn/download/acuerdo-numero-sar-07-2024-publicado-en-fecha-lunes-12-de-febrero-del-2024-en-la-gaceta-num-36458/",
+        jurisdiction: "HN",
+        retrievedAt: "2026-07-18"
+      },
+      {
+        sourceId: "hn.sar.progressive-table-2025",
+        publisher: "Servicio de Administración de Rentas",
+        publisherType: "tax-authority",
+        title: "Progressive income-tax table 2025 — Agreement SAR-07-2025",
+        url: "https://www.sar.gob.hn/download/acuerdo-numero-sar-07-2025-publicado-en-fecha-9-de-enero-del-2025-en-la-gaceta-no-36735/",
+        jurisdiction: "HN",
+        retrievedAt: "2026-07-18"
+      },
+      {
+        sourceId: "hn.sar.progressive-table-2026",
+        publisher: "Servicio de Administración de Rentas",
+        publisherType: "tax-authority",
+        title: "Progressive income-tax table 2026 — Agreement SAR-01-2026",
+        url: "https://www.sar.gob.hn/download/acuerdo-numero-sar-01-2026-publicado-en-fecha-23-de-enero-del-2026-en-la-gaceta-no-37051/",
+        jurisdiction: "HN",
+        retrievedAt: "2026-07-18"
+      }
+    ]
+  },
+  {
+    code: "DO",
+    name: "Dominican Republic individual income tax",
+    currency: "DOP",
+    taxYearBasis: "calendar-year",
+    kind: "published-base-scale",
+    scopeTitle: "Confirmed Dominican net taxable income",
+    scopeDescription: "The caller confirms annual net taxable income after allowable expenses and deductions.",
+    taxableIncomeTitle: "Net taxable income",
+    models: {
+      "2024": {},
+      "2025": {},
+      "2026": {}
+    },
+    supported: [
+      "resident or domiciled natural-person income tax on caller-confirmed net taxable income",
+      "official annual scale for 2024, 2025 and 2026"
+    ],
+    unsupported: [
+      "net-taxable-income and deductible-expense derivation",
+      "salary withholding reconciliation and prior tax payments",
+      "social-security contributions and special withholding regimes",
+      "residence, source and filing-obligation decisions"
+    ],
+    assumptions: [
+      "The caller supplied annual net taxable income after allowable expenses and deductions.",
+      "The published accumulated-tax amounts are applied exactly at the upper brackets."
+    ],
+    sources: [
+      {
+        sourceId: "do.dgii.individual-income-tax-scale",
+        publisher: "Dirección General de Impuestos Internos",
+        publisherType: "tax-authority",
+        title: "Income tax — natural-person annual scale",
+        url: "https://dgii.gov.do/cicloContribuyente/obligacionesTributarias/principalesImpuestos/Paginas/impuestoSobreRenta.aspx",
+        jurisdiction: "DO",
+        retrievedAt: "2026-07-18"
+      },
+      {
+        sourceId: "do.dgii.scale-2026-confirmation",
+        publisher: "Dirección General de Impuestos Internos",
+        publisherType: "tax-authority",
+        title: "Official 2026 income-tax scale confirmation",
+        url: "https://ayuda.dgii.gov.do/conversations/impuesto-sobre-la-renta-isr/ca687-cul-es-la-escala-salarial-correspondiente-al-ao-2026-del-impuesto-sobre-la-renta-isr/696a664277932619036537b8",
+        jurisdiction: "DO",
+        retrievedAt: "2026-07-18"
+      }
+    ]
   }
 ]);

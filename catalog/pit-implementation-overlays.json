@@ -5,6 +5,7 @@
     "pit-implementation-overrides.json",
     "pit-implementation-overrides-flat-rate-1.json",
     "pit-implementation-overrides-simple-progressive-1.json",
-    "pit-implementation-overrides-flat-rate-2.json"
+    "pit-implementation-overrides-flat-rate-2.json",
+    "pit-implementation-overrides-simple-progressive-2.json"
   ]
 }

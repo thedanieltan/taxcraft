@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-18",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_2",
+    "type": "repository-package",
+    "authority": "Jurisdiction-specific tax authorities",
+    "location": "packages/country-simple-progressive",
+    "scope": "Official-source-backed PIT packages for Panama, Honduras and the Dominican Republic.",
+    "observedAt": "2026-07-18"
+  },
+  "implementations": {
+    "PA": {
+      "calculationFamily": "SIMPLE_PROGRESSIVE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_2", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Annual individual income tax on caller-confirmed net taxable Panama-source income.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "SIMPLE_PROGRESSIVE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["PAB"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-simple-progressive",
+        "coverageSummary": "Annual individual income tax on caller-confirmed net taxable Panama-source income."
+      }
+    },
+    "HN": {
+      "calculationFamily": "SIMPLE_PROGRESSIVE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_2", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Annual individual income tax using the officially indexed progressive tables for 2024 through 2026.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "SIMPLE_PROGRESSIVE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["HNL"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-simple-progressive",
+        "coverageSummary": "Annual individual income tax using Honduras's indexed progressive tables."
+      }
+    },
+    "DO": {
+      "calculationFamily": "SIMPLE_PROGRESSIVE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_2", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Natural-person income tax using the officially published accumulated-tax scale for 2024 through 2026.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "SIMPLE_PROGRESSIVE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["DOP"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-simple-progressive",
+        "coverageSummary": "Natural-person income tax on caller-confirmed net taxable income using the published annual scale."
+      }
+    }
+  }
+}

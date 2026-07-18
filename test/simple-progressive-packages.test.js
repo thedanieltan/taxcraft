@@ -4,9 +4,9 @@ import { createApi } from "@taxcraft/api";
 import { createTaxCraft } from "@taxcraft/core";
 import { simpleProgressivePackages } from "@taxcraft/country-simple-progressive";
 
-const EXPECTED_CODES = ["NZ", "PY", "CY"];
+const EXPECTED_CODES = ["NZ", "PY", "CY", "PA", "HN", "DO"];
 
-test("simple-progressive bundle exposes three independent maintained packages", () => {
+test("simple-progressive bundle exposes six independent maintained packages", () => {
   assert.deepEqual(simpleProgressivePackages.map(({ manifest }) => manifest.jurisdiction), EXPECTED_CODES);
   for (const countryPackage of simpleProgressivePackages) {
     assert.equal(countryPackage.manifest.storesUserPII, false);
@@ -107,12 +107,75 @@ test("Cyprus applies pre-reform and 2026 reform brackets", async () => {
   assert.equal(year2026.totals.incomeTaxMinor, 1_290_000);
 });
 
-test("global catalogue and API retain the first simple-progressive wave", async () => {
+test("Panama applies the statutory 0%, 15% and 25% schedule", async () => {
+  const engine = createTaxCraft({ countryPackages: simpleProgressivePackages });
+  const cases = [
+    [1_100_000, 0],
+    [5_000_000, 585_000],
+    [6_000_000, 835_000],
+  ];
+  for (const [taxableIncomeMinor, expectedTaxMinor] of cases) {
+    const result = await engine.calculate({
+      jurisdiction: "PA",
+      taxYear: "2026",
+      facts: { scopeConfirmed: true, taxableIncomeMinor },
+    });
+    assert.equal(result.status, "ok");
+    assert.equal(result.totals.incomeTaxMinor, expectedTaxMinor);
+  }
+});
+
+test("Honduras applies each year's officially indexed progressive table", async () => {
+  const engine = createTaxCraft({ countryPackages: simpleProgressivePackages });
+  const exemptThresholds = {
+    "2024": 20_936_962,
+    "2025": 21_749_316,
+    "2026": 22_832_432,
+  };
+  for (const [taxYear, taxableIncomeMinor] of Object.entries(exemptThresholds)) {
+    const result = await engine.calculate({
+      jurisdiction: "HN",
+      taxYear,
+      facts: { scopeConfirmed: true, taxableIncomeMinor },
+    });
+    assert.equal(result.status, "ok");
+    assert.equal(result.totals.incomeTaxMinor, 0);
+  }
+
+  const highIncome = await engine.calculate({
+    jurisdiction: "HN",
+    taxYear: "2026",
+    facts: { scopeConfirmed: true, taxableIncomeMinor: 100_000_000 },
+  });
+  assert.equal(highIncome.status, "ok");
+  assert.equal(highIncome.totals.incomeTaxMinor, 15_786_061);
+});
+
+test("Dominican Republic applies published accumulated-tax amounts", async () => {
+  const engine = createTaxCraft({ countryPackages: simpleProgressivePackages });
+  const cases = [
+    [41_622_000, 0],
+    [62_432_901, 3_121_600],
+    [86_712_301, 7_977_600],
+    [100_000_000, 11_299_525],
+  ];
+  for (const [taxableIncomeMinor, expectedTaxMinor] of cases) {
+    const result = await engine.calculate({
+      jurisdiction: "DO",
+      taxYear: "2026",
+      facts: { scopeConfirmed: true, taxableIncomeMinor },
+    });
+    assert.equal(result.status, "ok");
+    assert.equal(result.totals.incomeTaxMinor, expectedTaxMinor);
+  }
+});
+
+test("global catalogue and API retain all accepted simple-progressive packages", async () => {
   const api = createApi();
   const status = await api.handle({ method: "GET", path: "/v1/pit/status" });
   assert.equal(status.status, 200);
   assert.equal(status.body.jurisdictionCount, 249);
-  assert.ok(status.body.counts.implemented >= 17);
+  assert.ok(status.body.counts.implemented >= 26);
   assert.equal(Object.values(status.body.counts).reduce((sum, value) => sum + value, 0), 249);
 
   for (const jurisdiction of EXPECTED_CODES) {
@@ -128,14 +191,14 @@ test("global catalogue and API retain the first simple-progressive wave", async 
     method: "POST",
     path: "/v1/pit/calculate",
     body: {
-      jurisdiction: "CY",
+      jurisdiction: "PA",
       taxYear: "2026",
-      facts: { scopeConfirmed: true, taxableIncomeMinor: 3_200_000 },
+      facts: { scopeConfirmed: true, taxableIncomeMinor: 5_000_000 },
     },
   });
   assert.equal(calculation.status, 200);
-  assert.equal(calculation.body.totals.incomeTaxMinor, 200_000);
-  assert.ok(calculation.body.sources.some(({ sourceId }) => sourceId === "cy.tax-department-individual-rates"));
+  assert.equal(calculation.body.totals.incomeTaxMinor, 585_000);
+  assert.ok(calculation.body.sources.some(({ sourceId }) => sourceId === "pa.dgi.individual-income-tax-rates"));
 });
 
 test("simple-progressive packages reject unsupported years and identity fields", async () => {
@@ -144,7 +207,7 @@ test("simple-progressive packages reject unsupported years and identity fields",
     method: "POST",
     path: "/v1/pit/calculate",
     body: {
-      jurisdiction: "NZ",
+      jurisdiction: "HN",
       taxYear: "2027",
       facts: { scopeConfirmed: true, taxableIncomeMinor: 10_000_000 },
     },
@@ -156,9 +219,9 @@ test("simple-progressive packages reject unsupported years and identity fields",
     method: "POST",
     path: "/v1/pit/calculate",
     body: {
-      jurisdiction: "CY",
+      jurisdiction: "DO",
       taxYear: "2026",
-      facts: { scopeConfirmed: true, taxableIncomeMinor: 2_000_000, name: "Private Person" },
+      facts: { scopeConfirmed: true, taxableIncomeMinor: 50_000_000, name: "Private Person" },
     },
   });
   assert.equal(privateFact.status, 400);

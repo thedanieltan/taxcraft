@@ -6,7 +6,7 @@ import { createApi, OPENAPI_DOCUMENT } from "../src/app.js";
 const api = createApi();
 
 const MAINTAINED_JURISDICTIONS = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO",
 ];
 
 test("lists maintained jurisdictions and exposes source-linked coverage", async () => {
@@ -20,43 +20,35 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
   const estonia = list.body.jurisdictions.find((entry) => entry.jurisdiction === "EE");
   const newZealand = list.body.jurisdictions.find((entry) => entry.jurisdiction === "NZ");
   const ukraine = list.body.jurisdictions.find((entry) => entry.jurisdiction === "UA");
+  const dominicanRepublic = list.body.jurisdictions.find((entry) => entry.jurisdiction === "DO");
   assert.deepEqual(singapore.taxYears.map((entry) => entry.taxYear), ["YA2024", "YA2025", "YA2026"]);
   assert.deepEqual(uk.taxYears.map((entry) => entry.taxYear), ["2024-25", "2025-26", "2026-27"]);
   assert.deepEqual(uae.taxYears.map((entry) => entry.taxYear), ["2024", "2025", "2026"]);
   assert.deepEqual(estonia.taxYears.map((entry) => entry.taxYear), ["2024", "2025", "2026"]);
   assert.deepEqual(newZealand.taxYears.map((entry) => entry.taxYear), ["2024", "2025", "2026"]);
   assert.deepEqual(ukraine.taxYears.map((entry) => entry.taxYear), ["2024", "2025", "2026"]);
+  assert.deepEqual(dominicanRepublic.taxYears.map((entry) => entry.taxYear), ["2024", "2025", "2026"]);
 
-  const singaporeCoverage = await api.handle({ method: "GET", path: "/v1/jurisdictions/SG/YA2026/coverage" });
-  assert.equal(singaporeCoverage.status, 200);
-  assert.equal(singaporeCoverage.body.status, "current");
-  assert.ok(singaporeCoverage.body.sources.every((source) => source.url.startsWith("https://www.iras.gov.sg/")));
+  const coverageCases = [
+    ["SG", "YA2026", "sg-iras-resident-rates-ya2024-onwards"],
+    ["AE", "2026", "ae.pit.natural-person-wages"],
+    ["EE", "2026", "ee.emta.basic-exemption"],
+    ["NZ", "2026", "nz.ird.individual-tax-rates"],
+    ["UA", "2026", "ua.sts.tax-code-section-iv-article-167"],
+    ["DO", "2026", "do.dgii.individual-income-tax-scale"],
+  ];
+  for (const [code, year, sourceId] of coverageCases) {
+    const coverage = await api.handle({ method: "GET", path: `/v1/jurisdictions/${code}/${year}/coverage` });
+    assert.equal(coverage.status, 200);
+    assert.equal(coverage.body.status, "current");
+    assert.ok(coverage.body.sources.some((source) => source.sourceId === sourceId));
+  }
 
   const ukCoverage = await api.handle({ method: "GET", path: "/v1/jurisdictions/GB/2026-27/coverage" });
   assert.equal(ukCoverage.status, 200);
   assert.equal(ukCoverage.body.status, "current");
   assert.ok(ukCoverage.body.coverage.unsupported.includes("Scotland"));
   assert.ok(ukCoverage.body.sources.every((source) => source.url.startsWith("https://www.gov.uk/")));
-
-  const uaeCoverage = await api.handle({ method: "GET", path: "/v1/jurisdictions/AE/2026/coverage" });
-  assert.equal(uaeCoverage.status, 200);
-  assert.equal(uaeCoverage.body.status, "current");
-  assert.ok(uaeCoverage.body.sources.some((source) => source.sourceId === "ae.pit.natural-person-wages"));
-
-  const estoniaCoverage = await api.handle({ method: "GET", path: "/v1/jurisdictions/EE/2026/coverage" });
-  assert.equal(estoniaCoverage.status, 200);
-  assert.equal(estoniaCoverage.body.status, "current");
-  assert.ok(estoniaCoverage.body.sources.some((source) => source.sourceId === "ee.emta.basic-exemption"));
-
-  const newZealandCoverage = await api.handle({ method: "GET", path: "/v1/jurisdictions/NZ/2026/coverage" });
-  assert.equal(newZealandCoverage.status, 200);
-  assert.equal(newZealandCoverage.body.status, "current");
-  assert.ok(newZealandCoverage.body.sources.some((source) => source.sourceId === "nz.ird.individual-tax-rates"));
-
-  const ukraineCoverage = await api.handle({ method: "GET", path: "/v1/jurisdictions/UA/2026/coverage" });
-  assert.equal(ukraineCoverage.status, 200);
-  assert.equal(ukraineCoverage.body.status, "current");
-  assert.ok(ukraineCoverage.body.sources.some((source) => source.sourceId === "ua.sts.tax-code-section-iv-article-167"));
 });
 
 test("calculates through the official Singapore package and returns cited sources", async () => {
