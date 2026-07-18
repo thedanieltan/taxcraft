@@ -22,7 +22,7 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 | WP-PIT-12 | Household and filing-status systems | Planned |
 | WP-PIT-13 | Regional and municipal systems | Planned |
 | WP-PIT-14 | Multi-schedule systems | Planned |
-| WP-PIT-15 | Complex composite systems | Wave 1 implemented, acceptance pending |
+| WP-PIT-15 | Complex composite systems | Wave 1 integrated |
 | WP-PIT-16 | Source-maintenance consolidation | Planned |
 | WP-PIT-17 | Global deployment and live acceptance | Planned |
 
