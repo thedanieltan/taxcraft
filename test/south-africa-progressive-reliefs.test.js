@@ -130,7 +130,7 @@ test("South Africa rejects unsupported years and identity-bearing fields", async
         scopeConfirmed: true,
         rebateSchedule: "primary",
         taxableIncomeMinor: 10_000_000,
-        age: 40,
+        name: "Private Person",
       },
     },
   });
