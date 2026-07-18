@@ -6,7 +6,7 @@ import { createApi, OPENAPI_DOCUMENT } from "../src/app.js";
 const api = createApi();
 
 const MAINTAINED_JURISDICTIONS = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO", "NZ", "PY", "CY",
 ];
 
 test("lists maintained jurisdictions and exposes source-linked coverage", async () => {
@@ -18,10 +18,12 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
   const uk = list.body.jurisdictions.find((entry) => entry.jurisdiction === "GB");
   const uae = list.body.jurisdictions.find((entry) => entry.jurisdiction === "AE");
   const estonia = list.body.jurisdictions.find((entry) => entry.jurisdiction === "EE");
+  const newZealand = list.body.jurisdictions.find((entry) => entry.jurisdiction === "NZ");
   assert.deepEqual(singapore.taxYears.map((entry) => entry.taxYear), ["YA2024", "YA2025", "YA2026"]);
   assert.deepEqual(uk.taxYears.map((entry) => entry.taxYear), ["2024-25", "2025-26", "2026-27"]);
   assert.deepEqual(uae.taxYears.map((entry) => entry.taxYear), ["2024", "2025", "2026"]);
   assert.deepEqual(estonia.taxYears.map((entry) => entry.taxYear), ["2024", "2025", "2026"]);
+  assert.deepEqual(newZealand.taxYears.map((entry) => entry.taxYear), ["2024", "2025", "2026"]);
 
   const singaporeCoverage = await api.handle({ method: "GET", path: "/v1/jurisdictions/SG/YA2026/coverage" });
   assert.equal(singaporeCoverage.status, 200);
@@ -43,6 +45,11 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
   assert.equal(estoniaCoverage.status, 200);
   assert.equal(estoniaCoverage.body.status, "current");
   assert.ok(estoniaCoverage.body.sources.some((source) => source.sourceId === "ee.emta.basic-exemption"));
+
+  const newZealandCoverage = await api.handle({ method: "GET", path: "/v1/jurisdictions/NZ/2026/coverage" });
+  assert.equal(newZealandCoverage.status, 200);
+  assert.equal(newZealandCoverage.body.status, "current");
+  assert.ok(newZealandCoverage.body.sources.some((source) => source.sourceId === "nz.ird.individual-tax-rates"));
 });
 
 test("calculates through the official Singapore package and returns cited sources", async () => {
