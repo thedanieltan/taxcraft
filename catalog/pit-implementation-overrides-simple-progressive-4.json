@@ -34,13 +34,13 @@
     "UG": {
       "calculationFamily": "SIMPLE_PROGRESSIVE",
       "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_4", "PWC_WWTS_PIT_QUICK_CHART"],
-      "taxYearBasis": "year-of-income",
+      "taxYearBasis": "income-year",
       "notes": "Resident or non-resident individual income tax on caller-confirmed annual chargeable income.",
       "register": {
         "mappingStatus": "mapped",
         "implementationStatus": "implemented",
         "calculationFamily": "SIMPLE_PROGRESSIVE",
-        "taxYearBasis": "year-of-income",
+        "taxYearBasis": "income-year",
         "currencyCodes": ["UGX"],
         "nationalTaxLayer": true,
         "subnationalTaxLayer": false,
