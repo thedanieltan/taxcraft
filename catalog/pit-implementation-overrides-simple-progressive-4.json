@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-18",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_4",
+    "type": "repository-package",
+    "authority": "Jurisdiction-specific tax authorities",
+    "location": "packages/country-simple-progressive",
+    "scope": "Official-source-backed PIT packages for Uganda and Guatemala.",
+    "observedAt": "2026-07-18"
+  },
+  "implementations": {
+    "GT": {
+      "calculationFamily": "SIMPLE_PROGRESSIVE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_4", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Employment income tax on caller-confirmed taxable employment income after deductions.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "SIMPLE_PROGRESSIVE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["GTQ"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-simple-progressive",
+        "coverageSummary": "Employment income tax on caller-confirmed taxable employment income at 5% and 7%."
+      }
+    },
+    "UG": {
+      "calculationFamily": "SIMPLE_PROGRESSIVE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_4", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "year-of-income",
+      "notes": "Resident or non-resident individual income tax on caller-confirmed annual chargeable income.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "SIMPLE_PROGRESSIVE",
+        "taxYearBasis": "year-of-income",
+        "currencyCodes": ["UGX"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-simple-progressive",
+        "coverageSummary": "Resident and non-resident annual individual income tax schedules, including the additional high-income rate."
+      }
+    }
+  }
+}
