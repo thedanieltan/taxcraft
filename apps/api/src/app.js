@@ -8,6 +8,7 @@ import { createTaxCraft } from "@taxcraft/core";
 import { flatRatePackages } from "@taxcraft/country-flat-rate";
 import { ukPackage } from "@taxcraft/country-gb";
 import { noPitPackages } from "@taxcraft/country-no-pit";
+import { progressiveReliefPackages } from "@taxcraft/country-progressive-reliefs";
 import { calculateChargeableIncomeWorksheet, singaporePackage } from "@taxcraft/country-sg";
 import { simpleProgressivePackages } from "@taxcraft/country-simple-progressive";
 
@@ -17,6 +18,7 @@ const countryPackages = Object.freeze([
   ...noPitPackages,
   ...flatRatePackages,
   ...simpleProgressivePackages,
+  ...progressiveReliefPackages,
 ]);
 const packagesByJurisdiction = new Map(countryPackages.map((countryPackage) => [countryPackage.manifest.jurisdiction, countryPackage]));
 const engine = createTaxCraft({ countryPackages });

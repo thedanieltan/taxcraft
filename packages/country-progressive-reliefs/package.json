@@ -1,0 +1,17 @@
+{
+  "name": "@taxcraft/country-progressive-reliefs",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "Official-source personal income tax packages with progressive rates and tax reliefs for TaxCraft.",
+  "exports": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@taxcraft/country-sdk": "0.1.0"
+  },
+  "scripts": {
+    "build": "node ../../scripts/build-country-progressive-reliefs.mjs"
+  }
+}
