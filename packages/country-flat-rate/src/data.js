@@ -197,5 +197,260 @@ export const FLAT_RATE_JURISDICTIONS = Object.freeze([
         retrievedAt: "2026-07-18"
       }
     ]
+  },
+  {
+    code: "AM",
+    name: "Armenia general personal income tax",
+    currency: "AMD",
+    kind: "confirmed-tax-base",
+    rateBasisPointsByYear: { "2024": 2000, "2025": 2000, "2026": 2000 },
+    scopeTitle: "Confirmed Armenian general income-tax base",
+    scopeDescription: "The caller confirms a tax base governed by the general Armenian personal-income-tax rate after deductible income has been resolved.",
+    taxBaseTitle: "General income-tax base",
+    supported: [
+      "20% tax on a caller-confirmed general income-tax base",
+      "calendar years 2024 through 2026"
+    ],
+    unsupported: [
+      "qualifying high-technology salary taxed at a special 10% rate",
+      "dividends, rent, crypto-assets and other income with special rates",
+      "deductible-income derivation, social payments and funded-pension contributions",
+      "residency, source and foreign-tax-credit decisions"
+    ],
+    assumptions: [
+      "The caller supplied an Armenian tax base governed by the general rate under Article 150.",
+      "The amount excludes income expressly governed by a special rate."
+    ],
+    sources: [
+      {
+        sourceId: "am.arlis.tax-code-article-150",
+        publisher: "Armenian Legal Information System",
+        publisherType: "legislation",
+        title: "Tax Code of the Republic of Armenia, Article 150",
+        url: "https://arlis.am/hy/acts/221385",
+        jurisdiction: "AM",
+        retrievedAt: "2026-07-18"
+      },
+      {
+        sourceId: "am.src.tax-types",
+        publisher: "State Revenue Committee of the Republic of Armenia",
+        publisherType: "tax-authority",
+        title: "What are the tax types applied in Armenia?",
+        url: "https://src.am/en/getNews/478",
+        jurisdiction: "AM",
+        retrievedAt: "2026-07-18"
+      }
+    ]
+  },
+  {
+    code: "GE",
+    name: "Georgia general personal income tax",
+    currency: "GEL",
+    kind: "confirmed-tax-base",
+    rateBasisPointsByYear: { "2024": 2000, "2025": 2000, "2026": 2000 },
+    scopeTitle: "Confirmed Georgian general taxable income",
+    scopeDescription: "The caller confirms taxable income governed by the general 20% natural-person income-tax rate.",
+    taxBaseTitle: "Taxable income under the general rate",
+    supported: [
+      "20% tax on caller-confirmed taxable income under the general rate",
+      "calendar years 2024 through 2026"
+    ],
+    unsupported: [
+      "residential rent, dividends, interest and other income with special rates",
+      "small-business, micro-business and other preferential entrepreneur regimes",
+      "pension contributions, deductions and tax-credit derivation",
+      "residency, source and permanent-establishment decisions"
+    ],
+    assumptions: [
+      "The caller supplied taxable income governed by the general natural-person rate in Article 81.",
+      "The amount excludes income governed by a preferential or special regime."
+    ],
+    sources: [
+      {
+        sourceId: "ge.matsne.tax-code-article-81",
+        publisher: "Legislative Herald of Georgia",
+        publisherType: "legislation",
+        title: "Tax Code of Georgia — personal income tax rate",
+        url: "https://matsne.gov.ge/en/document/view/1043717/1000?publication=220",
+        jurisdiction: "GE",
+        retrievedAt: "2026-07-18"
+      }
+    ]
+  },
+  {
+    code: "MD",
+    name: "Moldova general individual income tax",
+    currency: "MDL",
+    kind: "confirmed-tax-base",
+    rateBasisPointsByYear: { "2024": 1200, "2025": 1200, "2026": 1200 },
+    scopeTitle: "Confirmed Moldovan taxable income under the general rate",
+    scopeDescription: "The caller confirms taxable income after applicable exemptions and mandatory health-insurance deductions.",
+    taxBaseTitle: "Taxable income under the general rate",
+    supported: [
+      "12% tax on caller-confirmed taxable income under the general individual rate",
+      "calendar years 2024 through 2026"
+    ],
+    unsupported: [
+      "personal and dependent exemption eligibility and annual limits",
+      "mandatory health-insurance and social-insurance calculations",
+      "independent activity, rent, royalties and other special or final-rate income",
+      "residency, source and foreign-tax-credit decisions"
+    ],
+    assumptions: [
+      "The caller supplied taxable income after applicable exemptions and mandatory employee deductions.",
+      "The amount is governed by Moldova's general 12% individual rate rather than a special regime."
+    ],
+    sources: [
+      {
+        sourceId: "md.mof.2026-salary-tax-example",
+        publisher: "Ministry of Finance of the Republic of Moldova",
+        publisherType: "finance-ministry",
+        title: "Current 2026 salary taxation rules",
+        url: "https://mf.gov.md/ro/content/reforma-salarial%C4%83-din-sectorul-bugetar-nu-modific%C4%83-regulile-actuale-de-impozitare-salariilor",
+        jurisdiction: "MD",
+        retrievedAt: "2026-07-18"
+      },
+      {
+        sourceId: "md.sfs.income-tax-rates-2025",
+        publisher: "State Tax Service of the Republic of Moldova",
+        publisherType: "tax-authority",
+        title: "Informative data on income-tax rates for 2025",
+        url: "https://www.sfs.md/uploads/governmentdata/4/document/anul-2025pdf-6710a5d156d3b.pdf",
+        jurisdiction: "MD",
+        retrievedAt: "2026-07-18"
+      }
+    ]
+  },
+  {
+    code: "MK",
+    name: "North Macedonia general personal income tax",
+    currency: "MKD",
+    kind: "confirmed-tax-base",
+    rateBasisPointsByYear: { "2024": 1000, "2025": 1000, "2026": 1000 },
+    scopeTitle: "Confirmed North Macedonian personal-income-tax base",
+    scopeDescription: "The caller confirms a category-specific tax base governed by the general 10% personal-income-tax rate.",
+    taxBaseTitle: "Tax base under the general rate",
+    supported: [
+      "10% tax on a caller-confirmed category-specific tax base",
+      "calendar years 2024 through 2026"
+    ],
+    unsupported: [
+      "gambling gains taxed at 15%",
+      "category-specific tax-base and recognised-expense derivation",
+      "social contributions and payroll withholding administration",
+      "residency, source and foreign-tax-credit decisions"
+    ],
+    assumptions: [
+      "The caller supplied a tax base governed by the general personal-income-tax rate.",
+      "The amount excludes gambling gains and other income subject to a special treatment."
+    ],
+    sources: [
+      {
+        sourceId: "mk.ujp.personal-income-tax",
+        publisher: "Public Revenue Office of the Republic of North Macedonia",
+        publisherType: "tax-authority",
+        title: "Personal income tax — individuals",
+        url: "https://ujp.gov.mk/E/fizicki_lica",
+        jurisdiction: "MK",
+        retrievedAt: "2026-07-18"
+      },
+      {
+        sourceId: "mk.ujp.tax-rates",
+        publisher: "Public Revenue Office of the Republic of North Macedonia",
+        publisherType: "tax-authority",
+        title: "Tax rates",
+        url: "https://www.ujp.gov.mk/en/plakjanje/category/21",
+        jurisdiction: "MK",
+        retrievedAt: "2026-07-18"
+      }
+    ]
+  },
+  {
+    code: "UA",
+    name: "Ukraine general personal income tax",
+    currency: "UAH",
+    kind: "confirmed-tax-base",
+    rateBasisPointsByYear: { "2024": 1800, "2025": 1800, "2026": 1800 },
+    scopeTitle: "Confirmed Ukrainian general personal-income-tax base",
+    scopeDescription: "The caller confirms a tax base governed by the general 18% personal-income-tax rate.",
+    taxBaseTitle: "Tax base under the general PIT rate",
+    supported: [
+      "18% personal income tax on a caller-confirmed general tax base",
+      "calendar years 2024 through 2026"
+    ],
+    unsupported: [
+      "military levy, including its rate changes",
+      "dividends, property transactions and other income subject to 0%, 5% or 9% rates",
+      "simplified entrepreneur regimes, tax social benefits and deductions",
+      "residency, source and foreign-tax-credit decisions"
+    ],
+    assumptions: [
+      "The caller supplied a tax base governed by Article 167.1's general 18% PIT rate.",
+      "The result is personal income tax only and deliberately excludes the military levy."
+    ],
+    sources: [
+      {
+        sourceId: "ua.sts.tax-code-section-iv-article-167",
+        publisher: "State Tax Service of Ukraine",
+        publisherType: "tax-authority",
+        title: "Tax Code, Section IV — Personal Income Tax, Article 167",
+        url: "https://tax.gov.ua/nk/rozdil-iv--podatok-na-dohodi-fizichnih-o/",
+        jurisdiction: "UA",
+        retrievedAt: "2026-07-18"
+      },
+      {
+        sourceId: "ua.sts.declaration-2026-rates",
+        publisher: "State Tax Service of Ukraine",
+        publisherType: "tax-authority",
+        title: "Personal income tax and military levy rates",
+        url: "https://tax.gov.ua/deklaratsiyna-kampaniya-2026/stavki-podatku-na-dohodi-fizichnih-osib-ta-viyskovogo-zboru/",
+        jurisdiction: "UA",
+        retrievedAt: "2026-07-18"
+      }
+    ]
+  },
+  {
+    code: "UZ",
+    name: "Uzbekistan resident employment income tax",
+    currency: "UZS",
+    kind: "confirmed-tax-base",
+    rateBasisPointsByYear: { "2024": 1200, "2025": 1200, "2026": 1200 },
+    scopeTitle: "Confirmed Uzbek resident employment tax base",
+    scopeDescription: "The caller confirms resident employment income governed by the general 12% personal-income-tax rate.",
+    taxBaseTitle: "Resident employment tax base",
+    supported: [
+      "12% tax on caller-confirmed resident employment taxable income",
+      "calendar years 2024 through 2026"
+    ],
+    unsupported: [
+      "non-resident and highly qualified foreign-worker rates",
+      "dividends, interest, material benefits and other special income categories",
+      "deductions, exemptions and social-contribution calculations",
+      "residency, source and employer-withholding administration"
+    ],
+    assumptions: [
+      "The caller supplied resident employment taxable income governed by the general 12% rate.",
+      "The amount excludes income governed by a special rate or exemption."
+    ],
+    sources: [
+      {
+        sourceId: "uz.gov.personal-income-tax-rates",
+        publisher: "Government Portal of the Republic of Uzbekistan",
+        publisherType: "government-agency",
+        title: "Personal income tax rates",
+        url: "https://www.uzbekistan.uz/ru/advice/NaN/document/1325",
+        jurisdiction: "UZ",
+        retrievedAt: "2026-07-18"
+      },
+      {
+        sourceId: "uz.gov.investment-tax-system",
+        publisher: "Ministry of Investment, Industry and Trade of the Republic of Uzbekistan",
+        publisherType: "government-agency",
+        title: "Tax system in Uzbekistan",
+        url: "https://gov.uz/en/miit/sections/view/17619",
+        jurisdiction: "UZ",
+        retrievedAt: "2026-07-18"
+      }
+    ]
   }
 ]);
