@@ -36,8 +36,8 @@ test("Ireland maintains calendar years 2024 through 2026", () => {
 test("Ireland applies single PAYE bands, credits and year-specific USC", async () => {
   const cases = [
     ["2024", 15_600_00, 11_850_00, 170_462, 1_355_462],
-    ["2025", 14_400_00, 10_400_00, 134_600, 1_174_600],
-    ["2026", 14_400_00, 10_400_00, 133_282, 1_173_282],
+    ["2025", 15_200_00, 11_200_00, 134_600, 1_254_600],
+    ["2026", 15_200_00, 11_200_00, 133_282, 1_253_282],
   ];
   for (const [taxYear, grossIncomeTaxMinor, incomeTaxMinor, uscMinor, combinedMinor] of cases) {
     const result = await calculate(taxYear, singleFacts({ taxableIncomeMinor: 6_000_000 }));
@@ -190,7 +190,7 @@ test("Ireland is exposed through the global API with official sources", async ()
     },
   });
   assert.equal(calculation.status, 200);
-  assert.equal(calculation.body.totals.incomeTaxAndUscMinor, 1_173_282);
+  assert.equal(calculation.body.totals.incomeTaxAndUscMinor, 1_253_282);
   assert.ok(calculation.body.sources.some(({ sourceId }) => sourceId === "ie.revenue.rates-bands-reliefs-2024-2026"));
   assert.ok(calculation.body.sources.some(({ sourceId }) => sourceId === "ie.revenue.usc-standard-rates"));
 });
