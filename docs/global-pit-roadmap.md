@@ -9,7 +9,7 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 | Work package | Deliverable | State |
 | --- | --- | --- |
 | WP-PIT-01 | Canonical global jurisdiction register | Integrated |
-| WP-PIT-02 | Global PIT rule map | 43 implemented; 121 source-indexed; 85 active discovery entries; all 249 structurally routed |
+| WP-PIT-02 | Global PIT rule map | 44 implemented; 120 source-indexed; 85 active discovery entries; all 249 structurally routed |
 | WP-PIT-03 | Shared calculation primitives | Integrated |
 | WP-PIT-04 | Country-package contract | Integrated |
 | WP-PIT-05 | Singapore and UK reconciliation | Integrated |
@@ -17,7 +17,7 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 | WP-PIT-07 | Manifest-driven calculator interface | Integrated |
 | WP-PIT-08 | No-PIT packages | Integrated |
 | WP-PIT-09 | Flat-rate packages | Waves 1–2 integrated |
-| WP-PIT-10 | Simple-progressive packages | Waves 1–7 integrated |
+| WP-PIT-10 | Simple-progressive packages | Waves 1–7 integrated; wave 8 implemented, acceptance pending |
 | WP-PIT-11 | Progressive systems with deductions and credits | Waves 1–5 integrated |
 | WP-PIT-12 | Household and filing-status systems | Waves 1–2 integrated |
 | WP-PIT-13 | Regional and municipal systems | Planned |
@@ -30,8 +30,8 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 
 The runtime catalogue contains all 249 ISO 3166-1 countries and territories:
 
-- 43 implemented calculators;
-- 121 source-indexed jurisdictions awaiting implementation;
+- 44 implemented calculators;
+- 120 source-indexed jurisdictions awaiting implementation;
 - 85 jurisdictions awaiting accepted source evidence;
 - a validated structural delivery route for every jurisdiction, including all 86 entries in the base discovery inventory.
 
@@ -46,7 +46,7 @@ Existing packages cover:
 - Singapore and the United Kingdom;
 - no-PIT scopes for the United Arab Emirates, Bahrain, Bermuda, Brunei Darussalam, Cayman Islands, Monaco, Oman and Qatar;
 - flat-rate scopes for Bulgaria, Estonia, Hungary, Romania, Armenia, Georgia, Moldova, North Macedonia, Ukraine and Uzbekistan;
-- simple-progressive scopes for New Zealand, Paraguay, Cyprus, Panama, Honduras, the Dominican Republic, Barbados, Seychelles, Trinidad and Tobago, Uganda, Guatemala, Rwanda, Australia, the Philippines and Thailand;
+- simple-progressive scopes for New Zealand, Paraguay, Cyprus, Panama, Honduras, the Dominican Republic, Barbados, Seychelles, Trinidad and Tobago, Uganda, Guatemala, Rwanda, Australia, the Philippines, Thailand and Fiji;
 - progressive-reliefs scopes for Kenya, South Africa, Malaysia, the Czech Republic and Indonesia;
 - complex-composite salaries-tax scope for Hong Kong;
 - household and filing-status scopes for Ireland and Poland.
@@ -94,6 +94,7 @@ The remaining discovery inventory is governed by `catalog/pit-discovery-plan.jso
 - `docs/simple-progressive-packages-wave-5.md`
 - `docs/simple-progressive-packages-wave-6.md`
 - `docs/simple-progressive-packages-wave-7.md`
+- `docs/simple-progressive-packages-wave-8.md`
 - `docs/progressive-reliefs-packages.md`
 - `docs/progressive-reliefs-packages-wave-2.md`
 - `docs/progressive-reliefs-packages-wave-3.md`
