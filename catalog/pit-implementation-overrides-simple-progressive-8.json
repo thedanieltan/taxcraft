@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-19",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_8",
+    "type": "repository-package",
+    "authority": "Fiji Revenue and Customs Service",
+    "location": "packages/country-simple-progressive/src/wave8.js",
+    "scope": "Official-source-backed Fiji resident and non-resident individual income tax schedules effective from 1 January 2024.",
+    "observedAt": "2026-07-19"
+  },
+  "implementations": {
+    "FJ": {
+      "calculationFamily": "SIMPLE_PROGRESSIVE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_8", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Resident and non-resident annual schedules on caller-confirmed chargeable income, including the integrated high-income bands.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "SIMPLE_PROGRESSIVE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["FJD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-simple-progressive",
+        "coverageSummary": "Resident and non-resident ordinary individual income tax on annual chargeable income."
+      }
+    }
+  }
+}
