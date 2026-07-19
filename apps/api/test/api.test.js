@@ -6,7 +6,7 @@ import { createApi, OPENAPI_DOCUMENT } from "../src/app.js";
 const api = createApi();
 
 const MAINTAINED_JURISDICTIONS = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "KE", "ZA", "MY", "CZ", "ID", "HK", "IE", "PL",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "KE", "ZA", "MY", "CZ", "ID", "HK", "IE", "PL",
 ];
 
 test("lists maintained jurisdictions and exposes source-linked coverage", async () => {
@@ -20,6 +20,7 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
     ...["AE", "EE", "NZ", "UA", "DO", "SC", "UG", "GT", "RW", "FJ", "KE", "PH", "TH", "CZ", "ID", "IE", "PL"].map((code) => [code, ["2024", "2025", "2026"]]),
     ["ZA", ["2025", "2026", "2027"]],
     ["AU", ["2024-25", "2025-26", "2026-27"]],
+    ["BW", ["2024-25", "2025-26", "2026-27"]],
     ["MY", ["2023", "2024", "2025"]],
     ["HK", ["2023-24", "2024-25", "2025-26"]],
   ];
@@ -42,6 +43,7 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
     ["GT", "2026", "gt.sat.income-tax-law-decree-10-2012"],
     ["RW", "2026", "rw.rra.paye-bands"],
     ["FJ", "2026", "fj.frcs.paye-structure-2024"],
+    ["BW", "2026-27", "bw.burs.individual-tax-rates-subsequent-years"],
     ["KE", "2026", "ke.kra.paye-rates-and-relief"],
     ["ZA", "2027", "za.sars.individual-tax-rates"],
     ["AU", "2026-27", "au.treasury.new-tax-cuts-2026-27"],
