@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-19",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_HOUSEHOLD_FILING_2",
+    "type": "repository-package",
+    "authority": "Ministry of Finance of Poland",
+    "location": "packages/country-household-filing/src/poland.js",
+    "scope": "Official-source-backed Poland ordinary-scale PIT package with individual, joint-spouse and single-parent schedules.",
+    "observedAt": "2026-07-19"
+  },
+  "implementations": {
+    "PL": {
+      "calculationFamily": "HOUSEHOLD_FILING",
+      "sourceIds": ["TAXCRAFT_COUNTRY_HOUSEHOLD_FILING_2", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Ordinary scale with statutory whole-zloty rounding and individual, joint-spouse or single-parent calculation formulas.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "HOUSEHOLD_FILING",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["PLN"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-household-filing",
+        "coverageSummary": "Individual, joint-spouse and single-parent ordinary-scale PIT with whole-zloty statutory rounding."
+      }
+    }
+  }
+}
