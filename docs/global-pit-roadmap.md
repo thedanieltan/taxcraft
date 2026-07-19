@@ -9,7 +9,7 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 | Work package | Deliverable | State |
 | --- | --- | --- |
 | WP-PIT-01 | Canonical global jurisdiction register | Integrated |
-| WP-PIT-02 | Global PIT rule map | 42 implemented; 122 source-indexed; 85 active discovery entries; all 249 structurally routed |
+| WP-PIT-02 | Global PIT rule map | 43 implemented; 121 source-indexed; 85 active discovery entries; all 249 structurally routed |
 | WP-PIT-03 | Shared calculation primitives | Integrated |
 | WP-PIT-04 | Country-package contract | Integrated |
 | WP-PIT-05 | Singapore and UK reconciliation | Integrated |
@@ -19,7 +19,7 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 | WP-PIT-09 | Flat-rate packages | Waves 1–2 integrated |
 | WP-PIT-10 | Simple-progressive packages | Waves 1–7 integrated |
 | WP-PIT-11 | Progressive systems with deductions and credits | Waves 1–5 integrated |
-| WP-PIT-12 | Household and filing-status systems | Wave 1 integrated |
+| WP-PIT-12 | Household and filing-status systems | Waves 1–2 integrated |
 | WP-PIT-13 | Regional and municipal systems | Planned |
 | WP-PIT-14 | Multi-schedule systems | Planned |
 | WP-PIT-15 | Complex composite systems | Wave 1 integrated |
@@ -30,8 +30,8 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 
 The runtime catalogue contains all 249 ISO 3166-1 countries and territories:
 
-- 42 implemented calculators;
-- 122 source-indexed jurisdictions awaiting implementation;
+- 43 implemented calculators;
+- 121 source-indexed jurisdictions awaiting implementation;
 - 85 jurisdictions awaiting accepted source evidence;
 - a validated structural delivery route for every jurisdiction, including all 86 entries in the base discovery inventory.
 
@@ -49,7 +49,7 @@ Existing packages cover:
 - simple-progressive scopes for New Zealand, Paraguay, Cyprus, Panama, Honduras, the Dominican Republic, Barbados, Seychelles, Trinidad and Tobago, Uganda, Guatemala, Rwanda, Australia, the Philippines and Thailand;
 - progressive-reliefs scopes for Kenya, South Africa, Malaysia, the Czech Republic and Indonesia;
 - complex-composite salaries-tax scope for Hong Kong;
-- household Income Tax and individual USC scope for Ireland.
+- household and filing-status scopes for Ireland and Poland.
 
 Country packages expose only rules supported by official sources and caller-confirmed tax facts. Unsupported relief eligibility, social contributions, filing decisions, residence determinations and income classifications remain explicit.
 
@@ -101,6 +101,7 @@ The remaining discovery inventory is governed by `catalog/pit-discovery-plan.jso
 - `docs/progressive-reliefs-packages-wave-5.md`
 - `docs/complex-composite-packages.md`
 - `docs/household-filing-packages.md`
+- `docs/household-filing-packages-wave-2.md`
 - `docs/pit-country-package-contract.md`
 - `docs/pit-calculation-primitives.md`
 
