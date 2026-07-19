@@ -9,7 +9,7 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 | Work package | Deliverable | State |
 | --- | --- | --- |
 | WP-PIT-01 | Canonical global jurisdiction register | Integrated |
-| WP-PIT-02 | Global PIT rule map | 41 implemented; 123 source-indexed; 85 in discovery |
+| WP-PIT-02 | Global PIT rule map | 41 implemented; 123 source-indexed; 85 active discovery entries; all 249 structurally routed |
 | WP-PIT-03 | Shared calculation primitives | Integrated |
 | WP-PIT-04 | Country-package contract | Integrated |
 | WP-PIT-05 | Singapore and UK reconciliation | Integrated |
@@ -32,9 +32,12 @@ The runtime catalogue contains all 249 ISO 3166-1 countries and territories:
 
 - 41 implemented calculators;
 - 123 source-indexed jurisdictions awaiting implementation;
-- 85 jurisdictions awaiting source discovery.
+- 85 jurisdictions awaiting accepted source evidence;
+- a validated structural delivery route for every jurisdiction, including all 86 entries in the base discovery inventory.
 
-Implementation, deployment and live acceptance remain separate states.
+The base discovery plan contains 45 direct calculators, 15 parent-system derivatives, 8 no-PIT verification cases, 7 no-resident territories, 10 restricted or disputed source cases, and Seychelles as an already accepted promotion.
+
+Planning, source indexing, implementation, deployment and live acceptance remain separate states.
 
 ## Implemented calculators
 
@@ -65,6 +68,8 @@ Countries are delivered in calculation-family work packages. Each package includ
 
 Accepted implementation metadata is composed from the ordered files listed in `catalog/pit-implementation-overlays.json`. Later work packages add independent overlays without rewriting earlier package records.
 
+The remaining discovery inventory is governed by `catalog/pit-discovery-plan.json`. Its planning families and source plans determine research order but do not promote unverified law into the executable catalogue.
+
 ## Implementation waves
 
 1. No-PIT jurisdictions.
@@ -78,6 +83,7 @@ Accepted implementation metadata is composed from the ordered files listed in `c
 
 ## Package references
 
+- `docs/global-pit-discovery-plan.md`
 - `docs/no-pit-packages.md`
 - `docs/flat-rate-packages.md`
 - `docs/flat-rate-packages-wave-2.md`
