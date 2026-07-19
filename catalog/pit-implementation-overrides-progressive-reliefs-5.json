@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-19",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_5",
+    "type": "repository-package",
+    "authority": "Direktorat Jenderal Pajak",
+    "location": "packages/country-progressive-reliefs/src/indonesia.js",
+    "scope": "Official-source-backed Indonesia resident individual income tax package with PTKP schedules and statutory taxable-income rounding.",
+    "observedAt": "2026-07-19"
+  },
+  "implementations": {
+    "ID": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_5", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Annual resident PIT derived from net income, a caller-selected statutory PTKP schedule and the ordinary five-band progressive scale.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["IDR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Resident annual PIT with statutory PTKP schedules, IDR 1,000 taxable-income flooring and five progressive bands."
+      }
+    }
+  }
+}
