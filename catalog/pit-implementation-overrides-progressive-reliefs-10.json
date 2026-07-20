@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-21",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_10",
+    "type": "repository-package",
+    "authority": "Tax Administration Jamaica and Ministry of Finance and the Public Service",
+    "location": "packages/country-progressive-reliefs/src/jamaica.js",
+    "scope": "Official-source-backed Jamaica calendar-year 2026 individual aggregate-income tax with standard, pensioner, golden-age and combined exemption schedules.",
+    "observedAt": "2026-07-21"
+  },
+  "implementations": {
+    "JM": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_10", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Ordinary individual aggregate-income tax using the effective 2026 threshold and caller-selected exemption schedule; payroll contributions, credits and PAYE period calculations remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["JMD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Calendar-year 2026 ordinary individual income tax with standard, pensioner, golden-age and expressly published combined exemption schedules."
+      }
+    }
+  }
+}
