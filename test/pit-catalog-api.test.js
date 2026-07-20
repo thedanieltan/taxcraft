@@ -9,16 +9,16 @@ import { OPENAPI_DOCUMENT, createApi } from "@taxcraft/api";
 
 const api = createApi();
 const IMPLEMENTED_CODES = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "HK", "IE", "PL",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "GY", "HK", "IE", "PL",
 ];
-const VERIFIED_CODES = ["SG", "AE", "SA", "VG", "BS", "KW", "EE", "NZ", "CY", "AM", "UA", "UZ", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "HK", "IE", "PL"];
+const VERIFIED_CODES = ["SG", "AE", "SA", "VG", "BS", "KW", "EE", "NZ", "CY", "AM", "UA", "UZ", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "GY", "HK", "IE", "PL"];
 
 test("runtime catalogue exposes all registered PIT jurisdictions", () => {
   const jurisdictions = listPitJurisdictions();
   const status = getPitCatalogueStatus();
   assert.equal(jurisdictions.length, 249);
-  assert.equal(status.counts.implemented, 57);
-  assert.equal(status.counts["source-indexed"], 107);
+  assert.equal(status.counts.implemented, 58);
+  assert.equal(status.counts["source-indexed"], 106);
   assert.equal(status.counts["source-discovery"], 85);
   for (const code of VERIFIED_CODES) assert.equal(getPitJurisdiction(code).verificationStatus, "verified");
   assert.equal(getPitJurisdiction("AD").verificationStatus, "unmapped");
@@ -83,6 +83,7 @@ test("implemented model input schemas are public and unimplemented models fail e
     ["SZ", "2025-26", ["scopeConfirmed", "rebateSchedule", "taxableIncomeMinor"]],
     ["JM", "2026", ["scopeConfirmed", "exemptionSchedule", "aggregateIncomeMinor"]],
     ["LS", "2026-27", ["scopeConfirmed", "individualTaxSchedule", "annualChargeableIncomeMinor"]],
+    ["GY", "2026", ["scopeConfirmed", "annualChargeableIncomeMinor"]],
     ["HK", "2025-26", ["scopeConfirmed", "netIncomeMinor", "netChargeableIncomeMinor"]],
     ["IE", "2026", ["scopeConfirmed", "filingSchedule", "primaryTaxableIncomeMinor", "secondaryTaxableIncomeMinor", "lowerEarnerBandIncomeMinor", "primaryPayeIncomeMinor", "secondaryPayeIncomeMinor", "primaryUscIncomeMinor", "secondaryUscIncomeMinor"]],
     ["PL", "2026", ["scopeConfirmed", "filingSchedule", "primaryTaxableIncomeMinor", "secondaryTaxableIncomeMinor"]],
