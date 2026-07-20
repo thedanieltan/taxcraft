@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-20",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_10",
+    "type": "repository-package",
+    "authority": "Autoridade Tributária Timor-Leste",
+    "location": "packages/country-simple-progressive/src/wave10.js",
+    "scope": "Official-source-backed Timor-Leste monthly wage and annual natural-person income-tax schedules for residents and non-residents.",
+    "observedAt": "2026-07-20"
+  },
+  "implementations": {
+    "TL": {
+      "calculationFamily": "SIMPLE_PROGRESSIVE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_10", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Monthly wage and annual natural-person schedules; resident zero bands and non-resident 10% schedules on caller-confirmed taxable amounts.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "SIMPLE_PROGRESSIVE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["USD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-simple-progressive",
+        "coverageSummary": "Resident and non-resident monthly wage or annual natural-person income tax on caller-confirmed taxable amounts."
+      }
+    }
+  }
+}
