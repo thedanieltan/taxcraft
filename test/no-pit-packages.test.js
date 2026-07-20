@@ -46,10 +46,12 @@ test("every accepted no-PIT package returns a deterministic zero PIT result", as
 test("second no-PIT wave preserves business-income and payroll-tax boundaries", () => {
   const saudiArabia = noPitPackages.find(({ manifest }) => manifest.jurisdiction === "SA");
   const britishVirginIslands = noPitPackages.find(({ manifest }) => manifest.jurisdiction === "VG");
+  const saudiCoverage = saudiArabia.coverage("2026");
+  const virginIslandsCoverage = britishVirginIslands.coverage("2026");
 
-  assert.ok(saudiArabia.models["2026"].coverage.unsupported.some((entry) => entry.includes("business")));
-  assert.ok(saudiArabia.models["2026"].coverage.unsupported.some((entry) => entry.includes("withholding")));
-  assert.ok(britishVirginIslands.models["2026"].coverage.unsupported.some((entry) => entry.includes("payroll tax")));
+  assert.ok(saudiCoverage.unsupported.some((entry) => entry.includes("business")));
+  assert.ok(saudiCoverage.unsupported.some((entry) => entry.includes("withholding")));
+  assert.ok(virginIslandsCoverage.unsupported.some((entry) => entry.includes("payroll tax")));
   assert.deepEqual(
     britishVirginIslands.sources.map(({ sourceId }) => sourceId),
     ["vg.ird.tax-inventory", "vg.ird.payroll-tax"],
