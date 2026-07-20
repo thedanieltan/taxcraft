@@ -30,6 +30,10 @@ import {
   SIMPLE_PROGRESSIVE_WAVE_9_JURISDICTIONS,
   simpleProgressiveWave9Packages,
 } from "./wave9.js";
+import {
+  SIMPLE_PROGRESSIVE_WAVE_10_JURISDICTIONS,
+  simpleProgressiveWave10Packages,
+} from "./wave10.js";
 
 export const SIMPLE_PROGRESSIVE_JURISDICTIONS = Object.freeze([
   ...acceptedDefinitions,
@@ -40,6 +44,7 @@ export const SIMPLE_PROGRESSIVE_JURISDICTIONS = Object.freeze([
   ...SIMPLE_PROGRESSIVE_WAVE_7_JURISDICTIONS,
   ...SIMPLE_PROGRESSIVE_WAVE_8_JURISDICTIONS,
   ...SIMPLE_PROGRESSIVE_WAVE_9_JURISDICTIONS,
+  ...SIMPLE_PROGRESSIVE_WAVE_10_JURISDICTIONS,
 ]);
 
 export const simpleProgressivePackages = Object.freeze([
@@ -51,6 +56,7 @@ export const simpleProgressivePackages = Object.freeze([
   ...simpleProgressiveWave7Packages,
   ...simpleProgressiveWave8Packages,
   ...simpleProgressiveWave9Packages,
+  ...simpleProgressiveWave10Packages,
 ]);
 
 export const simpleProgressivePackagesByJurisdiction = Object.freeze(Object.fromEntries(
