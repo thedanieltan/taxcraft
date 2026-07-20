@@ -6,7 +6,7 @@ import { createApi, OPENAPI_DOCUMENT } from "../src/app.js";
 const api = createApi();
 
 const MAINTAINED_JURISDICTIONS = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KE", "ZA", "MY", "CZ", "ID", "HK", "IE", "PL",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "KE", "ZA", "MY", "CZ", "ID", "HK", "IE", "PL",
 ];
 
 test("lists maintained jurisdictions and exposes source-linked coverage", async () => {
@@ -17,7 +17,7 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
   const yearCases = [
     ["SG", ["YA2024", "YA2025", "YA2026"]],
     ["GB", ["2024-25", "2025-26", "2026-27"]],
-    ...["AE", "SA", "VG", "BS", "KW", "EE", "NZ", "UA", "DO", "SC", "UG", "GT", "RW", "FJ", "TL", "KE", "PH", "TH", "CZ", "ID", "IE", "PL"].map((code) => [code, ["2024", "2025", "2026"]]),
+    ...["AE", "SA", "VG", "BS", "KW", "EE", "NZ", "UA", "DO", "SC", "UG", "GT", "RW", "FJ", "TL", "KH", "KE", "PH", "TH", "CZ", "ID", "IE", "PL"].map((code) => [code, ["2024", "2025", "2026"]]),
     ["ZA", ["2025", "2026", "2027"]],
     ["AU", ["2024-25", "2025-26", "2026-27"]],
     ["BW", ["2024-25", "2025-26", "2026-27"]],
@@ -49,6 +49,7 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
     ["FJ", "2026", "fj.frcs.paye-structure-2024"],
     ["BW", "2026-27", "bw.burs.individual-tax-rates-subsequent-years"],
     ["TL", "2026", "tl.attl.wage-income-tax"],
+    ["KH", "2026", "kh.gdt.monthly-salary-annual-income-bands-2024"],
     ["KE", "2026", "ke.kra.paye-rates-and-relief"],
     ["ZA", "2027", "za.sars.individual-tax-rates"],
     ["AU", "2026-27", "au.treasury.new-tax-cuts-2026-27"],
