@@ -9,13 +9,13 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 | Work package | Deliverable | State |
 | --- | --- | --- |
 | WP-PIT-01 | Canonical global jurisdiction register | Integrated |
-| WP-PIT-02 | Global PIT rule map | 47 implemented; 117 source-indexed; 85 active discovery entries; all 249 structurally routed |
+| WP-PIT-02 | Global PIT rule map | 49 implemented; 115 source-indexed; 85 active discovery entries; all 249 structurally routed |
 | WP-PIT-03 | Shared calculation primitives | Integrated |
 | WP-PIT-04 | Country-package contract | Integrated |
 | WP-PIT-05 | Singapore and UK reconciliation | Integrated |
 | WP-PIT-06 | Global catalogue API | Integrated |
 | WP-PIT-07 | Manifest-driven calculator interface | Integrated |
-| WP-PIT-08 | No-PIT packages | Waves 1–2 integrated |
+| WP-PIT-08 | No-PIT packages | Waves 1–3 integrated; source-indexed family complete |
 | WP-PIT-09 | Flat-rate packages | Waves 1–2 integrated |
 | WP-PIT-10 | Simple-progressive packages | Waves 1–9 integrated |
 | WP-PIT-11 | Progressive systems with deductions and credits | Waves 1–5 integrated |
@@ -30,8 +30,8 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 
 The runtime catalogue contains all 249 ISO 3166-1 countries and territories:
 
-- 47 implemented calculators;
-- 117 source-indexed jurisdictions awaiting implementation;
+- 49 implemented calculators;
+- 115 source-indexed jurisdictions awaiting implementation;
 - 85 jurisdictions awaiting accepted source evidence;
 - a validated structural delivery route for every jurisdiction, including all 86 entries in the base discovery inventory.
 
@@ -44,7 +44,7 @@ Planning, source indexing, implementation, deployment and live acceptance remain
 Existing packages cover:
 
 - Singapore and the United Kingdom;
-- no-PIT scopes for the United Arab Emirates, Bahrain, Bermuda, Brunei Darussalam, Cayman Islands, Monaco, Oman, Qatar, Saudi Arabia and the British Virgin Islands;
+- no-PIT scopes for the United Arab Emirates, Bahrain, Bermuda, Brunei Darussalam, Cayman Islands, Monaco, Oman, Qatar, Saudi Arabia, the British Virgin Islands, the Bahamas and Kuwait;
 - flat-rate scopes for Bulgaria, Estonia, Hungary, Romania, Armenia, Georgia, Moldova, North Macedonia, Ukraine and Uzbekistan;
 - simple-progressive scopes for New Zealand, Paraguay, Cyprus, Panama, Honduras, the Dominican Republic, Barbados, Seychelles, Trinidad and Tobago, Uganda, Guatemala, Rwanda, Australia, the Philippines, Thailand, Fiji and Botswana;
 - progressive-reliefs scopes for Kenya, South Africa, Malaysia, the Czech Republic and Indonesia;
@@ -86,6 +86,7 @@ The remaining discovery inventory is governed by `catalog/pit-discovery-plan.jso
 - `docs/global-pit-discovery-plan.md`
 - `docs/no-pit-packages.md`
 - `docs/no-pit-packages-wave-2.md`
+- `docs/no-pit-packages-wave-3.md`
 - `docs/flat-rate-packages.md`
 - `docs/flat-rate-packages-wave-2.md`
 - `docs/simple-progressive-packages.md`

@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-20",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_NO_PIT_WAVE_3",
+    "type": "repository-package",
+    "authority": "Office of the Prime Minister of The Bahamas and Ministry of Finance of Kuwait",
+    "location": "packages/country-no-pit/src/wave3.js",
+    "scope": "Official-source-backed no-PIT scopes for Bahamas individual personal income and Kuwait natural-person employment income outside the corporate-body tax scope.",
+    "observedAt": "2026-07-20"
+  },
+  "implementations": {
+    "BS": {
+      "calculationFamily": "NO_PIT",
+      "sourceIds": ["TAXCRAFT_COUNTRY_NO_PIT_WAVE_3", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Individual personal income; consumption, property, business, multinational top-up tax and National Insurance obligations excluded.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "NO_PIT",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["BSD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-no-pit",
+        "coverageSummary": "Individual personal income; other taxes, business obligations and National Insurance remain separate."
+      }
+    },
+    "KW": {
+      "calculationFamily": "NO_PIT",
+      "sourceIds": ["TAXCRAFT_COUNTRY_NO_PIT_WAVE_3", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Natural-person employment remuneration outside income attributed to a corporate body carrying on trade or business in Kuwait.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "NO_PIT",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["KWD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-no-pit",
+        "coverageSummary": "Natural-person employment remuneration outside the corporate-body income-tax scope."
+      }
+    }
+  }
+}

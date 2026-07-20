@@ -4,9 +4,9 @@ import { createApi } from "@taxcraft/api";
 import { createTaxCraft } from "@taxcraft/core";
 import { noPitPackages } from "@taxcraft/country-no-pit";
 
-const EXPECTED_CODES = ["AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG"];
+const EXPECTED_CODES = ["AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW"];
 
-test("no-PIT bundle exposes ten independent maintained packages", () => {
+test("no-PIT bundle exposes twelve independent maintained packages", () => {
   assert.deepEqual(noPitPackages.map(({ manifest }) => manifest.jurisdiction), EXPECTED_CODES);
   for (const countryPackage of noPitPackages) {
     assert.equal(countryPackage.manifest.storesUserPII, false);
@@ -58,6 +58,26 @@ test("second no-PIT wave preserves business-income and payroll-tax boundaries", 
   );
 });
 
+test("third no-PIT wave preserves Bahamas other-tax and Kuwait corporate-body boundaries", () => {
+  const bahamas = noPitPackages.find(({ manifest }) => manifest.jurisdiction === "BS");
+  const kuwait = noPitPackages.find(({ manifest }) => manifest.jurisdiction === "KW");
+  const bahamasCoverage = bahamas.coverage("2026");
+  const kuwaitCoverage = kuwait.coverage("2026");
+
+  assert.ok(bahamasCoverage.unsupported.some((entry) => entry.includes("value-added tax")));
+  assert.ok(bahamasCoverage.unsupported.some((entry) => entry.includes("National Insurance")));
+  assert.ok(kuwaitCoverage.unsupported.some((entry) => entry.includes("corporate body")));
+  assert.ok(kuwaitCoverage.unsupported.some((entry) => entry.includes("social security")));
+  assert.deepEqual(
+    bahamas.sources.map(({ sourceId }) => sourceId),
+    ["bs.opm.mid-year-budget-2024-25", "bs.opm.personal-income-tax-policy"],
+  );
+  assert.deepEqual(
+    kuwait.sources.map(({ sourceId }) => sourceId),
+    ["kw.mof.income-tax-law-corporate-body"],
+  );
+});
+
 test("no-PIT packages require explicit scope confirmation", async () => {
   const engine = createTaxCraft({ countryPackages: noPitPackages });
   const result = await engine.calculate({
@@ -70,18 +90,18 @@ test("no-PIT packages require explicit scope confirmation", async () => {
   assert.ok(result.issues.some(({ path }) => path === "$.facts.scopeConfirmed"));
 });
 
-test("global catalogue and API retain the accepted no-PIT waves", async () => {
+test("global catalogue and API retain all accepted no-PIT waves", async () => {
   const api = createApi();
   const status = await api.handle({ method: "GET", path: "/v1/pit/status" });
   assert.equal(status.status, 200);
   assert.equal(status.body.jurisdictionCount, 249);
-  assert.ok(status.body.counts.implemented >= 12);
+  assert.ok(status.body.counts.implemented >= 14);
   assert.equal(
     Object.values(status.body.counts).reduce((sum, value) => sum + value, 0),
     249,
   );
 
-  for (const code of ["AE", "SA", "VG"]) {
+  for (const code of ["AE", "SA", "VG", "BS", "KW"]) {
     const detail = await api.handle({ method: "GET", path: `/v1/pit/jurisdictions/${code}` });
     assert.equal(detail.status, 200);
     assert.equal(detail.body.classificationStatus, "implemented");
@@ -90,7 +110,7 @@ test("global catalogue and API retain the accepted no-PIT waves", async () => {
     assert.deepEqual(detail.body.supportedTaxYears, ["2024", "2025", "2026"]);
   }
 
-  const schema = await api.handle({ method: "GET", path: "/v1/pit/jurisdictions/SA/2026/input-schema" });
+  const schema = await api.handle({ method: "GET", path: "/v1/pit/jurisdictions/KW/2026/input-schema" });
   assert.equal(schema.status, 200);
   assert.deepEqual(schema.body.factsSchema.required, ["scopeConfirmed", "coveredIncomeMinor"]);
 
@@ -98,15 +118,15 @@ test("global catalogue and API retain the accepted no-PIT waves", async () => {
     method: "POST",
     path: "/v1/pit/calculate",
     body: {
-      jurisdiction: "VG",
+      jurisdiction: "BS",
       taxYear: "2026",
       facts: { scopeConfirmed: true, coveredIncomeMinor: 5000000 },
     },
   });
   assert.equal(calculation.status, 200);
   assert.equal(calculation.body.totals.incomeTaxMinor, 0);
-  assert.ok(calculation.body.sources.some(({ sourceId }) => sourceId === "vg.ird.tax-inventory"));
-  assert.ok(calculation.body.sources.some(({ sourceId }) => sourceId === "vg.ird.payroll-tax"));
+  assert.ok(calculation.body.sources.some(({ sourceId }) => sourceId === "bs.opm.mid-year-budget-2024-25"));
+  assert.ok(calculation.body.sources.some(({ sourceId }) => sourceId === "bs.opm.personal-income-tax-policy"));
 });
 
 test("Oman package does not extend the zero result into 2028", async () => {

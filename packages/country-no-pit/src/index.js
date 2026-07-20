@@ -1,12 +1,14 @@
 import { definePitCountryPackage } from "@taxcraft/country-sdk";
 import { NO_PIT_JURISDICTIONS as NO_PIT_WAVE_1_JURISDICTIONS } from "./data.js";
 import { NO_PIT_WAVE_2_JURISDICTIONS } from "./wave2.js";
+import { NO_PIT_WAVE_3_JURISDICTIONS } from "./wave3.js";
 
 const TAX_YEARS = Object.freeze([2024, 2025, 2026]);
 
 export const NO_PIT_JURISDICTIONS = Object.freeze([
   ...NO_PIT_WAVE_1_JURISDICTIONS,
   ...NO_PIT_WAVE_2_JURISDICTIONS,
+  ...NO_PIT_WAVE_3_JURISDICTIONS,
 ]);
 
 export const noPitPackages = Object.freeze(NO_PIT_JURISDICTIONS.map(createNoPitPackage));
@@ -14,7 +16,7 @@ export const noPitPackagesByJurisdiction = Object.freeze(Object.fromEntries(
   noPitPackages.map((countryPackage) => [countryPackage.manifest.jurisdiction, countryPackage]),
 ));
 
-export { NO_PIT_WAVE_2_JURISDICTIONS };
+export { NO_PIT_WAVE_2_JURISDICTIONS, NO_PIT_WAVE_3_JURISDICTIONS };
 
 function createNoPitPackage(definition) {
   const taxYears = TAX_YEARS.map((year) => ({
