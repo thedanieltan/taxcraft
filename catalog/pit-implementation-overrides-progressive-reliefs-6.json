@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-20",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_6",
+    "type": "repository-package",
+    "authority": "Ghana Revenue Authority and Parliament of Ghana",
+    "location": "packages/country-progressive-reliefs/src/ghana.js",
+    "scope": "Official-source-backed Ghana resident income tax through the unambiguous 25% band and the full generally applicable non-resident 25% schedule, with contradictory upper resident bands rejected.",
+    "observedAt": "2026-07-20"
+  },
+  "implementations": {
+    "GH": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_6", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Resident monthly and annual chargeable income through the unambiguous 25% band; higher resident income fails closed because the official 30% band and 35% threshold overlap. Non-residents use the generally applicable 25% rate.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["GHS"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Resident chargeable income through GHS 19,896.67 monthly or GHS 238,760 annually, plus the full generally applicable non-resident 25% schedule."
+      }
+    }
+  }
+}
