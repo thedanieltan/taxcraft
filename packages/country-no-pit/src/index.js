@@ -1,14 +1,20 @@
 import { definePitCountryPackage } from "@taxcraft/country-sdk";
-import { NO_PIT_JURISDICTIONS } from "./data.js";
+import { NO_PIT_JURISDICTIONS as NO_PIT_WAVE_1_JURISDICTIONS } from "./data.js";
+import { NO_PIT_WAVE_2_JURISDICTIONS } from "./wave2.js";
 
 const TAX_YEARS = Object.freeze([2024, 2025, 2026]);
+
+export const NO_PIT_JURISDICTIONS = Object.freeze([
+  ...NO_PIT_WAVE_1_JURISDICTIONS,
+  ...NO_PIT_WAVE_2_JURISDICTIONS,
+]);
 
 export const noPitPackages = Object.freeze(NO_PIT_JURISDICTIONS.map(createNoPitPackage));
 export const noPitPackagesByJurisdiction = Object.freeze(Object.fromEntries(
   noPitPackages.map((countryPackage) => [countryPackage.manifest.jurisdiction, countryPackage]),
 ));
 
-export { NO_PIT_JURISDICTIONS };
+export { NO_PIT_WAVE_2_JURISDICTIONS };
 
 function createNoPitPackage(definition) {
   const taxYears = TAX_YEARS.map((year) => ({
@@ -94,7 +100,7 @@ function createModel(definition, year) {
             ruleId: `${definition.code.toLowerCase()}.pit.${year}.zero-personal-income-tax`,
             label: "Personal income tax under the confirmed package scope",
             amountMinor: 0,
-            sourceIds: [definition.sources[0].sourceId],
+            sourceIds: definition.sources.map(({ sourceId }) => sourceId),
           },
         ],
         assumptions: [...definition.assumptions],
