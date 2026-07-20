@@ -9,16 +9,16 @@ import { OPENAPI_DOCUMENT, createApi } from "@taxcraft/api";
 
 const api = createApi();
 const IMPLEMENTED_CODES = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "KE", "ZA", "MY", "CZ", "ID", "HK", "IE", "PL",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "KE", "ZA", "MY", "CZ", "ID", "HK", "IE", "PL",
 ];
-const VERIFIED_CODES = ["SG", "AE", "SA", "VG", "EE", "NZ", "CY", "AM", "UA", "UZ", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "KE", "ZA", "MY", "CZ", "ID", "HK", "IE", "PL"];
+const VERIFIED_CODES = ["SG", "AE", "SA", "VG", "BS", "KW", "EE", "NZ", "CY", "AM", "UA", "UZ", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "KE", "ZA", "MY", "CZ", "ID", "HK", "IE", "PL"];
 
 test("runtime catalogue exposes all registered PIT jurisdictions", () => {
   const jurisdictions = listPitJurisdictions();
   const status = getPitCatalogueStatus();
   assert.equal(jurisdictions.length, 249);
-  assert.equal(status.counts.implemented, 47);
-  assert.equal(status.counts["source-indexed"], 117);
+  assert.equal(status.counts.implemented, 49);
+  assert.equal(status.counts["source-indexed"], 115);
   assert.equal(status.counts["source-discovery"], 85);
   for (const code of VERIFIED_CODES) assert.equal(getPitJurisdiction(code).verificationStatus, "verified");
   assert.equal(getPitJurisdiction("AD").verificationStatus, "unmapped");
@@ -55,6 +55,8 @@ test("implemented model input schemas are public and unimplemented models fail e
     ["AE", "2026", ["scopeConfirmed", "coveredIncomeMinor"]],
     ["SA", "2026", ["scopeConfirmed", "coveredIncomeMinor"]],
     ["VG", "2026", ["scopeConfirmed", "coveredIncomeMinor"]],
+    ["BS", "2026", ["scopeConfirmed", "coveredIncomeMinor"]],
+    ["KW", "2026", ["scopeConfirmed", "coveredIncomeMinor"]],
     ["BG", "2026", ["scopeConfirmed", "taxBaseMinor"]],
     ["NZ", "2026", ["scopeConfirmed", "taxableIncomeMinor"]],
     ["UA", "2026", ["scopeConfirmed", "taxBaseMinor"]],
