@@ -13,7 +13,7 @@ async function calculate(facts, taxYear = "2026") {
 }
 
 test("progressive-reliefs bundle retains every maintained package", () => {
-  assert.deepEqual(progressiveReliefPackages.map(({ manifest }) => manifest.jurisdiction), ["KE", "ZA", "MY", "CZ", "ID", "GH", "MU"]);
+  assert.deepEqual(progressiveReliefPackages.map(({ manifest }) => manifest.jurisdiction), ["KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK"]);
   const kenyaPackage = progressiveReliefPackages.find(({ manifest }) => manifest.jurisdiction === "KE");
   assert.equal(kenyaPackage.manifest.storesUserPII, false);
   assert.equal(kenyaPackage.manifest.advisory, false);
