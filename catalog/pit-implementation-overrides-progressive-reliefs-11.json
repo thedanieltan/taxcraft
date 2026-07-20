@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-21",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_11",
+    "type": "repository-package",
+    "authority": "Revenue Services Lesotho",
+    "location": "packages/country-progressive-reliefs/src/lesotho.js",
+    "scope": "Official-source-backed Lesotho resident annual individual income tax with personal credit and non-resident annual income tax for income year 2026-27.",
+    "observedAt": "2026-07-21"
+  },
+  "implementations": {
+    "LS": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_11", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "income-year",
+      "notes": "Resident 20% and 30% marginal schedule with non-refundable personal credit, plus separate non-resident 25% schedule. PAYE period calculations and taxable-income derivation remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "income-year",
+        "currencyCodes": ["LSL"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026-27"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Resident annual chargeable income with personal tax credit and non-resident annual chargeable income for 2026-27."
+      }
+    }
+  }
+}
