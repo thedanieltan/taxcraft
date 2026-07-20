@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-20",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_NO_PIT_WAVE_2",
+    "type": "repository-package",
+    "authority": "Zakat, Tax and Customs Authority and Government of the Virgin Islands",
+    "location": "packages/country-no-pit/src/wave2.js",
+    "scope": "Official-source-backed no-PIT scopes for Saudi employment income and British Virgin Islands personal income tax, with business-income and payroll-tax boundaries preserved.",
+    "observedAt": "2026-07-20"
+  },
+  "implementations": {
+    "SA": {
+      "calculationFamily": "NO_PIT",
+      "sourceIds": ["TAXCRAFT_COUNTRY_NO_PIT_WAVE_2", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Employment remuneration outside taxable business, permanent-establishment and other Saudi-source activity.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "NO_PIT",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["SAR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-no-pit",
+        "coverageSummary": "Employment remuneration outside taxable business and other Saudi-source activity."
+      }
+    },
+    "VG": {
+      "calculationFamily": "NO_PIT",
+      "sourceIds": ["TAXCRAFT_COUNTRY_NO_PIT_WAVE_2", "EY_WORLDWIDE_PERSONAL_TAX_2025_26"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Personal income tax only; British Virgin Islands payroll tax on remuneration remains outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "NO_PIT",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["USD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-no-pit",
+        "coverageSummary": "Personal income tax result; payroll tax, social contributions and other taxes remain separate."
+      }
+    }
+  }
+}
