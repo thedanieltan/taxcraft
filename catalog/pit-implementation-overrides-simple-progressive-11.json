@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-20",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_11",
+    "type": "repository-package",
+    "authority": "General Department of Taxation, Cambodia",
+    "location": "packages/country-simple-progressive/src/wave11.js",
+    "scope": "Official-source-backed Cambodia resident monthly salary, non-resident monthly salary and resident annual natural-person taxable-income schedules.",
+    "observedAt": "2026-07-20"
+  },
+  "implementations": {
+    "KH": {
+      "calculationFamily": "SIMPLE_PROGRESSIVE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_11", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Resident monthly salary and annual taxable-income bands plus the non-resident monthly salary rate, on caller-confirmed taxable amounts.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "SIMPLE_PROGRESSIVE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["KHR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024", "2025", "2026"],
+        "package": "@taxcraft/country-simple-progressive",
+        "coverageSummary": "Resident monthly salary, non-resident monthly salary and resident annual natural-person income tax on caller-confirmed taxable amounts."
+      }
+    }
+  }
+}
