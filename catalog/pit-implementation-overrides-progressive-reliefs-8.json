@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-21",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_8",
+    "type": "repository-package",
+    "authority": "Inland Revenue Department, Sri Lanka",
+    "location": "packages/country-progressive-reliefs/src/sri-lanka.js",
+    "scope": "Official-source-backed Sri Lanka standard individual taxable-income schedules for years of assessment 2024-25 through 2026-27, excluding capital gains and special-rate income.",
+    "observedAt": "2026-07-21"
+  },
+  "implementations": {
+    "LK": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_8", "EY_WORLDWIDE_PERSONAL_TAX_2025_26"],
+      "taxYearBasis": "year-of-assessment",
+      "notes": "Standard individual taxable-income schedule on caller-confirmed taxable income. Investment gains, terminal benefits, special-rate business income and APIT withholding remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "year-of-assessment",
+        "currencyCodes": ["LKR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2024-25", "2025-26", "2026-27"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Standard resident and non-resident individual income tax on caller-confirmed taxable income, excluding investment gains and special-rate schedules."
+      }
+    }
+  }
+}
