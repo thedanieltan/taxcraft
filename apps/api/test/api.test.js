@@ -6,7 +6,7 @@ import { createApi, OPENAPI_DOCUMENT } from "../src/app.js";
 const api = createApi();
 
 const MAINTAINED_JURISDICTIONS = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "KE", "ZA", "MY", "CZ", "ID", "HK", "IE", "PL",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "KE", "ZA", "MY", "CZ", "ID", "HK", "IE", "PL",
 ];
 
 test("lists maintained jurisdictions and exposes source-linked coverage", async () => {
@@ -17,7 +17,7 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
   const yearCases = [
     ["SG", ["YA2024", "YA2025", "YA2026"]],
     ["GB", ["2024-25", "2025-26", "2026-27"]],
-    ...["AE", "EE", "NZ", "UA", "DO", "SC", "UG", "GT", "RW", "FJ", "KE", "PH", "TH", "CZ", "ID", "IE", "PL"].map((code) => [code, ["2024", "2025", "2026"]]),
+    ...["AE", "SA", "VG", "EE", "NZ", "UA", "DO", "SC", "UG", "GT", "RW", "FJ", "KE", "PH", "TH", "CZ", "ID", "IE", "PL"].map((code) => [code, ["2024", "2025", "2026"]]),
     ["ZA", ["2025", "2026", "2027"]],
     ["AU", ["2024-25", "2025-26", "2026-27"]],
     ["BW", ["2024-25", "2025-26", "2026-27"]],
@@ -32,6 +32,8 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
   const coverageCases = [
     ["SG", "YA2026", "sg-iras-resident-rates-ya2024-onwards"],
     ["AE", "2026", "ae.pit.natural-person-wages"],
+    ["SA", "2026", "sa.zatca.income-tax-scope"],
+    ["VG", "2026", "vg.ird.payroll-tax"],
     ["EE", "2026", "ee.emta.basic-exemption"],
     ["NZ", "2026", "nz.ird.individual-tax-rates"],
     ["UA", "2026", "ua.sts.tax-code-section-iv-article-167"],
