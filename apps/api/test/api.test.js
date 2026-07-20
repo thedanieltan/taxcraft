@@ -6,7 +6,7 @@ import { createApi, OPENAPI_DOCUMENT } from "../src/app.js";
 const api = createApi();
 
 const MAINTAINED_JURISDICTIONS = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "KE", "ZA", "MY", "CZ", "ID", "GH", "HK", "IE", "PL",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "HK", "IE", "PL",
 ];
 
 test("lists maintained jurisdictions and exposes source-linked coverage", async () => {
@@ -21,6 +21,7 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
     ["ZA", ["2025", "2026", "2027"]],
     ["AU", ["2024-25", "2025-26", "2026-27"]],
     ["BW", ["2024-25", "2025-26", "2026-27"]],
+    ["MU", ["2025-26", "2026-27", "2027-28"]],
     ["MY", ["2023", "2024", "2025"]],
     ["HK", ["2023-24", "2024-25", "2025-26"]],
   ];
@@ -59,6 +60,7 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
     ["CZ", "2026", "cz.fs.pit-rates-and-credit-2026"],
     ["ID", "2026", "id.djp.individual-income-tax-calculation"],
     ["GH", "2026", "gh.gra.paye-rates-2024"],
+    ["MU", "2026-27", "mu.mra.fair-share-contribution"],
     ["HK", "2025-26", "hk.ird.two-tier-standard-rates-2024"],
     ["IE", "2026", "ie.revenue.usc-standard-rates"],
     ["PL", "2026", "pl.mf.joint-spouse-calculation"],

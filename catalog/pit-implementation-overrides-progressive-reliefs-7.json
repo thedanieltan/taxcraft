@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-21",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_7",
+    "type": "repository-package",
+    "authority": "Mauritius Revenue Authority",
+    "location": "packages/country-progressive-reliefs/src/mauritius.js",
+    "scope": "Official-source-backed Mauritius annual individual income tax and Fair Share Contribution for income years 2025-26 through 2027-28.",
+    "observedAt": "2026-07-21"
+  },
+  "implementations": {
+    "MU": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_7", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "income-year",
+      "notes": "Annual chargeable-income bands plus the 15% Fair Share Contribution on caller-confirmed leviable income above MUR 12 million when the statutory threshold income exceeds MUR 12 million.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "income-year",
+        "currencyCodes": ["MUR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2025-26", "2026-27", "2027-28"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Annual individual income tax and Fair Share Contribution on caller-confirmed chargeable, threshold and leviable income."
+      }
+    }
+  }
+}
