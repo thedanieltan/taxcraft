@@ -91,19 +91,23 @@ test("Mauritius rejects inconsistent Fair Share facts", async () => {
   const api = createApi();
   const cases = [
     {
-      chargeableIncomeMinor: 200_000_000,
-      fairShareThresholdIncomeMinor: 300_000_000,
-      fairShareLeviableIncomeMinor: 100_000_000,
+      facts: {
+        chargeableIncomeMinor: 200_000_000,
+        fairShareThresholdIncomeMinor: 300_000_000,
+        fairShareLeviableIncomeMinor: 100_000_000,
+      },
       expectedPath: "$.fairShareLeviableIncomeMinor",
     },
     {
-      chargeableIncomeMinor: 100_000_000,
-      fairShareThresholdIncomeMinor: 200_000_000,
-      fairShareLeviableIncomeMinor: 300_000_000,
+      facts: {
+        chargeableIncomeMinor: 100_000_000,
+        fairShareThresholdIncomeMinor: 200_000_000,
+        fairShareLeviableIncomeMinor: 300_000_000,
+      },
       expectedPath: "$.fairShareThresholdIncomeMinor",
     },
   ];
-  for (const facts of cases) {
+  for (const { facts, expectedPath } of cases) {
     const response = await api.handle({
       method: "POST",
       path: "/v1/pit/calculate",
@@ -114,7 +118,7 @@ test("Mauritius rejects inconsistent Fair Share facts", async () => {
       },
     });
     assert.equal(response.status, 400);
-    assert.ok(response.body.issues.some(({ path }) => path === facts.expectedPath));
+    assert.ok(response.body.issues.some(({ path }) => path === expectedPath));
   }
 });
 
