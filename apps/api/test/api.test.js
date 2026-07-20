@@ -6,7 +6,7 @@ import { createApi, OPENAPI_DOCUMENT } from "../src/app.js";
 const api = createApi();
 
 const MAINTAINED_JURISDICTIONS = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "KE", "ZA", "MY", "CZ", "ID", "HK", "IE", "PL",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "KE", "ZA", "MY", "CZ", "ID", "GH", "HK", "IE", "PL",
 ];
 
 test("lists maintained jurisdictions and exposes source-linked coverage", async () => {
@@ -17,7 +17,7 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
   const yearCases = [
     ["SG", ["YA2024", "YA2025", "YA2026"]],
     ["GB", ["2024-25", "2025-26", "2026-27"]],
-    ...["AE", "SA", "VG", "BS", "KW", "EE", "NZ", "UA", "DO", "SC", "UG", "GT", "RW", "FJ", "TL", "KH", "KE", "PH", "TH", "CZ", "ID", "IE", "PL"].map((code) => [code, ["2024", "2025", "2026"]]),
+    ...["AE", "SA", "VG", "BS", "KW", "EE", "NZ", "UA", "DO", "SC", "UG", "GT", "RW", "FJ", "TL", "KH", "KE", "PH", "TH", "CZ", "ID", "GH", "IE", "PL"].map((code) => [code, ["2024", "2025", "2026"]]),
     ["ZA", ["2025", "2026", "2027"]],
     ["AU", ["2024-25", "2025-26", "2026-27"]],
     ["BW", ["2024-25", "2025-26", "2026-27"]],
@@ -58,6 +58,7 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
     ["MY", "2025", "my.hasil.individual-tax-rates-2023-2025"],
     ["CZ", "2026", "cz.fs.pit-rates-and-credit-2026"],
     ["ID", "2026", "id.djp.individual-income-tax-calculation"],
+    ["GH", "2026", "gh.gra.paye-rates-2024"],
     ["HK", "2025-26", "hk.ird.two-tier-standard-rates-2024"],
     ["IE", "2026", "ie.revenue.usc-standard-rates"],
     ["PL", "2026", "pl.mf.joint-spouse-calculation"],
