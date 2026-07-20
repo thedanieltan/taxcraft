@@ -70,7 +70,7 @@ const DEFINITION = Object.freeze({
     {
       sourceId: "gh.parliament.income-tax-amendment-1111",
       publisher: "Parliament of Ghana",
-      publisherType: "legislature",
+      publisherType: "legislation",
       title: "Income Tax (Amendment) (No. 2) Act, 2023 (Act 1111)",
       url: "https://repository.parliament.gh/handle/123456789/3974",
       jurisdiction: "GH",
