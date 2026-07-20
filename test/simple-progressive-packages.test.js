@@ -4,7 +4,7 @@ import { createApi } from "@taxcraft/api";
 import { createTaxCraft } from "@taxcraft/core";
 import { simpleProgressivePackages } from "@taxcraft/country-simple-progressive";
 
-const EXPECTED_CODES = ["NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW"];
+const EXPECTED_CODES = ["NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL"];
 const engine = createTaxCraft({ countryPackages: simpleProgressivePackages });
 
 async function calculate(jurisdiction, taxYear, facts) {
@@ -13,7 +13,7 @@ async function calculate(jurisdiction, taxYear, facts) {
   return result;
 }
 
-test("simple-progressive bundle exposes seventeen independent maintained packages", () => {
+test("simple-progressive bundle exposes eighteen independent maintained packages", () => {
   assert.deepEqual(simpleProgressivePackages.map(({ manifest }) => manifest.jurisdiction), EXPECTED_CODES);
   for (const countryPackage of simpleProgressivePackages) {
     assert.equal(countryPackage.manifest.storesUserPII, false);
@@ -124,12 +124,36 @@ test("Rwanda annualizes monthly income and rounds monthly PAYE up", async () => 
   }
 });
 
+test("Timor-Leste applies monthly and annual resident and non-resident schedules", async () => {
+  const cases = [
+    ["monthly-wage", "resident", 50_000, 0],
+    ["monthly-wage", "resident", 60_000, 1_000],
+    ["monthly-wage", "non-resident", 50_000, 5_000],
+    ["annual-taxable-income", "resident", 600_000, 0],
+    ["annual-taxable-income", "resident", 700_000, 10_000],
+    ["annual-taxable-income", "non-resident", 700_000, 70_000],
+  ];
+
+  for (const [incomeSchedule, individualTaxSchedule, taxableIncomeMinor, expectedTaxMinor] of cases) {
+    const result = await calculate("TL", "2026", {
+      scopeConfirmed: true,
+      incomeSchedule,
+      individualTaxSchedule,
+      taxableIncomeMinor,
+    });
+    assert.equal(result.totals.taxableIncomeMinor, taxableIncomeMinor);
+    assert.equal(result.totals.incomeTaxMinor, expectedTaxMinor);
+    assert.ok(result.lines.every(({ sourceIds }) => sourceIds.includes("tl.attl.wage-income-tax")));
+    assert.ok(result.lines.every(({ sourceIds }) => sourceIds.includes("tl.attl.annual-income-tax-guidelines")));
+  }
+});
+
 test("global catalogue and API expose every accepted simple-progressive package", async () => {
   const api = createApi();
   const status = await api.handle({ method: "GET", path: "/v1/pit/status" });
   assert.equal(status.status, 200);
   assert.equal(status.body.jurisdictionCount, 249);
-  assert.ok(status.body.counts.implemented >= 45);
+  assert.ok(status.body.counts.implemented >= 50);
   assert.equal(Object.values(status.body.counts).reduce((sum, value) => sum + value, 0), 249);
 
   const standardYears = EXPECTED_CODES.filter((code) => !["AU", "BW"].includes(code));
@@ -159,6 +183,7 @@ test("global catalogue and API expose every accepted simple-progressive package"
     ["TH", "2026", ["scopeConfirmed", "taxableIncomeMinor"]],
     ["FJ", "2026", ["scopeConfirmed", "individualTaxSchedule", "annualChargeableIncomeMinor"]],
     ["BW", "2026-27", ["scopeConfirmed", "individualTaxSchedule", "annualTaxableIncomeMinor"]],
+    ["TL", "2026", ["scopeConfirmed", "incomeSchedule", "individualTaxSchedule", "taxableIncomeMinor"]],
   ];
   for (const [code, year, required] of schemaCases) {
     const schema = await api.handle({ method: "GET", path: `/v1/pit/jurisdictions/${code}/${year}/input-schema` });
@@ -189,12 +214,13 @@ test("simple-progressive packages reject unsupported years and identity fields",
     method: "POST",
     path: "/v1/pit/calculate",
     body: {
-      jurisdiction: "RW",
+      jurisdiction: "TL",
       taxYear: "2026",
       facts: {
         scopeConfirmed: true,
-        incomePeriod: "monthly",
-        taxableEmploymentIncomeMinor: 100_000,
+        incomeSchedule: "monthly-wage",
+        individualTaxSchedule: "resident",
+        taxableIncomeMinor: 100_000,
         name: "Private Person",
       },
     },
