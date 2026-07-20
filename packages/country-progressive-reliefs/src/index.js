@@ -8,6 +8,7 @@ import { czechRepublicPackage } from "./czech-republic.js";
 import { indonesiaPackage } from "./indonesia.js";
 import { ghanaPackage } from "./ghana.js";
 import { mauritiusPackage } from "./mauritius.js";
+import { sriLankaPackage } from "./sri-lanka.js";
 
 export const progressiveReliefPackages = Object.freeze([
   ...acceptedPackages,
@@ -17,6 +18,7 @@ export const progressiveReliefPackages = Object.freeze([
   indonesiaPackage,
   ghanaPackage,
   mauritiusPackage,
+  sriLankaPackage,
 ]);
 
 export const progressiveReliefPackagesByJurisdiction = Object.freeze({
@@ -27,6 +29,7 @@ export const progressiveReliefPackagesByJurisdiction = Object.freeze({
   ID: indonesiaPackage,
   GH: ghanaPackage,
   MU: mauritiusPackage,
+  LK: sriLankaPackage,
 });
 
 export {
@@ -36,4 +39,5 @@ export {
   indonesiaPackage,
   ghanaPackage,
   mauritiusPackage,
+  sriLankaPackage,
 };

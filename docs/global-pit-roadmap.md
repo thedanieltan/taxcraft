@@ -9,7 +9,7 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 | Work package | Deliverable | State |
 | --- | --- | --- |
 | WP-PIT-01 | Canonical global jurisdiction register | Integrated |
-| WP-PIT-02 | Global PIT rule map | 53 implemented; 111 source-indexed; 85 active discovery entries; all 249 structurally routed |
+| WP-PIT-02 | Global PIT rule map | 54 implemented; 110 source-indexed; 85 active discovery entries; all 249 structurally routed |
 | WP-PIT-03 | Shared calculation primitives | Integrated |
 | WP-PIT-04 | Country-package contract | Integrated |
 | WP-PIT-05 | Singapore and UK reconciliation | Integrated |
@@ -18,7 +18,7 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 | WP-PIT-08 | No-PIT packages | Waves 1–3 integrated; source-indexed family complete |
 | WP-PIT-09 | Flat-rate packages | Waves 1–2 integrated |
 | WP-PIT-10 | Simple-progressive packages | Waves 1–11 integrated |
-| WP-PIT-11 | Progressive systems with deductions and credits | Waves 1–7 integrated |
+| WP-PIT-11 | Progressive systems with deductions and credits | Waves 1–8 integrated |
 | WP-PIT-12 | Household and filing-status systems | Waves 1–2 integrated |
 | WP-PIT-13 | Regional and municipal systems | Planned |
 | WP-PIT-14 | Multi-schedule systems | Planned |
@@ -30,8 +30,8 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 
 The runtime catalogue contains all 249 ISO 3166-1 countries and territories:
 
-- 53 implemented calculators;
-- 111 source-indexed jurisdictions awaiting implementation;
+- 54 implemented calculators;
+- 110 source-indexed jurisdictions awaiting implementation;
 - 85 jurisdictions awaiting accepted source evidence;
 - a validated structural delivery route for every jurisdiction, including all 86 entries in the base discovery inventory.
 
@@ -47,11 +47,11 @@ Existing packages cover:
 - no-PIT scopes for the United Arab Emirates, Bahrain, Bermuda, Brunei Darussalam, Cayman Islands, Monaco, Oman, Qatar, Saudi Arabia, the British Virgin Islands, the Bahamas and Kuwait;
 - flat-rate scopes for Bulgaria, Estonia, Hungary, Romania, Armenia, Georgia, Moldova, North Macedonia, Ukraine and Uzbekistan;
 - simple-progressive scopes for New Zealand, Paraguay, Cyprus, Panama, Honduras, the Dominican Republic, Barbados, Seychelles, Trinidad and Tobago, Uganda, Guatemala, Rwanda, Australia, the Philippines, Thailand, Fiji, Botswana, Timor-Leste and Cambodia;
-- progressive-reliefs scopes for Kenya, South Africa, Malaysia, the Czech Republic, Indonesia, Ghana and Mauritius;
+- progressive-reliefs scopes for Kenya, South Africa, Malaysia, the Czech Republic, Indonesia, Ghana, Mauritius and Sri Lanka;
 - complex-composite salaries-tax scope for Hong Kong;
 - household and filing-status scopes for Ireland and Poland.
 
-Country packages expose only rules supported by official sources and caller-confirmed tax facts. Unsupported relief eligibility, social contributions, filing decisions, residence determinations and income classifications remain explicit. Ghana additionally rejects resident income in the unresolved official overlap between its 30% band and 35% threshold. Mauritius calculates from caller-confirmed chargeable, Fair Share threshold and leviable income rather than inferring statutory deductions or dividend classifications.
+Country packages expose only rules supported by official sources and caller-confirmed tax facts. Unsupported relief eligibility, social contributions, filing decisions, residence determinations and income classifications remain explicit. Ghana additionally rejects resident income in the unresolved official overlap between its 30% band and 35% threshold. Mauritius calculates from caller-confirmed chargeable, Fair Share threshold and leviable income rather than inferring statutory deductions or dividend classifications. Sri Lanka calculates standard taxable income while keeping relief derivation, capital gains, terminal benefits, special-rate business income and APIT withholding outside scope.
 
 ## Delivery model
 
@@ -107,6 +107,7 @@ The remaining discovery inventory is governed by `catalog/pit-discovery-plan.jso
 - `docs/progressive-reliefs-packages-wave-5.md`
 - `docs/progressive-reliefs-packages-wave-6.md`
 - `docs/progressive-reliefs-packages-wave-7.md`
+- `docs/progressive-reliefs-packages-wave-8.md`
 - `docs/complex-composite-packages.md`
 - `docs/household-filing-packages.md`
 - `docs/household-filing-packages-wave-2.md`
