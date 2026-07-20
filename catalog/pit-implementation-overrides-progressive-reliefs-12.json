@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-21",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_12",
+    "type": "repository-package",
+    "authority": "Guyana Revenue Authority",
+    "location": "packages/country-progressive-reliefs/src/guyana.js",
+    "scope": "Official-source-backed Guyana calendar-year 2026 individual income tax on caller-confirmed annual chargeable income.",
+    "observedAt": "2026-07-21"
+  },
+  "implementations": {
+    "GY": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_12", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "25% on the first GYD 3,360,000 of annual chargeable income and 35% on the excess. Personal deductions, NIS, child, insurance, second-job and overtime deductions remain caller-derived and outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["GYD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Calendar-year 2026 ordinary individual income tax on caller-confirmed annual chargeable income."
+      }
+    }
+  }
+}
