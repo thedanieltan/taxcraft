@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-21",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_HOUSEHOLD_FILING_4",
+    "type": "repository-package",
+    "authority": "Portuguese Tax and Customs Authority",
+    "location": "packages/country-household-filing/src/portugal.js",
+    "scope": "Official-source-backed Portugal calendar-year 2026 separate and joint IRS with additional solidarity rate.",
+    "observedAt": "2026-07-21"
+  },
+  "implementations": {
+    "PT": {
+      "calculationFamily": "HOUSEHOLD_FILING",
+      "sourceIds": ["TAXCRAFT_COUNTRY_HOUSEHOLD_FILING_4", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Separate and joint annual IRS under the 2026 nine-band general scale and article 68-A solidarity rate on caller-confirmed taxable income. Deductions, minimum-existence protections and special schedules remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "HOUSEHOLD_FILING",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["EUR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-household-filing",
+        "coverageSummary": "Calendar-year 2026 separate and joint general IRS plus additional solidarity rate."
+      }
+    }
+  }
+}
