@@ -70,7 +70,7 @@ test("Kazakhstan exposes the general schedule through the global API", async () 
 });
 
 test("Kazakhstan keeps deductions and special category schedules outside scope", () => {
-  const unsupported = kazakhstanPackage.models["2026"].coverage().unsupported;
+  const unsupported = kazakhstanPackage.models["2026"].coverage.unsupported;
   assert.ok(unsupported.some((entry) => entry.includes("tax-deduction derivation")));
   assert.ok(unsupported.some((entry) => entry.includes("private-practice")));
   assert.ok(unsupported.some((entry) => entry.includes("dividend")));
