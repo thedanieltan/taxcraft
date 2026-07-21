@@ -104,7 +104,7 @@ export const turkeyPackage = definePitCountryPackage({
             type: "string",
             title: "Income schedule",
             enum: ["general", "wage"],
-            "x-taxcraft-kind": "schedule-selection",
+            "x-taxcraft-kind": "enum",
           },
           taxableIncomeMinor: {
             type: "integer",
@@ -152,7 +152,6 @@ function model() {
         currency: DEFINITION.currency,
         totals: {
           taxableIncomeMinor: facts.taxableIncomeMinor,
-          incomeSchedule: facts.incomeSchedule,
           firstThresholdMinor: 19_000_000,
           secondThresholdMinor: 40_000_000,
           thirdThresholdMinor: facts.incomeSchedule === "wage" ? 150_000_000 : 100_000_000,
