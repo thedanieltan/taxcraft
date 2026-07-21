@@ -101,7 +101,7 @@ test("Malta rejects unsupported years and identity-bearing fields", async () => 
         scopeConfirmed: true,
         filingSchedule: "parent-one-child",
         chargeableIncomeMinor: 2_100_000,
-        childName: "Private Child",
+        name: "Private Person",
       },
     },
   });
