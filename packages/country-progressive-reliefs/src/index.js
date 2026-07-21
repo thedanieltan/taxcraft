@@ -14,6 +14,7 @@ import { jamaicaPackage } from "./jamaica.js";
 import { lesothoPackage } from "./lesotho.js";
 import { guyanaPackage } from "./guyana.js";
 import { liberiaPackage } from "./liberia.js";
+import { saintLuciaPackage } from "./saint-lucia.js";
 
 export const progressiveReliefPackages = Object.freeze([
   ...acceptedPackages,
@@ -29,6 +30,7 @@ export const progressiveReliefPackages = Object.freeze([
   lesothoPackage,
   guyanaPackage,
   liberiaPackage,
+  saintLuciaPackage,
 ]);
 
 export const progressiveReliefPackagesByJurisdiction = Object.freeze({
@@ -45,6 +47,7 @@ export const progressiveReliefPackagesByJurisdiction = Object.freeze({
   LS: lesothoPackage,
   GY: guyanaPackage,
   LR: liberiaPackage,
+  LC: saintLuciaPackage,
 });
 
 export {
@@ -60,4 +63,5 @@ export {
   lesothoPackage,
   guyanaPackage,
   liberiaPackage,
+  saintLuciaPackage,
 };
