@@ -1,0 +1,43 @@
+name: Fix Slovenia file endings
+
+on:
+  push:
+    branches:
+      - agent/wp-pit-11-progressive-reliefs-wave-19
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    if: github.event.head_commit.message != 'chore: normalize Slovenia file endings'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          ref: agent/wp-pit-11-progressive-reliefs-wave-19
+      - name: Normalize final newlines
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          paths = [
+              Path('apps/api/test/api.test.js'),
+              Path('test/pit-catalog-api.test.js'),
+              Path('test/progressive-relief-packages.test.js'),
+              Path('docs/global-pit-roadmap.md'),
+          ]
+          for path in paths:
+              data = path.read_bytes()
+              if not data.endswith(b'\n'):
+                  path.write_bytes(data + b'\n')
+          PY
+      - name: Commit normalization
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add apps/api/test/api.test.js test/pit-catalog-api.test.js test/progressive-relief-packages.test.js docs/global-pit-roadmap.md
+          if ! git diff --cached --quiet; then
+            git commit -m 'chore: normalize Slovenia file endings'
+            git push
+          fi
