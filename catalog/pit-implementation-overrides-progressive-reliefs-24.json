@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-21",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_24",
+    "type": "repository-package",
+    "authority": "Hellenic Ministry of National Economy and Finance",
+    "location": "packages/country-progressive-reliefs/src/greece.js",
+    "scope": "Official-source-backed Greece tax-year 2026 profile-aware annual individual income-tax schedules.",
+    "observedAt": "2026-07-21"
+  },
+  "implementations": {
+    "GR": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_24", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "tax-year",
+      "notes": "Profile-aware employment, pension and business-profit tariffs using caller-confirmed age band, eligible dependent-child count and taxable income. Article 16 employment and pension credits are applied with the statutory taper; presumptive business income and other schedules remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "tax-year",
+        "currencyCodes": ["EUR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Tax-year 2026 profile-aware employment, pension and business-profit annual income tax."
+      }
+    }
+  }
+}
