@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-21",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_19",
+    "type": "repository-package",
+    "authority": "Official Gazette of the Republic of Slovenia",
+    "location": "packages/country-progressive-reliefs/src/slovenia.js",
+    "scope": "Official-gazette-backed Slovenia calendar-year 2026 annual income-tax scale on caller-confirmed net annual tax base.",
+    "observedAt": "2026-07-21"
+  },
+  "implementations": {
+    "SI": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_19", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Annual income tax under the official 16%, 26%, 33%, 39% and 50% scale on caller-confirmed net annual tax base. Allowances, social contributions and advance-payment reconciliation remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["EUR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Calendar-year 2026 annual income tax on caller-confirmed net annual tax base."
+      }
+    }
+  }
+}
