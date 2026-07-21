@@ -17,6 +17,7 @@ import { liberiaPackage } from "./liberia.js";
 import { saintLuciaPackage } from "./saint-lucia.js";
 import { namibiaPackage } from "./namibia.js";
 import { southKoreaPackage } from "./south-korea.js";
+import { kazakhstanPackage } from "./kazakhstan.js";
 
 export const progressiveReliefPackages = Object.freeze([
   ...acceptedPackages,
@@ -35,6 +36,7 @@ export const progressiveReliefPackages = Object.freeze([
   saintLuciaPackage,
   namibiaPackage,
   southKoreaPackage,
+  kazakhstanPackage,
 ]);
 
 export const progressiveReliefPackagesByJurisdiction = Object.freeze({
@@ -54,6 +56,7 @@ export const progressiveReliefPackagesByJurisdiction = Object.freeze({
   LC: saintLuciaPackage,
   NA: namibiaPackage,
   KR: southKoreaPackage,
+  KZ: kazakhstanPackage,
 });
 
 export {
@@ -72,4 +75,5 @@ export {
   saintLuciaPackage,
   namibiaPackage,
   southKoreaPackage,
+  kazakhstanPackage,
 };
