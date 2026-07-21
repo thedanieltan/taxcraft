@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-21",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_25",
+    "type": "repository-package",
+    "authority": "Jordan Income and Sales Tax Department",
+    "location": "packages/country-progressive-reliefs/src/jordan.js",
+    "scope": "Official-source-backed Jordan calendar-year 2026 ordinary natural-person income tax and national contribution.",
+    "observedAt": "2026-07-21"
+  },
+  "implementations": {
+    "JO": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_25", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Six-band natural-person income tax plus the separate 1% national contribution above JOD 200,000 on caller-confirmed taxable income. Exemption and deduction derivation remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["JOD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Calendar-year 2026 ordinary natural-person income tax and national contribution on caller-confirmed taxable income."
+      }
+    }
+  }
+}
