@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-21",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_14",
+    "type": "repository-package",
+    "authority": "Inland Revenue Department, Saint Lucia",
+    "location": "packages/country-progressive-reliefs/src/saint-lucia.js",
+    "scope": "Official-source-backed Saint Lucia income-year 2026 individual income-tax schedule on caller-confirmed annual chargeable income through XCD 30,000.",
+    "observedAt": "2026-07-21"
+  },
+  "implementations": {
+    "LC": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_14", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "income-year",
+      "notes": "Annual chargeable income through XCD 30,000 under the 10%, 15% and 20% bands. Higher chargeable income fails closed because the IRD page's published fixed amount for the 30% band does not reconcile with the preceding bands.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "income-year",
+        "currencyCodes": ["XCD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Income-year 2026 individual income tax on caller-confirmed annual chargeable income through XCD 30,000."
+      }
+    }
+  }
+}
