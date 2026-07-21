@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-21",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_23",
+    "type": "repository-package",
+    "authority": "Colombia Tax Statute and DIAN",
+    "location": "packages/country-progressive-reliefs/src/colombia.js",
+    "scope": "Official-source-backed Colombia calendar-year 2026 resident article 241 income-tax table.",
+    "observedAt": "2026-07-21"
+  },
+  "implementations": {
+    "CO": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_23", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Resident article 241 schedule on caller-confirmed taxable base in 1/10,000 UVT using the 2026 COP 52,374 UVT. Base derivation, special schedules and filing-form rounding remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["COP"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Calendar-year 2026 resident article 241 income tax on caller-confirmed taxable base in UVT."
+      }
+    }
+  }
+}
