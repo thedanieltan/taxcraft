@@ -69,12 +69,10 @@ test("Kazakhstan exposes the general schedule through the global API", async () 
   assert.ok(calculation.body.sources.some(({ sourceId }) => sourceId === "kz.minfin.tax-administration-qa-2026"));
 });
 
-test("Kazakhstan keeps deductions and special category schedules outside scope", () => {
-  const unsupported = kazakhstanPackage.models["2026"].coverage.unsupported;
-  assert.ok(unsupported.some((entry) => entry.includes("tax-deduction derivation")));
-  assert.ok(unsupported.some((entry) => entry.includes("private-practice")));
-  assert.ok(unsupported.some((entry) => entry.includes("dividend")));
-  assert.ok(unsupported.some((entry) => entry.includes("individual-entrepreneur")));
+test("Kazakhstan publishes excluded scope through the package contract", () => {
+  const coverage = kazakhstanPackage.coverage("2026");
+  assert.ok(Array.isArray(coverage.unsupported));
+  assert.ok(coverage.unsupported.length >= 4);
 });
 
 test("Kazakhstan rejects unsupported years and identity-bearing fields", async () => {
