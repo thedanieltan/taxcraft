@@ -27,7 +27,7 @@ test("Kazakhstan exposes only calendar year 2026 without storing PII", () => {
 test("Kazakhstan applies the general 10% and 15% schedule at the exact 2026 MRP threshold", async () => {
   const cases = [
     [0, 0],
-    [1, 0],
+    [10, 1],
     [36_762_500, 3_676_250],
     [40_000_000, 4_161_875],
     [100_000_000, 13_161_875],
