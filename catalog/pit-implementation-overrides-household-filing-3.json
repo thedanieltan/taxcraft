@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-21",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_HOUSEHOLD_FILING_3",
+    "type": "repository-package",
+    "authority": "Malta Tax and Customs Administration",
+    "location": "packages/country-household-filing/src/malta.js",
+    "scope": "Official-source-backed Malta calendar-year 2026 individual income-tax schedules on caller-confirmed annual chargeable income.",
+    "observedAt": "2026-07-21"
+  },
+  "implementations": {
+    "MT": {
+      "calculationFamily": "HOUSEHOLD_FILING",
+      "sourceIds": ["TAXCRAFT_COUNTRY_HOUSEHOLD_FILING_3", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Seven 2026 single, married and parent schedules, including child-adjusted variants, on caller-confirmed annual chargeable income. Eligibility and special regimes remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "HOUSEHOLD_FILING",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["EUR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-household-filing",
+        "coverageSummary": "Calendar-year 2026 ordinary individual income tax under seven caller-selected filing schedules."
+      }
+    }
+  }
+}
