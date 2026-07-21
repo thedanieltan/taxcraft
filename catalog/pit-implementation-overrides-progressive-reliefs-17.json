@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-21",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_17",
+    "type": "repository-package",
+    "authority": "Ministry of Finance of the Republic of Kazakhstan",
+    "location": "packages/country-progressive-reliefs/src/kazakhstan.js",
+    "scope": "Official-source-backed Kazakhstan calendar-year 2026 general individual income-tax schedule on caller-confirmed annual taxable income.",
+    "observedAt": "2026-07-21"
+  },
+  "implementations": {
+    "KZ": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_17", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "General Article 363 schedule at 10% through 8,500 MRP and 15% on the excess, using the KZT 4,325 MRP effective on 1 January 2026. Deduction derivation and special-category schedules remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["KZT"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Calendar-year 2026 general individual income tax on caller-confirmed annual taxable income."
+      }
+    }
+  }
+}
