@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-21",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_13",
+    "type": "repository-package",
+    "authority": "Liberia Revenue Authority",
+    "location": "packages/country-progressive-reliefs/src/liberia.js",
+    "scope": "Official-source-backed Liberia calendar-year 2026 employee personal income-tax schedule on caller-confirmed annual gross taxable income.",
+    "observedAt": "2026-07-21"
+  },
+  "implementations": {
+    "LR": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_13", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Employee annual gross taxable income under the 0%, 5%, 15% and 25% schedule. Contractor withholding, non-cash-benefit valuation and employer periodic withholding remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["LRD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Calendar-year 2026 employee personal income tax on caller-confirmed annual gross taxable income."
+      }
+    }
+  }
+}
