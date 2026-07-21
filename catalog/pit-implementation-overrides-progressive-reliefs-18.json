@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-21",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_18",
+    "type": "repository-package",
+    "authority": "Ministry of Finance of Tunisia",
+    "location": "packages/country-progressive-reliefs/src/tunisia.js",
+    "scope": "Official-source-backed Tunisia calendar-year 2026 ordinary individual income-tax scale on caller-confirmed annual net taxable income.",
+    "observedAt": "2026-07-21"
+  },
+  "implementations": {
+    "TN": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_18", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Ordinary IRPP under the current 0%, 26%, 28%, 32% and 35% scale on caller-confirmed annual net taxable income. The solidarity contribution, minimum tax and deduction derivation remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["TND"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Calendar-year 2026 ordinary IRPP on caller-confirmed annual net taxable income."
+      }
+    }
+  }
+}

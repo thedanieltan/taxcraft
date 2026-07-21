@@ -9,16 +9,16 @@ import { OPENAPI_DOCUMENT, createApi } from "@taxcraft/api";
 
 const api = createApi();
 const IMPLEMENTED_CODES = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "GY", "LR", "LC", "NA", "KR", "KZ", "HK", "IE", "PL", "MT",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "GY", "LR", "LC", "NA", "KR", "KZ", "TN", "HK", "IE", "PL", "MT",
 ];
-const VERIFIED_CODES = ["SG", "AE", "SA", "VG", "BS", "KW", "EE", "NZ", "CY", "AM", "UA", "UZ", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "GY", "LR", "LC", "NA", "KR", "KZ", "HK", "IE", "PL", "MT"];
+const VERIFIED_CODES = ["SG", "AE", "SA", "VG", "BS", "KW", "EE", "NZ", "CY", "AM", "UA", "UZ", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "GY", "LR", "LC", "NA", "KR", "KZ", "TN", "HK", "IE", "PL", "MT"];
 
 test("runtime catalogue exposes all registered PIT jurisdictions", () => {
   const jurisdictions = listPitJurisdictions();
   const status = getPitCatalogueStatus();
   assert.equal(jurisdictions.length, 249);
-  assert.equal(status.counts.implemented, 64);
-  assert.equal(status.counts["source-indexed"], 100);
+  assert.equal(status.counts.implemented, 65);
+  assert.equal(status.counts["source-indexed"], 99);
   assert.equal(status.counts["source-discovery"], 85);
   for (const code of VERIFIED_CODES) assert.equal(getPitJurisdiction(code).verificationStatus, "verified");
   assert.equal(getPitJurisdiction("AD").verificationStatus, "unmapped");
@@ -89,6 +89,7 @@ test("implemented model input schemas are public and unimplemented models fail e
     ["NA", "2027", ["scopeConfirmed", "taxableIncomeMinor"]],
     ["KR", "2026", ["scopeConfirmed", "standardLocalRateConfirmed", "globalIncomeTaxBaseMinor"]],
     ["KZ", "2026", ["scopeConfirmed", "taxableIncomeMinor"]],
+    ["TN", "2026", ["scopeConfirmed", "netTaxableIncomeMinor"]],
     ["HK", "2025-26", ["scopeConfirmed", "netIncomeMinor", "netChargeableIncomeMinor"]],
     ["IE", "2026", ["scopeConfirmed", "filingSchedule", "primaryTaxableIncomeMinor", "secondaryTaxableIncomeMinor", "lowerEarnerBandIncomeMinor", "primaryPayeIncomeMinor", "secondaryPayeIncomeMinor", "primaryUscIncomeMinor", "secondaryUscIncomeMinor"]],
     ["PL", "2026", ["scopeConfirmed", "filingSchedule", "primaryTaxableIncomeMinor", "secondaryTaxableIncomeMinor"]],
