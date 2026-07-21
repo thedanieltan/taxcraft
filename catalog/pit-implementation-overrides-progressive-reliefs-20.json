@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-21",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_20",
+    "type": "repository-package",
+    "authority": "Financial Administration of the Slovak Republic",
+    "location": "packages/country-progressive-reliefs/src/slovakia.js",
+    "scope": "Official-source-backed Slovakia calendar-year 2026 annual section 4(1)(a) individual income-tax scale.",
+    "observedAt": "2026-07-21"
+  },
+  "implementations": {
+    "SK": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_20", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Annual income tax under the 19%, 25%, 30% and 35% section 4(1)(a) scale on caller-confirmed tax base. Allowances, business-income schedules, contributions and payroll reconciliation remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["EUR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Calendar-year 2026 section 4(1)(a) income tax on caller-confirmed annual tax base."
+      }
+    }
+  }
+}
