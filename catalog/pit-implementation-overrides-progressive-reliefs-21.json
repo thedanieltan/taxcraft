@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-21",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_21",
+    "type": "repository-package",
+    "authority": "Federal Legal Information System of Austria",
+    "location": "packages/country-progressive-reliefs/src/austria.js",
+    "scope": "Official-source-backed Austria calendar-year 2026 ordinary annual income-tax tariff.",
+    "observedAt": "2026-07-21"
+  },
+  "implementations": {
+    "AT": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_21", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Annual tariff tax under the official 0%, 20%, 30%, 40%, 48%, 50% and temporary 55% schedule on caller-confirmed taxable income. Credits, special-rate income and withholding remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["EUR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Calendar-year 2026 ordinary annual tariff tax on caller-confirmed taxable income."
+      }
+    }
+  }
+}
