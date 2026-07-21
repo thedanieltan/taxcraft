@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-21",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_22",
+    "type": "repository-package",
+    "authority": "Revenue Administration of Türkiye and SUNAT Peru",
+    "location": "packages/country-progressive-reliefs/src",
+    "scope": "Official-source-backed calendar-year 2026 annual income-tax schedules for Türkiye and Peru.",
+    "observedAt": "2026-07-21"
+  },
+  "implementations": {
+    "TR": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_22", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "General and wage annual tariff schedules at 15%, 20%, 27%, 35% and 40% on caller-confirmed taxable income. Exemptions, deductions, withholding and category-specific income remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["TRY"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Calendar-year 2026 general and wage annual tariffs on caller-confirmed taxable income."
+      }
+    },
+    "PE": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_22", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Annual work and qualifying foreign-income scale at 8%, 14%, 17%, 20% and 30% using the 2026 PEN 5,500 UIT on caller-confirmed net taxable income.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["PEN"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Calendar-year 2026 annual work-income tax on caller-confirmed net taxable work and qualifying foreign income."
+      }
+    }
+  }
+}
