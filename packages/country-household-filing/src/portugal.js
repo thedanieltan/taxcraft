@@ -1,8 +1,8 @@
 import {
   ROUNDING_MODE,
   applyBasisPoints,
-  calculateProgressiveBands,
   definePitCountryPackage,
+  roundRatio,
 } from "@taxcraft/country-sdk";
 
 const TAX_YEAR = "2026";
@@ -139,11 +139,7 @@ function model() {
         upperBoundMinor: upperBoundMinor === null ? null : upperBoundMinor * multiplier,
         rateBasisPoints,
       }));
-      const general = calculateProgressiveBands({
-        taxableMinor: facts.taxableIncomeMinor,
-        bands,
-        rounding: ROUNDING_MODE.HALF_UP,
-      });
+      const general = calculateCumulativeBands(facts.taxableIncomeMinor, bands);
       const firstSolidarityThresholdMinor = 8_000_000 * multiplier;
       const secondSolidarityThresholdMinor = 25_000_000 * multiplier;
       const firstSolidarityBaseMinor = Math.max(
@@ -213,6 +209,39 @@ function model() {
       };
     },
   };
+}
+
+function calculateCumulativeBands(taxableMinor, bands) {
+  let previousUpper = 0;
+  let cumulativeNumerator = 0n;
+  let previousRoundedTax = 0;
+  const appliedBands = [];
+
+  for (let index = 0; index < bands.length; index += 1) {
+    const band = bands[index];
+    const upper = band.upperBoundMinor === null
+      ? taxableMinor
+      : Math.min(taxableMinor, band.upperBoundMinor);
+    const portionMinor = Math.max(0, upper - previousUpper);
+    if (portionMinor > 0) {
+      cumulativeNumerator += BigInt(portionMinor) * BigInt(band.rateBasisPoints);
+      const roundedCumulativeTax = roundRatio(
+        cumulativeNumerator,
+        10_000,
+        ROUNDING_MODE.HALF_UP,
+      );
+      appliedBands.push({
+        index,
+        rateBasisPoints: band.rateBasisPoints,
+        taxMinor: roundedCumulativeTax - previousRoundedTax,
+      });
+      previousRoundedTax = roundedCumulativeTax;
+    }
+    if (band.upperBoundMinor === null || taxableMinor <= band.upperBoundMinor) break;
+    previousUpper = band.upperBoundMinor;
+  }
+
+  return { taxMinor: previousRoundedTax, bands: appliedBands };
 }
 
 function coverage() {
