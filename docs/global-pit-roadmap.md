@@ -9,7 +9,7 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 | Work package | Deliverable | State |
 | --- | --- | --- |
 | WP-PIT-01 | Canonical global jurisdiction register | Integrated |
-| WP-PIT-02 | Global PIT rule map | 62 implemented; 102 source-indexed; 85 active discovery entries; all 249 structurally routed |
+| WP-PIT-02 | Global PIT rule map | 63 implemented; 101 source-indexed; 85 active discovery entries; all 249 structurally routed |
 | WP-PIT-03 | Shared calculation primitives | Integrated |
 | WP-PIT-04 | Country-package contract | Integrated |
 | WP-PIT-05 | Singapore and UK reconciliation | Integrated |
@@ -18,7 +18,7 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 | WP-PIT-08 | No-PIT packages | Waves 1–3 integrated; source-indexed family complete |
 | WP-PIT-09 | Flat-rate packages | Waves 1–2 integrated |
 | WP-PIT-10 | Simple-progressive packages | Waves 1–11 integrated |
-| WP-PIT-11 | Progressive systems with deductions and credits | Waves 1–15 integrated |
+| WP-PIT-11 | Progressive systems with deductions and credits | Waves 1–16 integrated |
 | WP-PIT-12 | Household and filing-status systems | Waves 1–3 integrated |
 | WP-PIT-13 | Regional and municipal systems | Planned |
 | WP-PIT-14 | Multi-schedule systems | Planned |
@@ -30,8 +30,8 @@ TaxCraft is building a deterministic, stateless and non-advisory personal income
 
 The runtime catalogue contains all 249 ISO 3166-1 countries and territories:
 
-- 62 implemented calculators;
-- 102 source-indexed jurisdictions awaiting implementation;
+- 63 implemented calculators;
+- 101 source-indexed jurisdictions awaiting implementation;
 - 85 jurisdictions awaiting accepted source evidence;
 - a validated structural delivery route for every jurisdiction, including all 86 entries in the base discovery inventory.
 
@@ -47,11 +47,11 @@ Existing packages cover:
 - no-PIT scopes for the United Arab Emirates, Bahrain, Bermuda, Brunei Darussalam, Cayman Islands, Monaco, Oman, Qatar, Saudi Arabia, the British Virgin Islands, the Bahamas and Kuwait;
 - flat-rate scopes for Bulgaria, Estonia, Hungary, Romania, Armenia, Georgia, Moldova, North Macedonia, Ukraine and Uzbekistan;
 - simple-progressive scopes for New Zealand, Paraguay, Cyprus, Panama, Honduras, the Dominican Republic, Barbados, Seychelles, Trinidad and Tobago, Uganda, Guatemala, Rwanda, Australia, the Philippines, Thailand, Fiji, Botswana, Timor-Leste and Cambodia;
-- progressive-reliefs scopes for Kenya, South Africa, Malaysia, the Czech Republic, Indonesia, Ghana, Mauritius, Sri Lanka, Eswatini, Jamaica, Lesotho, Guyana, Liberia, Saint Lucia and Namibia;
+- progressive-reliefs scopes for Kenya, South Africa, Malaysia, the Czech Republic, Indonesia, Ghana, Mauritius, Sri Lanka, Eswatini, Jamaica, Lesotho, Guyana, Liberia, Saint Lucia, Namibia and South Korea;
 - complex-composite salaries-tax scope for Hong Kong;
 - household and filing-status scopes for Ireland, Poland and Malta.
 
-Country packages expose only rules supported by official sources and caller-confirmed tax facts. Unsupported relief eligibility, social contributions, filing decisions, residence determinations and income classifications remain explicit. Ghana additionally rejects resident income in the unresolved official overlap between its 30% band and 35% threshold. Mauritius calculates from caller-confirmed chargeable, Fair Share threshold and leviable income rather than inferring statutory deductions or dividend classifications. Sri Lanka calculates standard taxable income while keeping relief derivation, capital gains, terminal benefits, special-rate business income and APIT withholding outside scope. Eswatini implements only the current normal individual schedule and excludes redundant or retiring-person concessionary rates and PAYE-period calculations. Jamaica implements only calendar year 2026, preserves the expressly published combined pensioner-and-golden-age threshold, and excludes payroll contributions, credits and PAYE-period calculations. Lesotho implements only income year 2026-27, separates resident and non-resident schedules, and keeps chargeable-income derivation and periodic PAYE mechanics outside scope. Guyana implements only calendar year 2026 on caller-confirmed annual chargeable income and excludes personal, National Insurance, child, insurance, second-job and overtime deduction derivation. Liberia implements only employee personal income tax for calendar year 2026 and excludes contractor withholding, non-cash-benefit valuation and employer periodic withholding mechanics. Saint Lucia calculates only the unambiguous 10%, 15% and 20% bands through XCD 30,000 and rejects the conflicting published upper-band scope. Namibia calculates individual normal tax for assessment years 2025 through 2027 from caller-confirmed annual taxable income under the enacted Schedule 4 bands and excludes taxable-income derivation and employee-tax administration. Malta calculates ordinary 2026 tax under seven caller-selected single, married and parent schedules while keeping eligibility, special regimes and social-security contributions outside scope.
+Country packages expose only rules supported by official sources and caller-confirmed tax facts. Unsupported relief eligibility, social contributions, filing decisions, residence determinations and income classifications remain explicit. Ghana additionally rejects resident income in the unresolved official overlap between its 30% band and 35% threshold. Mauritius calculates from caller-confirmed chargeable, Fair Share threshold and leviable income rather than inferring statutory deductions or dividend classifications. Sri Lanka calculates standard taxable income while keeping relief derivation, capital gains, terminal benefits, special-rate business income and APIT withholding outside scope. Eswatini implements only the current normal individual schedule and excludes redundant or retiring-person concessionary rates and PAYE-period calculations. Jamaica implements only calendar year 2026, preserves the expressly published combined pensioner-and-golden-age threshold, and excludes payroll contributions, credits and PAYE-period calculations. Lesotho implements only income year 2026-27, separates resident and non-resident schedules, and keeps chargeable-income derivation and periodic PAYE mechanics outside scope. Guyana implements only calendar year 2026 on caller-confirmed annual chargeable income and excludes personal, National Insurance, child, insurance, second-job and overtime deduction derivation. Liberia implements only employee personal income tax for calendar year 2026 and excludes contractor withholding, non-cash-benefit valuation and employer periodic withholding mechanics. Saint Lucia calculates only the unambiguous 10%, 15% and 20% bands through XCD 30,000 and rejects the conflicting published upper-band scope. Namibia calculates individual normal tax for assessment years 2025 through 2027 from caller-confirmed annual taxable income under the enacted Schedule 4 bands and excludes taxable-income derivation and employee-tax administration. South Korea calculates 2026 national and standard personal local income tax separately on caller-confirmed resident global-income tax base while excluding local ordinance variations, deductions and credits. Malta calculates ordinary 2026 tax under seven caller-selected single, married and parent schedules while keeping eligibility, special regimes and social-security contributions outside scope.
 
 ## Delivery model
 
@@ -115,6 +115,7 @@ The remaining discovery inventory is governed by `catalog/pit-discovery-plan.jso
 - `docs/progressive-reliefs-packages-wave-13.md`
 - `docs/progressive-reliefs-packages-wave-14.md`
 - `docs/progressive-reliefs-packages-wave-15.md`
+- `docs/progressive-reliefs-packages-wave-16.md`
 - `docs/complex-composite-packages.md`
 - `docs/household-filing-packages.md`
 - `docs/household-filing-packages-wave-2.md`
