@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-21",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_15",
+    "type": "repository-package",
+    "authority": "Government Gazette of the Republic of Namibia",
+    "location": "packages/country-progressive-reliefs/src/namibia.js",
+    "scope": "Official-gazette-backed Namibia individual normal-tax schedule for years of assessment 2025 through 2027 on caller-confirmed annual taxable income.",
+    "observedAt": "2026-07-21"
+  },
+  "implementations": {
+    "NA": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_15", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "tax-year",
+      "notes": "Annual individual normal tax under the enacted 0%, 18%, 25%, 28%, 30%, 32% and 37% Schedule 4 bands. Taxable-income derivation and employee-tax administration remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "tax-year",
+        "currencyCodes": ["NAD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2025", "2026", "2027"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Namibian years of assessment 2025 through 2027 individual normal tax on caller-confirmed annual taxable income."
+      }
+    }
+  }
+}
