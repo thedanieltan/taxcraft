@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-22",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_26",
+    "type": "repository-package",
+    "authority": "Revenue Jersey",
+    "location": "packages/country-progressive-reliefs/src/jersey.js",
+    "scope": "Official-source-backed Jersey year-of-assessment 2026 standard and marginal-relief individual income tax.",
+    "observedAt": "2026-07-22"
+  },
+  "implementations": {
+    "JE": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_26", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Lower of the 20% standard calculation and 26% marginal-relief calculation using caller-confirmed post-deduction liable income and total exemption threshold. Relief eligibility and deductions remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["GBP"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Year-of-assessment 2026 independent individual income tax using the lower standard or marginal-relief calculation."
+      }
+    }
+  }
+}
