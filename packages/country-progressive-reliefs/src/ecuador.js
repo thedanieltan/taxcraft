@@ -147,7 +147,7 @@ function model() {
           taxableBaseMinor: facts.taxableBaseMinor,
           bracketIndex,
           bracketLowerMinor: bracket.lowerMinor,
-          bracketUpperMinor: bracket.upperMinor,
+          ...(bracket.upperMinor === null ? {} : { bracketUpperMinor: bracket.upperMinor }),
           basicFractionTaxMinor: bracket.baseTaxMinor,
           excessTaxMinor,
           incomeTaxMinor,
