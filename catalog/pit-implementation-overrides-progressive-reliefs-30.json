@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-23",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_30",
+    "type": "repository-package",
+    "authority": "Ministry of Economy and Finance of Morocco",
+    "location": "packages/country-progressive-reliefs/src/morocco.js",
+    "scope": "Official-source-backed Morocco 2026 general annual income-tax scale on caller-confirmed net taxable income.",
+    "observedAt": "2026-07-23"
+  },
+  "implementations": {
+    "MA": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_30", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "General annual scale with a MAD 40,000 exempt threshold and 10%, 20%, 30%, 34% and 37% marginal bands. Net-income derivation, family reductions, specific rates, social contributions and withholding remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["MAD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "2026 general annual income tax on caller-confirmed net taxable income."
+      }
+    }
+  }
+}
