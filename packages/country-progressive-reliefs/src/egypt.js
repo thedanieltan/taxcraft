@@ -154,7 +154,6 @@ function model() {
         totals: {
           suppliedNetTaxableIncomeMinor: facts.netTaxableIncomeMinor,
           roundedNetTaxableIncomeMinor,
-          incomeMatrixSchedule: schedule.id,
           incomeTaxMinor: result.taxMinor,
         },
         lines,
