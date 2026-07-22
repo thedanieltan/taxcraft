@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-22",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_27",
+    "type": "repository-package",
+    "authority": "Internal Revenue Service of Ecuador",
+    "location": "packages/country-progressive-reliefs/src/ecuador.js",
+    "scope": "Official-source-backed Ecuador fiscal-year 2025 general-regime individual income-tax table currently filed in 2026.",
+    "observedAt": "2026-07-22"
+  },
+  "implementations": {
+    "EC": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_27", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "General-regime tax caused under the official 2025 table on caller-confirmed taxable base before the personal-expense rebate. RIMPE, inheritance and special exemptions remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["USD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2025"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Fiscal-year 2025 general-regime individual income tax on caller-confirmed taxable base before rebates and credits."
+      }
+    }
+  }
+}
