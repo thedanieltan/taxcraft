@@ -6,7 +6,7 @@ import { createApi, OPENAPI_DOCUMENT } from "../src/app.js";
 const api = createApi();
 
 const MAINTAINED_JURISDICTIONS = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "GY", "LR", "LC", "NA", "KR", "KZ", "TN", "SI", "SK", "AT", "TR", "PE", "CO", "GR", "JO", "JE", "HK", "IE", "PL", "MT", "PT", "DE", "IM",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "AD", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "GY", "LR", "LC", "NA", "KR", "KZ", "TN", "SI", "SK", "AT", "TR", "PE", "CO", "GR", "JO", "JE", "HK", "IE", "PL", "MT", "PT", "DE", "IM",
 ];
 
 test("lists maintained jurisdictions and exposes source-linked coverage", async () => {
@@ -42,6 +42,7 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
     ["GR", ["2026"]],
     ["JO", ["2026"]],
     ["JE", ["2026"]],
+    ["AD", ["2026"]],
     ["MT", ["2026"]],
     ["PT", ["2026"]],
     ["DE", ["2026"]],
@@ -75,6 +76,7 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
     ["BW", "2026-27", "bw.burs.individual-tax-rates-subsequent-years"],
     ["TL", "2026", "tl.attl.wage-income-tax"],
     ["KH", "2026", "kh.gdt.monthly-salary-annual-income-bands-2024"],
+    ["AD", "2026", "ad.govern.irpf-effective-rates"],
     ["KE", "2026", "ke.kra.paye-rates-and-relief"],
     ["ZA", "2027", "za.sars.individual-tax-rates"],
     ["AU", "2026-27", "au.treasury.new-tax-cuts-2026-27"],
