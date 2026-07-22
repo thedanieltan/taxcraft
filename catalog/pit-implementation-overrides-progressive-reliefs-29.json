@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-22",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_29",
+    "type": "repository-package",
+    "authority": "Official Gazette and Financial Services Bureau of the Macao SAR",
+    "location": "packages/country-progressive-reliefs/src/macao.js",
+    "scope": "Official-source-backed Macao economic-year 2026 ordinary professional-tax schedule with the budget exemption and deduction.",
+    "observedAt": "2026-07-22"
+  },
+  "implementations": {
+    "MO": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_29", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Ordinary 2026 professional tax using the MOP 144,000 standard exemption, progressive 7% to 12% bands, 30% budget deduction and whole-pataca rounding. Enhanced exemptions and withholding administration remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["MOP"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Economic-year 2026 ordinary professional tax on caller-confirmed annual professional income before the standard exemption."
+      }
+    }
+  }
+}
