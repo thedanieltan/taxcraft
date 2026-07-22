@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-23",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_31",
+    "type": "repository-package",
+    "authority": "Egyptian Tax Authority",
+    "location": "packages/country-progressive-reliefs/src/egypt.js",
+    "scope": "Official-source-backed Egypt calendar-year 2026 Article 8 individual income-tax matrix.",
+    "observedAt": "2026-07-23"
+  },
+  "implementations": {
+    "EG": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_31", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Article 8 income-dependent matrix with 0%, 10%, 15%, 20%, 22.5%, 25% and 27.5% rates and statutory EGP 10 income flooring. Exemption and deduction derivation, payroll administration, separate regimes and credits remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["EGP"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "2026 Article 8 annual individual income tax on caller-confirmed net taxable income."
+      }
+    }
+  }
+}
