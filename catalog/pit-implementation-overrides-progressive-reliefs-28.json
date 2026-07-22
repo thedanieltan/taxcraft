@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-22",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_28",
+    "type": "repository-package",
+    "authority": "Federal Revenue Service of Brazil",
+    "location": "packages/country-progressive-reliefs/src/brazil.js",
+    "scope": "Official-source-backed Brazil exercise-2026 annual-adjustment table for calendar-year 2025.",
+    "observedAt": "2026-07-22"
+  },
+  "implementations": {
+    "BR": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_28", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Annual-adjustment tariff tax for calendar-year 2025 on caller-confirmed tax base using the official rate and deduction table. Deduction derivation, monthly withholding and credits remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["BRL"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2025"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Exercise-2026 annual-adjustment IRPF on caller-confirmed calendar-year 2025 tax base before credits and prior payments."
+      }
+    }
+  }
+}
