@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-22",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_12",
+    "type": "repository-package",
+    "authority": "Government of Andorra",
+    "location": "packages/country-simple-progressive/src/wave12.js",
+    "scope": "Official-source-backed Andorra calendar-year 2026 standard resident general-income schedule using the EUR 24,000 personal minimum.",
+    "observedAt": "2026-07-22"
+  },
+  "implementations": {
+    "AD": {
+      "calculationFamily": "SIMPLE_PROGRESSIVE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_12"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Standard resident general-income schedule with the EUR 24,000 personal minimum and effective 0%, 5% and 10% bands. Enhanced personal reductions, savings income and other deductions remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "SIMPLE_PROGRESSIVE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["EUR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-simple-progressive",
+        "coverageSummary": "Calendar-year 2026 standard resident general-income IRPF on caller-confirmed net income before the standard personal minimum."
+      }
+    }
+  }
+}
