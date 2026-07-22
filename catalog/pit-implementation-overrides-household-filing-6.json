@@ -14,13 +14,13 @@
     "IM": {
       "calculationFamily": "HOUSEHOLD_FILING",
       "sourceIds": ["TAXCRAFT_COUNTRY_HOUSEHOLD_FILING_6", "PWC_WWTS_PIT_QUICK_CHART"],
-      "taxYearBasis": "fiscal-year",
+      "taxYearBasis": "tax-year",
       "notes": "Resident individual and joint assessment using the 2026-27 personal allowance, allowance taper, 10% standard band and 21% balance. Additional allowance eligibility and tax-cap elections remain outside scope.",
       "register": {
         "mappingStatus": "mapped",
         "implementationStatus": "implemented",
         "calculationFamily": "HOUSEHOLD_FILING",
-        "taxYearBasis": "fiscal-year",
+        "taxYearBasis": "tax-year",
         "currencyCodes": ["GBP"],
         "nationalTaxLayer": true,
         "subnationalTaxLayer": false,
