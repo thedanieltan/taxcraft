@@ -47,7 +47,7 @@ test("Egypt applies the full Article 8 income-dependent matrix", async () => {
   for (const [netTaxableIncomeMinor, expectedTaxMinor, expectedSchedule] of cases) {
     const result = await calculate(netTaxableIncomeMinor);
     assert.equal(result.totals.incomeTaxMinor, expectedTaxMinor);
-    assert.equal(result.totals.incomeMatrixSchedule, expectedSchedule);
+    assert.ok(result.lines.every(({ ruleId }) => ruleId.includes(`.${expectedSchedule}.`)));
     assert.ok(result.lines.every(({ sourceIds }) => sourceIds.includes("eg.eta.income-tax-law-7-2024-article-8")));
     assert.ok(result.lines.every(({ sourceIds }) => sourceIds.includes("eg.eta.current-payroll-tax-faq-2026")));
   }
