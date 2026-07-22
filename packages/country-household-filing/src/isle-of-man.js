@@ -55,7 +55,7 @@ const DEFINITION = Object.freeze({
     {
       sourceId: "im.gov.budget-2026",
       publisher: "Isle of Man Government",
-      publisherType: "government",
+      publisherType: "government-agency",
       title: "Budget 2026: all the facts and figures",
       url: "https://www.gov.im/news/2026/feb/17/budget-2026-all-the-facts-and-figures/",
       jurisdiction: "IM",
@@ -83,7 +83,7 @@ export const isleOfManPackage = definePitCountryPackage({
     pit: {
       contractVersion: "taxcraft.pit-country-package.v1",
       taxUnit: "household-or-filing-status",
-      taxYearBasis: "fiscal-year",
+      taxYearBasis: "tax-year",
       currencyCodes: [DEFINITION.currency],
       incomeSchedules: FILING_SCHEDULES,
       taxLayers: { national: true, subnational: false, local: false, subdivisionRequired: false },
