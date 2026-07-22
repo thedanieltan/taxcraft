@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-22",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_HOUSEHOLD_FILING_5",
+    "type": "repository-package",
+    "authority": "Federal Ministry of Justice and Federal Office of Justice",
+    "location": "packages/country-household-filing/src/germany.js",
+    "scope": "Official-source-backed Germany assessment-year 2026 individual and joint spouse-splitting income-tax tariff.",
+    "observedAt": "2026-07-22"
+  },
+  "implementations": {
+    "DE": {
+      "calculationFamily": "HOUSEHOLD_FILING_STATUS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_HOUSEHOLD_FILING_5", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Section 32a tariff for individual assessment and the statutory spouse-splitting procedure on caller-confirmed taxable income. Solidarity surcharge, church tax, child comparison and special-rate income remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "HOUSEHOLD_FILING_STATUS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["EUR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-household-filing",
+        "coverageSummary": "Assessment-year 2026 individual and joint spouse-splitting tariff income tax on caller-confirmed taxable income."
+      }
+    }
+  }
+}
