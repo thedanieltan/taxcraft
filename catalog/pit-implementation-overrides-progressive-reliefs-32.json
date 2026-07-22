@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-23",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_32",
+    "type": "repository-package",
+    "authority": "Algerian Directorate General of Taxes",
+    "location": "packages/country-progressive-reliefs/src/algeria.js",
+    "scope": "Official-source-backed Algeria 2026 Article 104 annual IRG scale before category-specific tax abatements.",
+    "observedAt": "2026-07-23"
+  },
+  "implementations": {
+    "DZ": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_32", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Article 104 annual IRG scale with a DZD 240,000 zero-rate threshold and 23%, 27%, 30%, 33% and 35% marginal bands. Salary abatements, payroll withholding, category-specific schedules and contributions remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["DZD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "2026 Article 104 annual IRG on caller-confirmed taxable income before category-specific tax abatements."
+      }
+    }
+  }
+}
