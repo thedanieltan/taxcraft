@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-23",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_14",
+    "type": "repository-package",
+    "authority": "Tax Administration of Montenegro",
+    "location": "packages/country-simple-progressive/src/wave14.js",
+    "scope": "Official-source-backed Montenegro calendar-year 2026 national tax on monthly taxable personal earnings.",
+    "observedAt": "2026-07-23"
+  },
+  "implementations": {
+    "ME": {
+      "calculationFamily": "SIMPLE_PROGRESSIVE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_14", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Monthly national personal-earnings schedule with a EUR 700 zero-rate threshold, 9% through EUR 1,000 and 15% above. Contributions, municipal surtax, annual aggregation and other income categories remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "SIMPLE_PROGRESSIVE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["EUR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-simple-progressive",
+        "coverageSummary": "Calendar-year 2026 national tax on caller-confirmed monthly taxable personal earnings."
+      }
+    }
+  }
+}
