@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-22",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_HOUSEHOLD_FILING_6",
+    "type": "repository-package",
+    "authority": "Isle of Man Government",
+    "location": "packages/country-household-filing/src/isle-of-man.js",
+    "scope": "Official-source-backed Isle of Man tax-year 2026-27 resident individual and joint income tax.",
+    "observedAt": "2026-07-22"
+  },
+  "implementations": {
+    "IM": {
+      "calculationFamily": "HOUSEHOLD_FILING",
+      "sourceIds": ["TAXCRAFT_COUNTRY_HOUSEHOLD_FILING_6", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "tax-year",
+      "notes": "Resident individual and joint assessment using the 2026-27 personal allowance, allowance taper, 10% standard band and 21% balance. Additional allowance eligibility and tax-cap elections remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "HOUSEHOLD_FILING",
+        "taxYearBasis": "tax-year",
+        "currencyCodes": ["GBP"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026-27"],
+        "package": "@taxcraft/country-household-filing",
+        "coverageSummary": "Tax-year 2026-27 resident individual and joint income tax with personal-allowance taper."
+      }
+    }
+  }
+}
