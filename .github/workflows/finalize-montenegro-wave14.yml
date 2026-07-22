@@ -1,0 +1,31 @@
+name: Finalize Montenegro wave 14
+
+on:
+  push:
+    branches:
+      - agent/wp-pit-10-simple-progressive-wave-14-montenegro
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: contains(github.event.head_commit.message, 'Trigger Montenegro wave finalization')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          ref: agent/wp-pit-10-simple-progressive-wave-14-montenegro
+          fetch-depth: 0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Apply deterministic registrations
+        run: python scripts/finalize-montenegro-wave14.py
+      - name: Commit finalized wave
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -A
+          git commit -m 'WP-PIT-10: finalize Montenegro wave 14 registrations'
+          git push origin HEAD:agent/wp-pit-10-simple-progressive-wave-14-montenegro
