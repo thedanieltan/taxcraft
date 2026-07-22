@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-23",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_HOUSEHOLD_FILING_7",
+    "type": "repository-package",
+    "authority": "French Republic — Legifrance",
+    "location": "packages/country-household-filing/src/france.js",
+    "scope": "Official-source-backed France 2026 assessment of 2025 income under the standard Article 197 household quotient calculation.",
+    "observedAt": "2026-07-23"
+  },
+  "implementations": {
+    "FR": {
+      "calculationFamily": "HOUSEHOLD_FILING",
+      "sourceIds": ["TAXCRAFT_COUNTRY_HOUSEHOLD_FILING_7", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "year-of-assessment",
+      "notes": "Article 197 household quotient tariff with the general EUR 1,807 half-part cap, overseas-department reduction and decote. Special quotient caps, quarter-parts, credits, contributions and non-resident minima remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "HOUSEHOLD_FILING",
+        "taxYearBasis": "year-of-assessment",
+        "currencyCodes": ["EUR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-household-filing",
+        "coverageSummary": "2026 assessment of 2025 income using the standard Article 197 household quotient calculation."
+      }
+    }
+  }
+}

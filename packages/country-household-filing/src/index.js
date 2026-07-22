@@ -4,6 +4,7 @@ import { maltaPackage } from "./malta.js";
 import { portugalPackage } from "./portugal.js";
 import { germanyPackage } from "./germany.js";
 import { isleOfManPackage } from "./isle-of-man.js";
+import { francePackage } from "./france.js";
 
 export {
   irelandPackage,
@@ -12,6 +13,7 @@ export {
   portugalPackage,
   germanyPackage,
   isleOfManPackage,
+  francePackage,
 };
 
 export const householdFilingPackages = Object.freeze([
@@ -21,6 +23,7 @@ export const householdFilingPackages = Object.freeze([
   portugalPackage,
   germanyPackage,
   isleOfManPackage,
+  francePackage,
 ]);
 
 export const householdFilingPackagesByJurisdiction = Object.freeze({
@@ -30,4 +33,5 @@ export const householdFilingPackagesByJurisdiction = Object.freeze({
   PT: portugalPackage,
   DE: germanyPackage,
   IM: isleOfManPackage,
+  FR: francePackage,
 });
