@@ -118,7 +118,7 @@ test("Belgium rejects unsupported municipal rates and identity fields", async ()
   const api = createApi();
   const cases = [
     [facts({ municipalSurchargeBasisPoints: 2_001 }), "facts.maximum"],
-    [{ ...facts(), nationalRegisterNumber: "00.00.00-000.00" }, "facts.pii-field"],
+    [{ ...facts(), name: "Private Person" }, "facts.pii-field"],
   ];
   for (const [submittedFacts, expectedCode] of cases) {
     const response = await api.handle({
