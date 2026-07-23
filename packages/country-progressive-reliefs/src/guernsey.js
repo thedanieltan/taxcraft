@@ -78,7 +78,7 @@ export const guernseyPackage = definePitCountryPackage({
     pit: {
       contractVersion: "taxcraft.pit-country-package.v1",
       taxUnit: "individual",
-      taxYearBasis: "year-of-charge",
+      taxYearBasis: "calendar-year",
       currencyCodes: [DEFINITION.currency],
       incomeSchedules: ["individual-standard-rate-chargeable-income"],
       taxLayers: {
