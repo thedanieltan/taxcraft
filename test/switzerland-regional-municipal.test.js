@@ -147,8 +147,8 @@ test("Switzerland is exposed through the catalogue API with official sources", a
 test("Switzerland keeps unsupported cantons, municipalities and identity fields outside scope", async () => {
   const api = createApi();
   const cases = [
-    [facts({ canton: "GE" }), "facts.const"],
-    [facts({ municipality: "winterthur" }), "facts.const"],
+    [facts({ canton: "GE" }), "facts.enum"],
+    [facts({ municipality: "winterthur" }), "facts.enum"],
     [facts({ federalTariff: "concubinage" }), "facts.enum"],
     [{ ...facts(), name: "Private Person" }, "facts.pii-field"],
   ];
