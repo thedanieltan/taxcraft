@@ -329,7 +329,6 @@ function model() {
       const totalIncomeTaxMinor = federalIncomeTaxMinor
         + zurichCantonalIncomeTaxMinor
         + zurichCityIncomeTaxMinor;
-      const sourceIds = DEFINITION.sources.map(({ sourceId }) => sourceId);
       const lines = [
         {
           ruleId: `ch.pit.${TAX_YEAR}.federal.${facts.federalTariff}.ordinary-tax`,
@@ -356,20 +355,14 @@ function model() {
       }
       lines.push(
         {
-          ruleId: `ch.pit.${TAX_YEAR}.zh.${facts.zurichTariff}.simple-state-tax`,
-          label: "Zürich simple state income tax at 100%",
-          amountMinor: zurichSimpleStateTaxMinor,
-          sourceIds: ["ch.zh.tax-law-2026", "ch.zh.tax-invoice-rounding"],
-        },
-        {
           ruleId: `ch.pit.${TAX_YEAR}.zh.canton-95-percent`,
-          label: "Canton Zürich income tax at 95%",
+          label: "Canton Zürich income tax at 95% of the simple state tax",
           amountMinor: zurichCantonalIncomeTaxMinor,
           sourceIds: ["ch.zh.tax-law-2026", "ch.zh.tax-invoice-rounding", "ch.zh.state-multiplier-2026"],
         },
         {
           ruleId: `ch.pit.${TAX_YEAR}.zh.zurich-city-119-percent`,
-          label: "City of Zürich municipal income tax at 119%",
+          label: "City of Zürich municipal income tax at 119% of the simple state tax",
           amountMinor: zurichCityIncomeTaxMinor,
           sourceIds: ["ch.zh.tax-law-2026", "ch.zh.tax-invoice-rounding", "ch.zurich-city.multiplier-2026"],
         },
