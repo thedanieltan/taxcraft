@@ -30,6 +30,7 @@ test("United States exposes the 2026 federal ordinary-income schedules without s
     "head-of-household",
   ]);
   assert.equal(unitedStatesPackage.manifest.pit.factsSchema.additionalProperties, false);
+  assert.equal(unitedStatesPackage.manifest.pit.factsSchema.properties.taxableIncomeMinor.multipleOf, 100);
 });
 
 test("United States reproduces the official 2026 single-filer transition amounts", async () => {
@@ -62,11 +63,23 @@ test("United States reproduces the official 2026 filing-status top-band formulas
   }
 });
 
-test("United States floors taxable income to whole dollars before applying the schedule", async () => {
-  const result = await calculate("single", 1_240_099);
-  assert.equal(result.totals.taxableIncomeMinor, 1_240_099);
-  assert.equal(result.totals.taxableIncomeUsedMinor, 1_240_000);
-  assert.equal(result.totals.incomeTaxMinor, 124_000);
+test("United States rejects fractional-dollar taxable income rather than inferring rounding", async () => {
+  const api = createApi();
+  const response = await api.handle({
+    method: "POST",
+    path: "/v1/pit/calculate",
+    body: {
+      jurisdiction: "US",
+      taxYear: "2026",
+      facts: {
+        scopeConfirmed: true,
+        filingStatus: "single",
+        taxableIncomeMinor: 1_240_099,
+      },
+    },
+  });
+  assert.equal(response.status, 400);
+  assert.ok(response.body.issues.some(({ code }) => code === "facts.multiple-of"));
 });
 
 test("United States is exposed through the global API with official IRS sources", async () => {
