@@ -14,13 +14,13 @@
     "GG": {
       "calculationFamily": "PROGRESSIVE_RELIEFS",
       "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_33", "PWC_WWTS_PIT_QUICK_CHART"],
-      "taxYearBasis": "year-of-charge",
+      "taxYearBasis": "calendar-year",
       "notes": "Year of Charge 2026 individual standard-rate tax at 22% on caller-confirmed chargeable income. Allowances, standard-charge elections, tax caps, social insurance and ETI administration remain outside scope.",
       "register": {
         "mappingStatus": "mapped",
         "implementationStatus": "implemented",
         "calculationFamily": "PROGRESSIVE_RELIEFS",
-        "taxYearBasis": "year-of-charge",
+        "taxYearBasis": "calendar-year",
         "currencyCodes": ["GBP"],
         "nationalTaxLayer": true,
         "subnationalTaxLayer": false,
