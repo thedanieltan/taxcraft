@@ -56,7 +56,7 @@ const DEFINITION = Object.freeze({
     {
       sourceId: "dk.skm.personal-tax-act-rates-2026",
       publisher: "Danish Ministry of Taxation",
-      publisherType: "government",
+      publisherType: "finance-ministry",
       title: "Personal Tax Act rates and thresholds — 2026",
       url: "https://skm.dk/tal-og-metode/satser/satser-og-beloebsgraenser-i-lovgivningen/personskatteloven",
       jurisdiction: "DK",
