@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-24",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_MULTI_LAYER_2",
+    "type": "repository-package",
+    "authority": "Belgian Federal Public Service Finance",
+    "location": "packages/country-regional-municipal/src/belgium.js",
+    "scope": "Official-source-backed Belgium income-year 2026 ordinary resident personal income tax with caller-confirmed municipal addition.",
+    "observedAt": "2026-07-24"
+  },
+  "implementations": {
+    "BE": {
+      "calculationFamily": "MULTI_LAYER",
+      "sourceIds": ["TAXCRAFT_COUNTRY_MULTI_LAYER_2", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Income-year 2026 ordinary resident personal income tax on caller-confirmed jointly taxable income, including the standard basic tax-free amount and a caller-confirmed municipal addition. Regional reliefs and enhanced allowances remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "MULTI_LAYER",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["EUR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": true,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-regional-municipal",
+        "coverageSummary": "2026 ordinary resident personal income tax and caller-confirmed municipal addition."
+      }
+    }
+  }
+}
