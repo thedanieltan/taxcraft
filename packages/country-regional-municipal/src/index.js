@@ -218,17 +218,17 @@ export const switzerlandPackage = definePitCountryPackage({
           },
           canton: {
             type: "string",
-            const: "ZH",
+            enum: ["ZH"],
             title: "Canton",
             description: "This model supports Canton Zürich only.",
-            "x-taxcraft-kind": "enum",
+            "x-taxcraft-kind": "subdivision-code",
           },
           municipality: {
             type: "string",
-            const: "zurich-city",
+            enum: ["zurich-city"],
             title: "Municipality",
             description: "This model supports City of Zürich only.",
-            "x-taxcraft-kind": "enum",
+            "x-taxcraft-kind": "subdivision-code",
           },
           federalTariff: {
             type: "string",
