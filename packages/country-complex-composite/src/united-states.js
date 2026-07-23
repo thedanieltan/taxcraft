@@ -114,7 +114,7 @@ export const unitedStatesPackage = definePitCountryPackage({
     }],
     pit: {
       contractVersion: "taxcraft.pit-country-package.v1",
-      taxUnit: "household-or-filing-status",
+      taxUnit: "filing-status",
       taxYearBasis: "calendar-year",
       currencyCodes: [DEFINITION.currency],
       incomeSchedules: FILING_STATUSES,
