@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-23",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_COMPLEX_COMPOSITE_2",
+    "type": "repository-package",
+    "authority": "Internal Revenue Service",
+    "location": "packages/country-complex-composite/src/united-states.js",
+    "scope": "Official-source-backed United States tax year 2026 federal ordinary-income rate schedules for four individual filing statuses.",
+    "observedAt": "2026-07-23"
+  },
+  "implementations": {
+    "US": {
+      "calculationFamily": "COMPLEX_COMPOSITE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_COMPLEX_COMPOSITE_2", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Tax year 2026 federal ordinary-income rate schedules for single, married filing jointly, married filing separately and head-of-household returns. Preferential-rate income, deductions, credits, additional federal taxes, state and local taxes remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "COMPLEX_COMPOSITE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["USD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-complex-composite",
+        "coverageSummary": "Tax year 2026 federal ordinary-income rate schedules for four individual filing statuses; state and local income taxes are excluded."
+      }
+    }
+  }
+}
