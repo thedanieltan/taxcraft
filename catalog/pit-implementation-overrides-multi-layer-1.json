@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-23",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_MULTI_LAYER_1",
+    "type": "repository-package",
+    "authority": "Swiss Federal Tax Administration and Zürich tax authorities",
+    "location": "packages/country-regional-municipal/src/index.js",
+    "scope": "Official-source-backed Switzerland tax year 2026 direct federal, Canton Zürich and City of Zürich ordinary individual income-tax calculation.",
+    "observedAt": "2026-07-23"
+  },
+  "implementations": {
+    "CH": {
+      "calculationFamily": "MULTI_LAYER",
+      "sourceIds": ["TAXCRAFT_COUNTRY_MULTI_LAYER_1", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Tax year 2026 federal ordinary income tax plus Canton Zürich and City of Zürich income tax. Other cantons and municipalities, church tax, wealth tax, deductions and eligibility determinations remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "MULTI_LAYER",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["CHF"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": true,
+        "localTaxLayer": true,
+        "requiredSubdivisionSelection": true,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-regional-municipal",
+        "coverageSummary": "2026 direct federal income tax and ordinary Canton Zürich plus City of Zürich income tax for caller-confirmed taxable bases and tariffs."
+      }
+    }
+  }
+}
