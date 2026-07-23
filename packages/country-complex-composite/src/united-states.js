@@ -59,7 +59,7 @@ const DEFINITION = Object.freeze({
     "tax year 2026 federal ordinary-income rate schedules",
     "single, married filing jointly, married filing separately and head-of-household filing statuses",
     "10%, 12%, 22%, 24%, 32%, 35% and 37% marginal rates",
-    "whole-dollar taxable-income flooring before rate-schedule calculation",
+    "caller-confirmed federal taxable income supplied in whole dollars",
   ],
   unsupported: [
     "gross income, adjusted gross income, deduction and taxable-income derivation",
@@ -73,7 +73,7 @@ const DEFINITION = Object.freeze({
     "penalties, interest, refunds, treaty positions and return reconciliation",
   ],
   assumptions: [
-    "The caller supplied federal taxable income after all legally applicable adjustments and deductions.",
+    "The caller supplied whole-dollar federal taxable income after all legally applicable adjustments and deductions.",
     "The caller selected the legally applicable filing status without supplying identity or relationship evidence.",
     "All supplied taxable income is subject to the ordinary federal rate schedule and not a preferential or separate schedule.",
     "The result is federal regular income tax before credits, additional taxes, withholding and prior payments.",
@@ -146,15 +146,15 @@ export const unitedStatesPackage = definePitCountryPackage({
           taxableIncomeMinor: {
             type: "integer",
             minimum: 0,
+            multipleOf: 100,
             title: "Federal taxable income",
-            description: "Federal taxable income in US cents after applicable adjustments and deductions.",
+            description: "Caller-confirmed whole-dollar federal taxable income represented in US cents after applicable adjustments and deductions.",
             "x-taxcraft-kind": "money-minor",
             "x-taxcraft-currency": "USD",
           },
         },
       },
       rounding: [
-        { stage: "taxable-income", mode: "floor", unitMinor: 100 },
         { stage: "federal-ordinary-income-tax", mode: "half-up", unitMinor: 1 },
       ],
       maintenance: { mode: "manual", sourceWatch: false },
@@ -171,9 +171,8 @@ function model() {
       return { ok: true, facts };
     },
     calculate({ facts }) {
-      const taxableIncomeUsedMinor = Math.floor(facts.taxableIncomeMinor / 100) * 100;
       const result = calculateProgressiveBands({
-        taxableMinor: taxableIncomeUsedMinor,
+        taxableMinor: facts.taxableIncomeMinor,
         bands: BANDS_BY_FILING_STATUS[facts.filingStatus],
         rounding: ROUNDING_MODE.HALF_UP,
       });
@@ -196,7 +195,6 @@ function model() {
         currency: DEFINITION.currency,
         totals: {
           taxableIncomeMinor: facts.taxableIncomeMinor,
-          taxableIncomeUsedMinor,
           incomeTaxMinor: result.taxMinor,
         },
         lines,
