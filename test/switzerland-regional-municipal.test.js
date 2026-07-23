@@ -96,6 +96,11 @@ test("Switzerland calculates Zürich simple, cantonal and city income tax with s
   assert.equal(result.totals.zurichCantonalIncomeTaxMinor, 586_150);
   assert.equal(result.totals.zurichCityIncomeTaxMinor, 734_230);
   assert.equal(result.totals.totalIncomeTaxMinor, 1_320_380);
+  assert.equal(
+    result.lines.reduce((sum, { amountMinor }) => sum + amountMinor, 0),
+    result.totals.totalIncomeTaxMinor,
+  );
+  assert.ok(!result.lines.some(({ ruleId }) => ruleId.includes("simple-state-tax")));
 
   const married = await calculate({
     federalTaxableIncomeMinor: 0,
