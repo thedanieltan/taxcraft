@@ -36,7 +36,7 @@ const DEFINITION = Object.freeze({
     {
       sourceId: "gg.states.standard-rate-2025-2026",
       publisher: "States of Deliberation of Guernsey",
-      publisherType: "legislature",
+      publisherType: "official-budget",
       title: "Annual Budget for 2025 — individual standard rate for Years of Charge 2025 and 2026",
       url: "https://statesvoting-records.gov.gg/Propositions/Details/1713",
       jurisdiction: "GG",
@@ -45,7 +45,7 @@ const DEFINITION = Object.freeze({
     {
       sourceId: "gg.states.allowances-year-of-charge-2026",
       publisher: "States of Deliberation of Guernsey",
-      publisherType: "legislature",
+      publisherType: "official-budget",
       title: "Annual Budget for 2026 — allowances for the Year of Charge 2026",
       url: "https://statesvoting-records.gov.gg/Propositions/Details/2432",
       jurisdiction: "GG",
@@ -54,7 +54,7 @@ const DEFINITION = Object.freeze({
     {
       sourceId: "gg.states.standard-charge-2026",
       publisher: "States of Deliberation of Guernsey",
-      publisherType: "legislature",
+      publisherType: "official-budget",
       title: "Annual Budget for 2026 — standard charge",
       url: "https://statesvoting-records.gov.gg/Propositions/Details/2412",
       jurisdiction: "GG",
