@@ -11,6 +11,7 @@ import { ukPackage } from "@taxcraft/country-gb";
 import { householdFilingPackages } from "@taxcraft/country-household-filing";
 import { noPitPackages } from "@taxcraft/country-no-pit";
 import { progressiveReliefPackages } from "@taxcraft/country-progressive-reliefs";
+import { regionalMunicipalPackages } from "@taxcraft/country-regional-municipal";
 import { calculateChargeableIncomeWorksheet, singaporePackage } from "@taxcraft/country-sg";
 import { simpleProgressivePackages } from "@taxcraft/country-simple-progressive";
 
@@ -23,6 +24,7 @@ const countryPackages = Object.freeze([
   ...progressiveReliefPackages,
   ...complexCompositePackages,
   ...householdFilingPackages,
+  ...regionalMunicipalPackages,
 ]);
 const packagesByJurisdiction = new Map(countryPackages.map((countryPackage) => [countryPackage.manifest.jurisdiction, countryPackage]));
 const engine = createTaxCraft({ countryPackages });
@@ -278,13 +280,12 @@ function json(status, body) {
       "content-type": "application/json; charset=utf-8",
       "cache-control": "no-store",
       "content-security-policy": "default-src 'none'; frame-ancestors 'none'",
-      "referrer-policy": "no-referrer",
       "x-content-type-options": "nosniff",
+      "referrer-policy": "no-referrer",
       "access-control-allow-origin": "*",
-      "access-control-allow-methods": "GET, POST, OPTIONS",
-      "access-control-allow-headers": "content-type",
-      "access-control-max-age": "86400"
+      "access-control-allow-methods": "GET,POST,OPTIONS",
+      "access-control-allow-headers": "content-type"
     },
-    body
+    body: structuredClone(body)
   };
 }
