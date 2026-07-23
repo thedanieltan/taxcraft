@@ -21,7 +21,7 @@ test("Guernsey exposes only Year of Charge 2026 without storing PII", () => {
   assert.equal(guernseyPackage.manifest.taxYears[0].status, "current");
   assert.equal(guernseyPackage.manifest.storesUserPII, false);
   assert.equal(guernseyPackage.manifest.advisory, false);
-  assert.equal(guernseyPackage.manifest.pit.taxYearBasis, "year-of-charge");
+  assert.equal(guernseyPackage.manifest.pit.taxYearBasis, "calendar-year");
   assert.equal(guernseyPackage.manifest.pit.factsSchema.additionalProperties, false);
 });
 
