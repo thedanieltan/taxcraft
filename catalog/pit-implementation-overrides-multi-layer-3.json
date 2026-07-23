@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-24",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_MULTI_LAYER_3",
+    "type": "repository-package",
+    "authority": "Danish Tax Agency and Ministry of Taxation",
+    "location": "packages/country-regional-municipal/src/denmark.js",
+    "scope": "Official-source-backed Denmark calendar-year 2026 adult resident employment income below the middle-tax threshold, including AM contribution, bottom tax and caller-confirmed municipal tax.",
+    "observedAt": "2026-07-24"
+  },
+  "implementations": {
+    "DK": {
+      "calculationFamily": "MULTI_LAYER",
+      "sourceIds": ["TAXCRAFT_COUNTRY_MULTI_LAYER_3", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Calendar-year 2026 adult resident employment-income calculation below the DKK 641,200 after-AM middle-tax threshold, with 8% AM contribution, 12.01% bottom tax, DKK 54,100 personal allowance and caller-confirmed municipal taxable income and rate.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "MULTI_LAYER",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["DKK"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": true,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-regional-municipal",
+        "coverageSummary": "2026 adult resident employment income below the middle-tax threshold, including AM contribution, bottom tax and caller-confirmed municipal tax."
+      }
+    }
+  }
+}
