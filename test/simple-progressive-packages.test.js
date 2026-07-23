@@ -4,7 +4,7 @@ import { createApi } from "@taxcraft/api";
 import { createTaxCraft } from "@taxcraft/core";
 import { simpleProgressivePackages } from "@taxcraft/country-simple-progressive";
 
-const EXPECTED_CODES = ["NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "AD", "ZM"];
+const EXPECTED_CODES = ["NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "AD", "ZM", "ME"];
 const engine = createTaxCraft({ countryPackages: simpleProgressivePackages });
 
 async function calculate(jurisdiction, taxYear, facts) {
@@ -13,12 +13,12 @@ async function calculate(jurisdiction, taxYear, facts) {
   return result;
 }
 
-test("simple-progressive bundle exposes twenty-one independent maintained packages", () => {
+test("simple-progressive bundle exposes twenty-two independent maintained packages", () => {
   assert.deepEqual(simpleProgressivePackages.map(({ manifest }) => manifest.jurisdiction), EXPECTED_CODES);
   for (const countryPackage of simpleProgressivePackages) {
     assert.equal(countryPackage.manifest.storesUserPII, false);
     assert.equal(countryPackage.manifest.advisory, false);
-    const expectedTaxYearCount = ["AD", "ZM"].includes(countryPackage.manifest.jurisdiction) ? 1 : 3;
+    const expectedTaxYearCount = ["AD", "ZM", "ME"].includes(countryPackage.manifest.jurisdiction) ? 1 : 3;
     assert.equal(countryPackage.manifest.taxYears.length, expectedTaxYearCount);
     assert.equal(countryPackage.manifest.taxYears.filter(({ status }) => status === "current").length, 1);
     assert.equal(countryPackage.manifest.pit.factsSchema.additionalProperties, false);
@@ -239,6 +239,26 @@ test("Zambia applies the ordinary annual individual schedule", async () => {
   }
 });
 
+test("Montenegro applies the national monthly personal-earnings schedule", async () => {
+  const cases = [
+    [0, 0],
+    [70_000, 0],
+    [100_000, 2_700],
+    [150_000, 10_200],
+  ];
+  for (const [monthlyTaxablePersonalIncomeMinor, expectedTaxMinor] of cases) {
+    const result = await calculate("ME", "2026", {
+      scopeConfirmed: true,
+      monthlyTaxablePersonalIncomeMinor,
+    });
+    assert.equal(result.totals.incomeTaxMinor, expectedTaxMinor);
+    assert.equal(result.totals.exemptThresholdMinor, 70_000);
+    assert.equal(result.totals.secondThresholdMinor, 100_000);
+    assert.ok(result.lines.every(({ sourceIds }) => sourceIds.includes("me.tax-administration.personal-earnings-rates-current")));
+    assert.ok(result.lines.every(({ sourceIds }) => sourceIds.includes("me.gov.payroll-calculation-guide-2026")));
+  }
+});
+
 test("global catalogue and API expose every accepted simple-progressive package", async () => {
   const api = createApi();
   const status = await api.handle({ method: "GET", path: "/v1/pit/status" });
@@ -247,7 +267,7 @@ test("global catalogue and API expose every accepted simple-progressive package"
   assert.ok(status.body.counts.implemented >= 51);
   assert.equal(Object.values(status.body.counts).reduce((sum, value) => sum + value, 0), 249);
 
-  const standardYears = EXPECTED_CODES.filter((code) => !["AU", "BW", "AD", "ZM"].includes(code));
+  const standardYears = EXPECTED_CODES.filter((code) => !["AU", "BW", "AD", "ZM", "ME"].includes(code));
   for (const jurisdiction of standardYears) {
     const detail = await api.handle({ method: "GET", path: `/v1/pit/jurisdictions/${jurisdiction}` });
     assert.equal(detail.status, 200);
@@ -273,6 +293,10 @@ test("global catalogue and API expose every accepted simple-progressive package"
   assert.equal(zambia.status, 200);
   assert.deepEqual(zambia.body.supportedTaxYears, ["2026"]);
 
+  const montenegro = await api.handle({ method: "GET", path: "/v1/pit/jurisdictions/ME" });
+  assert.equal(montenegro.status, 200);
+  assert.deepEqual(montenegro.body.supportedTaxYears, ["2026"]);
+
   const schemaCases = [
     ["UG", "2026", ["scopeConfirmed", "individualTaxSchedule", "annualChargeableIncomeMinor"]],
     ["GT", "2026", ["scopeConfirmed", "annualTaxableEmploymentIncomeMinor"]],
@@ -286,6 +310,7 @@ test("global catalogue and API expose every accepted simple-progressive package"
     ["KH", "2026", ["scopeConfirmed", "taxSchedule", "taxableIncomeMinor"]],
     ["AD", "2026", ["scopeConfirmed", "generalNetIncomeMinor"]],
     ["ZM", "2026", ["scopeConfirmed", "taxableIncomeMinor"]],
+    ["ME", "2026", ["scopeConfirmed", "monthlyTaxablePersonalIncomeMinor"]],
   ];
   for (const [code, year, required] of schemaCases) {
     const schema = await api.handle({ method: "GET", path: `/v1/pit/jurisdictions/${code}/${year}/input-schema` });
