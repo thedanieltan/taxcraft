@@ -137,7 +137,7 @@ export const denmarkPackage = definePitCountryPackage({
             maximum: 3_000,
             title: "Municipal income-tax rate",
             description: "Caller-confirmed municipal rate in basis points; 2,500 means 25.00%.",
-            "x-taxcraft-kind": "rate-basis-points",
+            "x-taxcraft-kind": "percentage-basis-points",
           },
         },
       },
