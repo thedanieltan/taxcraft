@@ -14,6 +14,7 @@
     "@taxcraft/country-household-filing": "0.1.0",
     "@taxcraft/country-no-pit": "0.1.0",
     "@taxcraft/country-progressive-reliefs": "0.1.0",
+    "@taxcraft/country-regional-municipal": "0.1.0",
     "@taxcraft/country-sg": "0.1.0",
     "@taxcraft/country-simple-progressive": "0.1.0"
   },

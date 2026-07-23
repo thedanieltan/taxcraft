@@ -9,16 +9,16 @@ import { OPENAPI_DOCUMENT, createApi } from "@taxcraft/api";
 
 const api = createApi();
 const IMPLEMENTED_CODES = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "AD", "ZM", "ME", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "GY", "LR", "LC", "NA", "KR", "KZ", "TN", "SI", "SK", "AT", "TR", "PE", "CO", "GR", "JO", "JE", "EC", "BR", "MO", "MA", "EG", "DZ", "GG", "HK", "US", "IE", "PL", "MT", "PT", "DE", "IM", "FR",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "AD", "ZM", "ME", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "GY", "LR", "LC", "NA", "KR", "KZ", "TN", "SI", "SK", "AT", "TR", "PE", "CO", "GR", "JO", "JE", "EC", "BR", "MO", "MA", "EG", "DZ", "GG", "HK", "US", "IE", "PL", "MT", "PT", "DE", "IM", "FR", "CH",
 ];
-const VERIFIED_CODES = ["SG", "AE", "SA", "VG", "BS", "KW", "EE", "NZ", "CY", "AM", "UA", "UZ", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "AD", "ZM", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "GY", "LR", "LC", "NA", "KR", "KZ", "TN", "SI", "SK", "AT", "TR", "PE", "CO", "GR", "JO", "JE", "EC", "BR", "MO", "MA", "EG", "DZ", "GG", "HK", "US", "IE", "PL", "MT", "PT", "DE", "IM", "FR"];
+const VERIFIED_CODES = ["SG", "AE", "SA", "VG", "BS", "KW", "EE", "NZ", "CY", "AM", "UA", "UZ", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "AD", "ZM", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "GY", "LR", "LC", "NA", "KR", "KZ", "TN", "SI", "SK", "AT", "TR", "PE", "CO", "GR", "JO", "JE", "EC", "BR", "MO", "MA", "EG", "DZ", "GG", "HK", "US", "IE", "PL", "MT", "PT", "DE", "IM", "FR", "CH"];
 
 test("runtime catalogue exposes all registered PIT jurisdictions", () => {
   const jurisdictions = listPitJurisdictions();
   const status = getPitCatalogueStatus();
   assert.equal(jurisdictions.length, 249);
-  assert.equal(status.counts.implemented, 89);
-  assert.equal(status.counts["source-indexed"], 76);
+  assert.equal(status.counts.implemented, 90);
+  assert.equal(status.counts["source-indexed"], 75);
   assert.equal(status.counts["source-discovery"], 84);
   for (const code of VERIFIED_CODES) assert.equal(getPitJurisdiction(code).verificationStatus, "verified");
   assert.equal(getPitJurisdiction("AF").verificationStatus, "unmapped");
@@ -118,6 +118,7 @@ test("implemented model input schemas are public and unimplemented models fail e
     ["DE", "2026", ["scopeConfirmed", "filingSchedule", "taxableIncomeMinor"]],
     ["IM", "2026-27", ["scopeConfirmed", "filingSchedule", "assessableIncomePounds", "totalIncomeForAllowanceTaperPounds", "additionalAllowancesPounds"]],
     ["FR", "2026", ["scopeConfirmed", "filingSchedule", "territorySchedule", "standardQuotientCapConfirmed", "quotientHalfParts", "taxableIncomeMinor"]],
+    ["CH", "2026", ["scopeConfirmed", "canton", "municipality", "federalTariff", "zurichTariff", "federalTaxableIncomeMinor", "zurichTaxableIncomeMinor", "federalChildDependentCount"]],
   ];
   for (const [code, year, required] of cases) {
     const schema = await api.handle({ method: "GET", path: `/v1/pit/jurisdictions/${code}/${year}/input-schema` });
