@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-24",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_34",
+    "type": "repository-package",
+    "authority": "Netherlands Tax and Customs Administration",
+    "location": "packages/country-progressive-reliefs/src/netherlands.js",
+    "scope": "Official-source-backed Netherlands calendar-year 2026 resident Box 1 tax with general and employment tax credits for supported full-year AOW age schedules.",
+    "observedAt": "2026-07-24"
+  },
+  "implementations": {
+    "NL": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_34", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Calendar-year 2026 resident Box 1 tax with general and employment tax credits from caller-confirmed Box 1 taxable income, aggregate income and employment income. The AOW transition year and other credits remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["EUR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "2026 resident Box 1 tax and standard general and employment credits for supported full-year AOW age schedules."
+      }
+    }
+  }
+}
