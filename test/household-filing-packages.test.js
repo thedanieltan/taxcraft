@@ -8,7 +8,7 @@ import {
 test("household-filing bundle retains every maintained package", () => {
   assert.deepEqual(
     householdFilingPackages.map(({ manifest }) => manifest.jurisdiction),
-    ["IE", "PL", "MT", "PT", "DE", "IM", "FR"],
+    ["IE", "PL", "MT", "PT", "DE", "IM", "FR", "LU"],
   );
   assert.equal(householdFilingPackagesByJurisdiction.IE.manifest.jurisdiction, "IE");
   assert.equal(householdFilingPackagesByJurisdiction.PL.manifest.jurisdiction, "PL");
@@ -17,5 +17,6 @@ test("household-filing bundle retains every maintained package", () => {
   assert.equal(householdFilingPackagesByJurisdiction.DE.manifest.jurisdiction, "DE");
   assert.equal(householdFilingPackagesByJurisdiction.IM.manifest.jurisdiction, "IM");
   assert.equal(householdFilingPackagesByJurisdiction.FR.manifest.jurisdiction, "FR");
+  assert.equal(householdFilingPackagesByJurisdiction.LU.manifest.jurisdiction, "LU");
   assert.ok(householdFilingPackages.every(({ manifest }) => manifest.storesUserPII === false));
 });

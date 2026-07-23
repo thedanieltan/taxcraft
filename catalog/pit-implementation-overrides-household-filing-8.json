@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-23",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_HOUSEHOLD_FILING_8",
+    "type": "repository-package",
+    "authority": "Luxembourg Direct Tax Administration",
+    "location": "packages/country-household-filing/src/luxembourg.js",
+    "scope": "Official-source-backed Luxembourg 2026 resident ordinary assessment under tax classes 1, 1a and 2.",
+    "observedAt": "2026-07-23"
+  },
+  "implementations": {
+    "LU": {
+      "calculationFamily": "HOUSEHOLD_FILING",
+      "sourceIds": ["TAXCRAFT_COUNTRY_HOUSEHOLD_FILING_8", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Resident ordinary assessment using the Article 118 tariff, class 1a transformation and caps, class 2 splitting, statutory rounding and employment-fund contribution. Income derivation, eligibility and category-specific credits remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "HOUSEHOLD_FILING",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["EUR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-household-filing",
+        "coverageSummary": "2026 resident ordinary income tax for tax classes 1, 1a and 2 plus the employment-fund contribution."
+      }
+    }
+  }
+}
