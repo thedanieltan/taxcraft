@@ -5,6 +5,7 @@ import {
   compareTaxAmounts,
   definePitCountryPackage,
 } from "@taxcraft/country-sdk";
+import { unitedStatesPackage } from "./united-states.js";
 
 const MODELS = Object.freeze({
   "2023-24": {
@@ -173,8 +174,12 @@ export const hongKongPackage = definePitCountryPackage({
   models: Object.fromEntries(TAX_YEARS.map((taxYear) => [taxYear, model(taxYear)])),
 });
 
-export const complexCompositePackages = Object.freeze([hongKongPackage]);
-export const complexCompositePackagesByJurisdiction = Object.freeze({ HK: hongKongPackage });
+export { unitedStatesPackage };
+export const complexCompositePackages = Object.freeze([hongKongPackage, unitedStatesPackage]);
+export const complexCompositePackagesByJurisdiction = Object.freeze({
+  HK: hongKongPackage,
+  US: unitedStatesPackage,
+});
 
 function model(taxYear) {
   const parameters = MODELS[taxYear];
