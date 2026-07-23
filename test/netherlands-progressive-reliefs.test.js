@@ -147,7 +147,7 @@ test("Netherlands rejects the unsupported AOW transition year and identity field
     body: {
       jurisdiction: "NL",
       taxYear: "2026",
-      facts: { ...facts(), citizenServiceNumber: "123456789" },
+      facts: { ...facts(), name: "Private Person" },
     },
   });
   assert.equal(privateFact.status, 400);
