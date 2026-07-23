@@ -3,7 +3,6 @@ import test from "node:test";
 import {
   getPitCatalogueStatus,
   getPitJurisdiction,
-  listPitCalculationFamilies,
   listPitJurisdictions,
 } from "@taxcraft/catalog";
 import { OPENAPI_DOCUMENT, createApi } from "@taxcraft/api";
