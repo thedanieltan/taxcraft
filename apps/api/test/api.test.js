@@ -6,7 +6,7 @@ import { createApi, OPENAPI_DOCUMENT } from "../src/app.js";
 const api = createApi();
 
 const MAINTAINED_JURISDICTIONS = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "AD", "ZM", "ME", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "GY", "LR", "LC", "NA", "KR", "KZ", "TN", "SI", "SK", "AT", "TR", "PE", "CO", "GR", "JO", "JE", "EC", "BR", "MO", "MA", "EG", "DZ", "HK", "IE", "PL", "MT", "PT", "DE", "IM", "FR",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "AD", "ZM", "ME", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "GY", "LR", "LC", "NA", "KR", "KZ", "TN", "SI", "SK", "AT", "TR", "PE", "CO", "GR", "JO", "JE", "EC", "BR", "MO", "MA", "EG", "DZ", "GG", "HK", "IE", "PL", "MT", "PT", "DE", "IM", "FR",
 ];
 
 test("lists maintained jurisdictions and exposes source-linked coverage", async () => {
@@ -51,6 +51,7 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
     ["MA", ["2026"]],
     ["EG", ["2026"]],
     ["DZ", ["2026"]],
+    ["GG", ["2026"]],
     ["MT", ["2026"]],
     ["PT", ["2026"]],
     ["DE", ["2026"]],
@@ -124,6 +125,7 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
     ["MA", "2026", "ma.mef.cgi-2026-article-73"],
     ["EG", "2026", "eg.eta.income-tax-law-7-2024-article-8"],
     ["DZ", "2026", "dz.dgi.irg-article-104-current-2026"],
+    ["GG", "2026", "gg.states.standard-rate-2025-2026"],
     ["HK", "2025-26", "hk.ird.two-tier-standard-rates-2024"],
     ["IE", "2026", "ie.revenue.usc-standard-rates"],
     ["PL", "2026", "pl.mf.joint-spouse-calculation"],

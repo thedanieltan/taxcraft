@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-23",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_33",
+    "type": "repository-package",
+    "authority": "States of Deliberation of Guernsey",
+    "location": "packages/country-progressive-reliefs/src/guernsey.js",
+    "scope": "Official-source-backed Guernsey Year of Charge 2026 individual standard-rate income tax on caller-confirmed chargeable income.",
+    "observedAt": "2026-07-23"
+  },
+  "implementations": {
+    "GG": {
+      "calculationFamily": "PROGRESSIVE_RELIEFS",
+      "sourceIds": ["TAXCRAFT_COUNTRY_PROGRESSIVE_RELIEFS_33", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Year of Charge 2026 individual standard-rate tax at 22% on caller-confirmed chargeable income. Allowances, standard-charge elections, tax caps, social insurance and ETI administration remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "PROGRESSIVE_RELIEFS",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["GBP"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-progressive-reliefs",
+        "coverageSummary": "Year of Charge 2026 individual standard-rate tax on caller-confirmed chargeable income."
+      }
+    }
+  }
+}
