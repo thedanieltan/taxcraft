@@ -166,5 +166,5 @@ test("United States rejects unsupported years, filing statuses and identity-bear
     },
   });
   assert.equal(privateFact.status, 400);
-  assert.ok(privateFact.body.issues.some(({ code, path }) => code === "facts.unknown-field" && path === "$.facts.name"));
+  assert.ok(privateFact.body.issues.some(({ code, path }) => code === "facts.pii-field" && path === "$.facts.name"));
 });
