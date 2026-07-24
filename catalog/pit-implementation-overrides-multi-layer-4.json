@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-24",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_MULTI_LAYER_4",
+    "type": "repository-package",
+    "authority": "Finnish Tax Administration",
+    "location": "packages/country-regional-municipal/src/finland.js",
+    "scope": "Official-source-backed Finland calendar-year 2026 state and caller-confirmed municipal earned-income tax on post-deduction taxable bases.",
+    "observedAt": "2026-07-24"
+  },
+  "implementations": {
+    "FI": {
+      "calculationFamily": "MULTI_LAYER",
+      "sourceIds": ["TAXCRAFT_COUNTRY_MULTI_LAYER_4", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Calendar-year 2026 state earned-income tax and caller-confirmed municipal earned-income tax on separate post-deduction taxable bases. Deduction derivation, church tax, broadcasting tax and contributions remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "MULTI_LAYER",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["EUR"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": true,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-regional-municipal",
+        "coverageSummary": "2026 state and caller-confirmed municipal earned-income tax on post-deduction taxable bases."
+      }
+    }
+  }
+}

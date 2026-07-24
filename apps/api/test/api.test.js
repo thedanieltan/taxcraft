@@ -6,7 +6,7 @@ import { createApi, OPENAPI_DOCUMENT } from "../src/app.js";
 const api = createApi();
 
 const MAINTAINED_JURISDICTIONS = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "AD", "ZM", "ME", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "GY", "LR", "LC", "NA", "KR", "KZ", "TN", "SI", "SK", "AT", "TR", "PE", "CO", "GR", "JO", "JE", "EC", "BR", "MO", "MA", "EG", "DZ", "GG", "NL", "HK", "US", "IE", "PL", "MT", "PT", "DE", "IM", "FR", "LU", "CH", "BE", "DK",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "AD", "ZM", "ME", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "GY", "LR", "LC", "NA", "KR", "KZ", "TN", "SI", "SK", "AT", "TR", "PE", "CO", "GR", "JO", "JE", "EC", "BR", "MO", "MA", "EG", "DZ", "GG", "NL", "HK", "US", "IE", "PL", "MT", "PT", "DE", "IM", "FR", "LU", "CH", "BE", "DK", "FI",
 ];
 
 test("lists maintained jurisdictions and exposes source-linked coverage", async () => {
@@ -30,7 +30,7 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
     ["LR", ["2026"]],
     ["LC", ["2026"]],
     ["NA", ["2025", "2026", "2027"]],
-    ...["KR", "KZ", "TN", "SI", "SK", "AT", "TR", "PE", "CO", "GR", "JO", "JE", "AD", "ZM", "ME", "MO", "MA", "EG", "DZ", "GG", "NL", "US", "MT", "PT", "DE", "FR", "LU", "CH", "BE", "DK"].map((code) => [code, ["2026"]]),
+    ...["KR", "KZ", "TN", "SI", "SK", "AT", "TR", "PE", "CO", "GR", "JO", "JE", "AD", "ZM", "ME", "MO", "MA", "EG", "DZ", "GG", "NL", "US", "MT", "PT", "DE", "FR", "LU", "CH", "BE", "DK", "FI"].map((code) => [code, ["2026"]]),
     ["EC", ["2025"]],
     ["BR", ["2025"]],
     ["IM", ["2026-27"]],
@@ -117,6 +117,7 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
     ["CH", "2026", "ch.estv.circular-215-2026"],
     ["BE", "2026", "be.fps-finance.pit-rates-2026"],
     ["DK", "2026", "dk.skat.am-contribution-2026"],
+    ["FI", "2026", "fi.vero.state-earned-income-scale-2026"],
   ];
   for (const [code, year, sourceId] of coverageCases) {
     const coverage = await api.handle({ method: "GET", path: `/v1/jurisdictions/${code}/${year}/coverage` });
