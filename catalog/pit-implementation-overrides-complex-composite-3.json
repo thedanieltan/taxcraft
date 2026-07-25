@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-25",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_COMPLEX_COMPOSITE_3",
+    "type": "repository-package",
+    "authority": "Norwegian Ministry of Finance and Norwegian Tax Administration",
+    "location": "packages/country-complex-composite/src/norway.js",
+    "scope": "Official-source-backed Norway calendar-year 2026 ordinary-income tax, five-step bracket tax and salary National Insurance contribution on caller-confirmed bases.",
+    "observedAt": "2026-07-25"
+  },
+  "implementations": {
+    "NO": {
+      "calculationFamily": "COMPLEX_COMPOSITE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_COMPLEX_COMPOSITE_3", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Calendar-year 2026 standard ordinary-income tax, five-step bracket tax and salary National Insurance contribution. Base derivation, priority-zone treatment, other contribution schedules, credits and wealth tax remain outside scope.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "COMPLEX_COMPOSITE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["NOK"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-complex-composite",
+        "coverageSummary": "2026 standard ordinary-income tax, five-step bracket tax and salary National Insurance contribution on caller-confirmed bases."
+      }
+    }
+  }
+}
