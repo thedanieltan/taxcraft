@@ -6,7 +6,7 @@
     "id": "TAXCRAFT_COUNTRY_COMPLEX_COMPOSITE_4",
     "type": "repository-package",
     "authority": "Official tax authorities of India, Canada, Japan, Spain and Italy",
-    "location": "packages/country-complex-composite/src/priority-markets.js",
+    "location": "packages/country-complex-composite/src/priority-markets-v2.js",
     "scope": "Bounded official-source-backed PIT models for five priority markets.",
     "observedAt": "2026-07-25"
   },
@@ -14,10 +14,10 @@
     "IN": {
       "calculationFamily": "COMPLEX_COMPOSITE",
       "sourceIds": ["TAXCRAFT_COUNTRY_COMPLEX_COMPOSITE_4", "PWC_WWTS_PIT_QUICK_CHART"],
-      "taxYearBasis": "assessment-year",
+      "taxYearBasis": "year-of-assessment",
       "notes": "AY 2026-27 new and old-under-60 ordinary slab schedules, resident section 87A rebates and 4% cess. Surcharge and special-rate income are excluded.",
       "register": {
-        "mappingStatus": "mapped", "implementationStatus": "implemented", "calculationFamily": "COMPLEX_COMPOSITE", "taxYearBasis": "assessment-year", "currencyCodes": ["INR"], "nationalTaxLayer": true, "subnationalTaxLayer": false, "localTaxLayer": false, "requiredSubdivisionSelection": false, "supportedTaxYears": ["2026-27"], "package": "@taxcraft/country-complex-composite", "coverageSummary": "AY 2026-27 old/new ordinary-rate comparison with supported resident rebates and cess."
+        "mappingStatus": "mapped", "implementationStatus": "implemented", "calculationFamily": "COMPLEX_COMPOSITE", "taxYearBasis": "year-of-assessment", "currencyCodes": ["INR"], "nationalTaxLayer": true, "subnationalTaxLayer": false, "localTaxLayer": false, "requiredSubdivisionSelection": false, "supportedTaxYears": ["2026-27"], "package": "@taxcraft/country-complex-composite", "coverageSummary": "AY 2026-27 old/new ordinary-rate comparison with supported resident rebates and cess."
       }
     },
     "CA": {
