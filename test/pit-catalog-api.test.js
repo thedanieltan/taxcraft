@@ -68,7 +68,7 @@ test("implemented model input schemas are public and unimplemented models fail e
     ["FJ", "2026", ["scopeConfirmed", "individualTaxSchedule", "annualChargeableIncomeMinor"]],
     ["BW", "2026-27", ["scopeConfirmed", "individualTaxSchedule", "annualTaxableIncomeMinor"]],
     ["TL", "2026", ["scopeConfirmed", "incomeSchedule", "individualTaxSchedule", "taxableIncomeMinor"]],
-    ["KH", "2026", ["scopeConfirmed", "taxSchedule", "individualTaxSchedule", "taxableIncomeMinor"]],
+    ["KH", "2026", ["scopeConfirmed", "taxSchedule", "taxableIncomeMinor"]],
     ["AD", "2026", ["scopeConfirmed", "generalNetIncomeMinor"]],
     ["ZM", "2026", ["scopeConfirmed", "taxableIncomeMinor"]],
     ["ME", "2026", ["scopeConfirmed", "monthlyTaxablePersonalIncomeMinor"]],
