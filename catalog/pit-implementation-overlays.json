@@ -69,6 +69,7 @@
     "pit-implementation-overrides-multi-layer-2.json",
     "pit-implementation-overrides-multi-layer-3.json",
     "pit-implementation-overrides-multi-layer-4.json",
-    "pit-implementation-overrides-multi-layer-5.json"
+    "pit-implementation-overrides-multi-layer-5.json",
+    "pit-implementation-overrides-complex-composite-3.json"
   ]
 }
