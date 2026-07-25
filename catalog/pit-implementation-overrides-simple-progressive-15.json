@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-25",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_15",
+    "type": "repository-package",
+    "authority": "State Taxation Administration of China, Taiwan Ministry of Finance, and Mexican Tax Administration Service",
+    "location": "packages/country-simple-progressive/src/wave15.js",
+    "scope": "Official-source-backed 2026 annual taxable-income schedules for China, Taiwan and Mexico.",
+    "observedAt": "2026-07-25"
+  },
+  "implementations": {
+    "CN": {
+      "calculationFamily": "SIMPLE_PROGRESSIVE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_15", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Resident comprehensive-income tax on caller-confirmed annual taxable income after the RMB 60,000 basic deduction and other deductions.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "SIMPLE_PROGRESSIVE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["CNY"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-simple-progressive",
+        "coverageSummary": "2026 resident comprehensive-income tax on caller-confirmed annual taxable income."
+      }
+    },
+    "TW": {
+      "calculationFamily": "SIMPLE_PROGRESSIVE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_15", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "Resident consolidated-income tax using the official 2026 five-band progressive schedule on caller-confirmed net taxable income.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "SIMPLE_PROGRESSIVE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["TWD"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-simple-progressive",
+        "coverageSummary": "2026 resident consolidated-income tax on caller-confirmed net taxable income."
+      }
+    },
+    "MX": {
+      "calculationFamily": "SIMPLE_PROGRESSIVE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_SIMPLE_PROGRESSIVE_15", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "2026 annual Article 152 individual income-tax tariff using official lower limits, fixed quotas and marginal rates.",
+      "register": {
+        "mappingStatus": "mapped",
+        "implementationStatus": "implemented",
+        "calculationFamily": "SIMPLE_PROGRESSIVE",
+        "taxYearBasis": "calendar-year",
+        "currencyCodes": ["MXN"],
+        "nationalTaxLayer": true,
+        "subnationalTaxLayer": false,
+        "localTaxLayer": false,
+        "requiredSubdivisionSelection": false,
+        "supportedTaxYears": ["2026"],
+        "package": "@taxcraft/country-simple-progressive",
+        "coverageSummary": "2026 annual Article 152 tariff on caller-confirmed taxable income."
+      }
+    }
+  }
+}
