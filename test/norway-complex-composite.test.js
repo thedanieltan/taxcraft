@@ -32,10 +32,10 @@ async function calculate(overrides = {}) {
   return result;
 }
 
-test("complex-composite registry retains Hong Kong, United States and Norway", () => {
+test("complex-composite registry retains existing packages and adds five priority markets", () => {
   assert.deepEqual(
     complexCompositePackages.map(({ manifest }) => manifest.jurisdiction),
-    ["HK", "US", "NO"],
+    ["HK", "US", "NO", "IN", "CA", "JP", "ES", "IT"],
   );
   assert.equal(complexCompositePackagesByJurisdiction.NO, norwayPackage);
   assert.ok(complexCompositePackages.every(({ manifest }) => manifest.storesUserPII === false));
