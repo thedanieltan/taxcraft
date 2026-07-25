@@ -6,7 +6,7 @@
     "id": "TAXCRAFT_COUNTRY_COMPLEX_COMPOSITE_4",
     "type": "repository-package",
     "authority": "Official tax authorities of India, Canada, Japan, Spain and Italy",
-    "location": "packages/country-complex-composite/src/priority-markets-v2.js",
+    "location": "packages/country-complex-composite/src/priority-markets-v3.js",
     "scope": "Bounded official-source-backed PIT models for five priority markets.",
     "observedAt": "2026-07-25"
   },
