@@ -30,10 +30,10 @@ async function calculate(overrides = {}) {
   return result;
 }
 
-test("regional-municipal registry retains Switzerland, Belgium, Denmark and Finland", () => {
+test("regional-municipal registry retains Switzerland, Belgium, Denmark, Finland and Sweden", () => {
   assert.deepEqual(
     regionalMunicipalPackages.map(({ manifest }) => manifest.jurisdiction),
-    ["CH", "BE", "DK", "FI"],
+    ["CH", "BE", "DK", "FI", "SE"],
   );
   assert.equal(regionalMunicipalPackagesByJurisdiction.DK, denmarkPackage);
   assert.ok(regionalMunicipalPackages.every(({ manifest }) => manifest.storesUserPII === false));

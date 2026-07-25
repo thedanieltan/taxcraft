@@ -2,12 +2,14 @@ import { switzerlandPackage } from "./index.js";
 import { belgiumPackage } from "./belgium.js";
 import { denmarkPackage } from "./denmark.js";
 import { finlandPackage } from "./finland.js";
+import { swedenPackage } from "./sweden.js";
 
 export const regionalMunicipalPackages = Object.freeze([
   switzerlandPackage,
   belgiumPackage,
   denmarkPackage,
   finlandPackage,
+  swedenPackage,
 ]);
 
 export const regionalMunicipalPackagesByJurisdiction = Object.freeze({
@@ -15,6 +17,7 @@ export const regionalMunicipalPackagesByJurisdiction = Object.freeze({
   BE: belgiumPackage,
   DK: denmarkPackage,
   FI: finlandPackage,
+  SE: swedenPackage,
 });
 
 export {
@@ -22,4 +25,5 @@ export {
   belgiumPackage,
   denmarkPackage,
   finlandPackage,
+  swedenPackage,
 };
