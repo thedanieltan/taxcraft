@@ -6,7 +6,7 @@ import { createApi, OPENAPI_DOCUMENT } from "../src/app.js";
 const api = createApi();
 
 const MAINTAINED_JURISDICTIONS = [
-  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "AD", "ZM", "ME", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "GY", "LR", "LC", "NA", "KR", "KZ", "TN", "SI", "SK", "AT", "TR", "PE", "CO", "GR", "JO", "JE", "EC", "BR", "MO", "MA", "EG", "DZ", "GG", "NL", "HK", "US", "NO", "IE", "PL", "MT", "PT", "DE", "IM", "FR", "LU", "CH", "BE", "DK", "FI", "SE",
+  "SG", "GB", "AE", "BH", "BM", "BN", "KY", "MC", "OM", "QA", "SA", "VG", "BS", "KW", "BG", "EE", "HU", "RO", "AM", "GE", "MD", "MK", "UA", "UZ", "NZ", "PY", "CY", "PA", "HN", "DO", "BB", "TT", "SC", "UG", "GT", "RW", "AU", "PH", "TH", "FJ", "BW", "TL", "KH", "AD", "ZM", "ME", "CN", "TW", "MX", "KE", "ZA", "MY", "CZ", "ID", "GH", "MU", "LK", "SZ", "JM", "LS", "GY", "LR", "LC", "NA", "KR", "KZ", "TN", "SI", "SK", "AT", "TR", "PE", "CO", "GR", "JO", "JE", "EC", "BR", "MO", "MA", "EG", "DZ", "GG", "NL", "HK", "US", "NO", "IE", "PL", "MT", "PT", "DE", "IM", "FR", "LU", "CH", "BE", "DK", "FI", "SE",
 ];
 
 test("lists maintained jurisdictions and exposes source-linked coverage", async () => {
@@ -30,7 +30,7 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
     ["LR", ["2026"]],
     ["LC", ["2026"]],
     ["NA", ["2025", "2026", "2027"]],
-    ...["KR", "KZ", "TN", "SI", "SK", "AT", "TR", "PE", "CO", "GR", "JO", "JE", "AD", "ZM", "ME", "MO", "MA", "EG", "DZ", "GG", "NL", "US", "NO", "MT", "PT", "DE", "FR", "LU", "CH", "BE", "DK", "FI", "SE"].map((code) => [code, ["2026"]]),
+    ...["KR", "KZ", "TN", "SI", "SK", "AT", "TR", "PE", "CO", "GR", "JO", "JE", "AD", "ZM", "ME", "CN", "TW", "MX", "MO", "MA", "EG", "DZ", "GG", "NL", "US", "NO", "MT", "PT", "DE", "FR", "LU", "CH", "BE", "DK", "FI", "SE"].map((code) => [code, ["2026"]]),
     ["EC", ["2025"]],
     ["BR", ["2025"]],
     ["IM", ["2026-27"]],
@@ -66,6 +66,9 @@ test("lists maintained jurisdictions and exposes source-linked coverage", async 
     ["AD", "2026", "ad.govern.irpf-effective-rates"],
     ["ZM", "2026", "zm.parliament.income-tax-amendment-2023"],
     ["ME", "2026", "me.tax-administration.personal-earnings-rates-current"],
+    ["CN", "2026", "cn.sta.individual-income-tax-law-comprehensive"],
+    ["TW", "2026", "tw.mof.progressive-tax-rate-2026"],
+    ["MX", "2026", "mx.sat.rmf-2026-annex-8-annual-tariff"],
     ["KE", "2026", "ke.kra.paye-rates-and-relief"],
     ["ZA", "2027", "za.sars.individual-tax-rates"],
     ["AU", "2026-27", "au.treasury.new-tax-cuts-2026-27"],
