@@ -50,8 +50,7 @@ import {
   SIMPLE_PROGRESSIVE_WAVE_14_JURISDICTIONS,
   simpleProgressiveWave14Packages,
 } from "./wave14.js";
-
-export {
+import {
   SIMPLE_PROGRESSIVE_WAVE_15_JURISDICTIONS,
   simpleProgressiveWave15Packages,
 } from "./wave15.js";
@@ -70,6 +69,7 @@ export const SIMPLE_PROGRESSIVE_JURISDICTIONS = Object.freeze([
   ...SIMPLE_PROGRESSIVE_WAVE_12_JURISDICTIONS,
   ...SIMPLE_PROGRESSIVE_WAVE_13_JURISDICTIONS,
   ...SIMPLE_PROGRESSIVE_WAVE_14_JURISDICTIONS,
+  ...SIMPLE_PROGRESSIVE_WAVE_15_JURISDICTIONS,
 ]);
 
 export const simpleProgressivePackages = Object.freeze([
@@ -86,6 +86,7 @@ export const simpleProgressivePackages = Object.freeze([
   ...simpleProgressiveWave12Packages,
   ...simpleProgressiveWave13Packages,
   ...simpleProgressiveWave14Packages,
+  ...simpleProgressiveWave15Packages,
 ]);
 
 export const simpleProgressivePackagesByJurisdiction = Object.freeze(Object.fromEntries(
