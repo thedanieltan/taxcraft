@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxDomain": "PIT",
+  "asOf": "2026-07-25",
+  "source": {
+    "id": "TAXCRAFT_COUNTRY_COMPLEX_COMPOSITE_4",
+    "type": "repository-package",
+    "authority": "Official tax authorities of India, Canada, Japan, Spain and Italy",
+    "location": "packages/country-complex-composite/src/priority-markets-v3.js",
+    "scope": "Bounded official-source-backed PIT models for five priority markets.",
+    "observedAt": "2026-07-25"
+  },
+  "implementations": {
+    "IN": {
+      "calculationFamily": "COMPLEX_COMPOSITE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_COMPLEX_COMPOSITE_4", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "year-of-assessment",
+      "notes": "AY 2026-27 new and old-under-60 ordinary slab schedules, resident section 87A rebates and 4% cess. Surcharge and special-rate income are excluded.",
+      "register": {
+        "mappingStatus": "mapped", "implementationStatus": "implemented", "calculationFamily": "COMPLEX_COMPOSITE", "taxYearBasis": "year-of-assessment", "currencyCodes": ["INR"], "nationalTaxLayer": true, "subnationalTaxLayer": false, "localTaxLayer": false, "requiredSubdivisionSelection": false, "supportedTaxYears": ["2026-27"], "package": "@taxcraft/country-complex-composite", "coverageSummary": "AY 2026-27 old/new ordinary-rate comparison with supported resident rebates and cess."
+      }
+    },
+    "CA": {
+      "calculationFamily": "COMPLEX_COMPOSITE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_COMPLEX_COMPOSITE_4", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "2026 federal and Ontario bracket tax before credits, surtax, health premium and payroll contributions.",
+      "register": {
+        "mappingStatus": "mapped", "implementationStatus": "implemented", "calculationFamily": "COMPLEX_COMPOSITE", "taxYearBasis": "calendar-year", "currencyCodes": ["CAD"], "nationalTaxLayer": true, "subnationalTaxLayer": true, "localTaxLayer": false, "requiredSubdivisionSelection": true, "supportedTaxYears": ["2026"], "package": "@taxcraft/country-complex-composite", "coverageSummary": "2026 federal and Ontario marginal bracket tax on caller-confirmed taxable bases."
+      }
+    },
+    "JP": {
+      "calculationFamily": "COMPLEX_COMPOSITE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_COMPLEX_COMPOSITE_4", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "2026 ordinary national income tax, taxable-income rounding, 2.1% reconstruction surtax and final JPY 100 rounding.",
+      "register": {
+        "mappingStatus": "mapped", "implementationStatus": "implemented", "calculationFamily": "COMPLEX_COMPOSITE", "taxYearBasis": "calendar-year", "currencyCodes": ["JPY"], "nationalTaxLayer": true, "subnationalTaxLayer": false, "localTaxLayer": false, "requiredSubdivisionSelection": false, "supportedTaxYears": ["2026"], "package": "@taxcraft/country-complex-composite", "coverageSummary": "2026 ordinary national income tax and reconstruction surtax; local inhabitant tax excluded."
+      }
+    },
+    "ES": {
+      "calculationFamily": "COMPLEX_COMPOSITE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_COMPLEX_COMPOSITE_4", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "State general-base scale less the state-scale tax attributable to the caller-confirmed personal and family minimum. Autonomous-community tax is excluded.",
+      "register": {
+        "mappingStatus": "mapped", "implementationStatus": "implemented", "calculationFamily": "COMPLEX_COMPOSITE", "taxYearBasis": "calendar-year", "currencyCodes": ["EUR"], "nationalTaxLayer": true, "subnationalTaxLayer": false, "localTaxLayer": false, "requiredSubdivisionSelection": false, "supportedTaxYears": ["2026"], "package": "@taxcraft/country-complex-composite", "coverageSummary": "2026 state general-base tax after the caller-confirmed personal and family minimum component."
+      }
+    },
+    "IT": {
+      "calculationFamily": "COMPLEX_COMPOSITE",
+      "sourceIds": ["TAXCRAFT_COUNTRY_COMPLEX_COMPOSITE_4", "PWC_WWTS_PIT_QUICK_CHART"],
+      "taxYearBasis": "calendar-year",
+      "notes": "2026 national IRPEF rates plus caller-confirmed regional and municipal additions on supplied taxable bases.",
+      "register": {
+        "mappingStatus": "mapped", "implementationStatus": "implemented", "calculationFamily": "COMPLEX_COMPOSITE", "taxYearBasis": "calendar-year", "currencyCodes": ["EUR"], "nationalTaxLayer": true, "subnationalTaxLayer": true, "localTaxLayer": true, "requiredSubdivisionSelection": false, "supportedTaxYears": ["2026"], "package": "@taxcraft/country-complex-composite", "coverageSummary": "2026 national IRPEF and caller-confirmed regional and municipal additions."
+      }
+    }
+  }
+}
