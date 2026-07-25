@@ -9,7 +9,7 @@ import {
   japanPackage,
   spainPackage,
   italyPackage,
-} from "./priority-markets.js";
+} from "./priority-markets-v2.js";
 
 export const complexCompositePackages = Object.freeze([
   hongKongPackage,
