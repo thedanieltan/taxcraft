@@ -4,7 +4,7 @@
   "private": false,
   "type": "module",
   "description": "Official-source personal income tax packages with alternative and cross-cutting calculations for TaxCraft.",
-  "exports": "./dist/index.js",
+  "exports": "./dist/registry.js",
   "files": [
     "dist"
   ],
